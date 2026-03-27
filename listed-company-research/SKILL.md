@@ -1,6 +1,9 @@
 ---
 name: listed-company-research
 description: "This skill should be used when the user wants to conduct in-depth fundamental research on any listed company, including A-share (China), Hong Kong-listed (HKEX), or US-listed (NYSE/NASDAQ) stocks. Triggers include phrases like '研究XX公司', '分析XX', 'XX公司基本面', '帮我看看XX', 'deep dive XX', 'research XX company', or when the user provides a stock code/ticker and asks for analysis. The skill produces a comprehensive, neutral-analysis Markdown report covering company overview, detailed business decomposition, industry competitive landscape, and risk factors. It does NOT include financial statement modeling, valuation, stock ratings, or investment recommendations."
+metadata:
+  author: Mike Chen
+  version: '1.0'
 ---
 
 # Listed Company Fundamental Research
