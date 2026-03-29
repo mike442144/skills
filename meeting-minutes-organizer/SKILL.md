@@ -113,7 +113,6 @@ Follow the structure defined in `assets/meeting-template.md` for this step:
 |------|------|
 | 会议主题 | （填写内容） |
 | 日期/时间 | （填写内容） |
-| 参会人 | （填写内容） |
 | 会议平台 | （填写内容） |
 
 ---
@@ -184,12 +183,17 @@ If a questioner asks multiple questions in a single utterance during a Q&A secti
 - Each question should be paired with its corresponding answer
 - Maintain the original sequence of questions and answers
 - Do not alter the content of any question or answer
+- **Use `---` to separate each Q&A pair** for improved readability
 - Example transformation:
-  - Before: "Q: 问题一？问题二？问题三？ A: 回答一、二、三。"
+  - Before: "提问者: 问题一？问题二？问题三？ 回答者1: 回答一、二。回答者2: 回答三。"
   - After:
-    - "Q: 问题一？ A: 回答一、二、三。"
-    - "Q: 问题二？ A: 回答一、二、三。"
-    - "Q: 问题三？ A: 回答一、二、三。"
+    ```
+    提问者: 问题一？ 回答者1: 回答一。
+    ---
+    提问者: 问题二？ 回答者1: 回答二。
+    ---
+    提问者: 问题三？ 回答者2: 回答三。
+    ```
 
 #### 4.2 Preserve Content Integrity (MANDATORY)
 - **PROHIBITED**: Altering, summarizing, or condensing any substantive content
