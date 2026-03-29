@@ -3,7 +3,7 @@ name: meeting-minutes-organizer
 description: This skill should be used when the user wants to organize and transform a meeting transcript (in docx, txt, html, or markdown format) into a structured, objective, and concise Markdown meeting notes document. Triggers include phrases like "整理会议纪要", "整理访谈记录", "transcript to notes", or when the user provides a transcript file (.docx/.txt/.html/.md) and asks for it to be organized. The skill processes the transcript in three sequential steps, each producing an intermediate document.
 metadata:
   author: Mike Chen
-  version: '1.1'
+  version: '1.2'
 ---
 
 # Meeting Minutes Organizer
@@ -65,7 +65,7 @@ Detect the input file format and extract its text content. Convert non-plain-tex
 ## Step 2: Generate 《访谈逐字稿》
 
 ### Objective
-Produce a complete, unedited verbatim transcript with standardized speaker names, supplemented meeting metadata, normalized terminology, and restructured Q&A sections.
+Produce a complete, unedited verbatim transcript with standardized speaker names, supplemented meeting metadata, normalized terminology, and corrected transcription errors.
 
 ### Instructions
 
@@ -97,20 +97,7 @@ Based on context (industry, company business, mentioned products/technologies):
 - If uncertain about a correction, leave the original text unchanged
 - Document any corrections made for transparency
 
-#### 2.5 Restructure Multiple-Question Q&A Pairs
-If a questioner asks multiple questions in a single utterance during a Q&A section:
-- Split the questions into individual Q&A pairs
-- Each question should be paired with its corresponding answer
-- Maintain the original sequence of questions and answers
-- Do not alter the content of any question or answer
-- Example transformation:
-  - Before: "Q: 问题一？问题二？问题三？ A: 回答一、二、三。"
-  - After:
-    - "Q: 问题一？ A: 回答一、二、三。"
-    - "Q: 问题二？ A: 回答一、二、三。"
-    - "Q: 问题三？ A: 回答一、二、三。"
-
-#### 2.6 Preserve Original Content (MANDATORY)
+#### 2.5 Preserve Original Content (MANDATORY)
 - **PROHIBITED**: Deleting any spoken content, even if repetitive, informal, or seemingly irrelevant
 - **PROHIBITED**: Adding subjective interpretations, explanatory comments, or speculative statements
 - **MANDATORY**: Retain 100% of the original transcript content
@@ -150,7 +137,7 @@ Follow the structure defined in `assets/meeting-template.md` for this step:
 ## Step 3: Generate 《会议实录》
 
 ### Objective
-Transform the colloquial verbatim transcript into a polished written meeting minutes document while preserving all substantive content.
+Transform the colloquial verbatim transcript into a polished written meeting minutes document while preserving all substantive content and restructuring Q&A sections for clarity.
 
 ### Instructions
 
@@ -176,7 +163,20 @@ If an interviewer's follow-up question interrupts a respondent's answer:
 3. Follow with the respondent's answer to the follow-up question
 - This ensures logical completeness of each Q&A pair
 
-#### 3.4 Preserve Core Content (MANDATORY)
+#### 3.4 Restructure Multiple-Question Q&A Pairs
+If a questioner asks multiple questions in a single utterance during a Q&A section:
+- Split the questions into individual Q&A pairs
+- Each question should be paired with its corresponding answer
+- Maintain the original sequence of questions and answers
+- Do not alter the content of any question or answer
+- Example transformation:
+  - Before: "Q: 问题一？问题二？问题三？ A: 回答一、二、三。"
+  - After:
+    - "Q: 问题一？ A: 回答一、二、三。"
+    - "Q: 问题二？ A: 回答一、二、三。"
+    - "Q: 问题三？ A: 回答一、二、三。"
+
+#### 3.5 Preserve Core Content (MANDATORY)
 - **PROHIBITED**: Reordering sentences outside the interrupt-completion scenario described in 3.3
 - **PROHIBITED**: Deleting substantive statements (only fillers per 3.2 are removable)
 - **MANDATORY**: Maintain the logical flow and completeness of the meeting
@@ -208,4 +208,4 @@ Follow the structure defined in `assets/meeting-template.md` for this step:
 2. **Document Preservation**: Each step's output becomes the input for the next step
 3. **Content Integrity**: Never delete substantive content; only remove fillers per the rules
 4. **Terminology Consistency**: Maintain consistent use of terminology throughout all steps
-5. **Q&A Focus**: Pay special attention to preserving Q&A sections accurately and split multiple questions into individual Q&A pairs per section 2.5
+5. **Q&A Focus**: Pay special attention to preserving Q&A sections accurately and split multiple questions into individual Q&A pairs per section 3.4
