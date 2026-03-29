@@ -27,25 +27,37 @@ This skill transforms a meeting transcript (docx, txt, html, or markdown format)
 
 - **docx skill**: Load this skill to read and extract content from .docx transcript files
 
-## Step 1: Extract Text from Input File
+## Step 1: Extract and Convert Text
 
 ### Objective
-Extract all text content from the user's transcript file (docx, txt, html, or markdown) and output it as structured plain text.
+Detect the input file format and extract its text content. Convert non-plain-text formats (docx, html) to Markdown; read plain-text formats (txt, md) directly.
 
 ### Instructions
 
-1. **For .docx files**: Use the `docx` skill to load and read the file
-2. **For .txt files**: Read the file directly, preserving the original line/paragraph structure
-3. **For .html files**: Parse the HTML and extract visible text content, ignoring HTML tags
-4. **For .md/.markdown files**: Read the file directly, treating Markdown syntax as plain text
-5. Preserve the original paragraph/segment structure as much as possible
-6. Output the extracted text as a plain text document
-7. This document serves as input for Step 2
+1. **Detect file format** by file extension:
+   - `.docx` → use the `docx` skill to extract content
+   - `.html` / `.htm` → parse HTML and extract visible text, then convert to Markdown
+   - `.txt` → read directly as plain text
+   - `.md` / `.markdown` → read directly as Markdown (treat Markdown syntax as plain text)
+
+2. **For .docx files**: Use the `docx` skill to extract and convert to Markdown
+
+3. **For .html files**: Parse HTML tags, extract visible text content, and convert to Markdown format
+
+4. **For .txt files**: Read the file directly, preserving the original line/paragraph structure
+
+5. **For .md/.markdown files**: Read the file directly, treating Markdown syntax as plain text
+
+6. Preserve the original paragraph/segment structure as much as possible
+
+7. Output the extracted/converted text as a Markdown document
+
+8. This document serves as input for Step 2
 
 ### Output Format
 ```
 [Step 1 输出]
-（原始文本内容，按原文档段落顺序排列）
+（转换后的 Markdown 格式文本内容）
 ```
 
 ---
