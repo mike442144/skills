@@ -1,37 +1,46 @@
 ---
 name: meeting-minutes-organizer
-description: This skill should be used when the user wants to organize and transform a meeting transcript (in docx format) into a structured, objective, and concise Markdown meeting notes document. Triggers include phrases like "整理会议纪要", "整理访谈记录", "transcript to notes", or when the user provides a .docx transcript file and asks for it to be organized. The skill processes the transcript in three sequential steps, each producing an intermediate document.
+description: This skill should be used when the user wants to organize and transform a meeting transcript (in docx, txt, html, or markdown format) into a structured, objective, and concise Markdown meeting notes document. Triggers include phrases like "整理会议纪要", "整理访谈记录", "transcript to notes", or when the user provides a transcript file (.docx/.txt/.html/.md) and asks for it to be organized. The skill processes the transcript in three sequential steps, each producing an intermediate document.
 metadata:
   author: Mike Chen
-  version: '1.0'
+  version: '1.1'
 ---
 
 # Meeting Minutes Organizer
 
 ## Overview
 
-This skill transforms a meeting transcript (docx format) into a structured Markdown meeting notes document through a three-step process. Each step produces an intermediate document that serves as input for the next step.
+This skill transforms a meeting transcript (docx, txt, html, or markdown format) into a structured Markdown meeting notes document through a three-step process. Each step produces an intermediate document that serves as input for the next step.
+
+**Supported Input Formats:**
+- `.docx` - Word documents
+- `.txt` - Plain text files
+- `.html` - HTML files
+- `.md` / `.markdown` - Markdown files
 
 **Output Documents (in order):**
-1. **Step 1**: Structured plain text extracted from docx
-2. **Step 2**: 《访谈逐字稿》- Complete verbatim transcript with speaker identification and terminology normalization
+1. **Step 1**: Structured plain text extracted from the input file
+2. **Step 2**: 《访谈逐字稿》- Complete verbatim transcript with speaker identification, terminology normalization, and Q&A restructuring
 3. **Step 3**: 《会议实录》- Polished meeting minutes with formal written language
 
 ## Required Resources
 
 - **docx skill**: Load this skill to read and extract content from .docx transcript files
 
-## Step 1: Extract Text from docx
+## Step 1: Extract Text from Input File
 
 ### Objective
-Extract all text content from the user's .docx transcript file and output it as structured plain text.
+Extract all text content from the user's transcript file (docx, txt, html, or markdown) and output it as structured plain text.
 
 ### Instructions
 
-1. Use the `docx` skill to load and read the user's .docx file
-2. Extract all text content preserving the original paragraph structure
-3. Output the extracted text as a plain text document
-4. This document serves as input for Step 2
+1. **For .docx files**: Use the `docx` skill to load and read the file
+2. **For .txt files**: Read the file directly, preserving the original line/paragraph structure
+3. **For .html files**: Parse the HTML and extract visible text content, ignoring HTML tags
+4. **For .md/.markdown files**: Read the file directly, treating Markdown syntax as plain text
+5. Preserve the original paragraph/segment structure as much as possible
+6. Output the extracted text as a plain text document
+7. This document serves as input for Step 2
 
 ### Output Format
 ```
@@ -44,7 +53,7 @@ Extract all text content from the user's .docx transcript file and output it as 
 ## Step 2: Generate 《访谈逐字稿》
 
 ### Objective
-Produce a complete, unedited verbatim transcript with standardized speaker names, supplemented meeting metadata, and normalized terminology.
+Produce a complete, unedited verbatim transcript with standardized speaker names, supplemented meeting metadata, normalized terminology, and restructured Q&A sections.
 
 ### Instructions
 
@@ -76,7 +85,20 @@ Based on context (industry, company business, mentioned products/technologies):
 - If uncertain about a correction, leave the original text unchanged
 - Document any corrections made for transparency
 
-#### 2.5 Preserve Original Content (MANDATORY)
+#### 2.5 Restructure Multiple-Question Q&A Pairs
+If a questioner asks multiple questions in a single utterance during a Q&A section:
+- Split the questions into individual Q&A pairs
+- Each question should be paired with its corresponding answer
+- Maintain the original sequence of questions and answers
+- Do not alter the content of any question or answer
+- Example transformation:
+  - Before: "Q: 问题一？问题二？问题三？ A: 回答一、二、三。"
+  - After:
+    - "Q: 问题一？ A: 回答一、二、三。"
+    - "Q: 问题二？ A: 回答一、二、三。"
+    - "Q: 问题三？ A: 回答一、二、三。"
+
+#### 2.6 Preserve Original Content (MANDATORY)
 - **PROHIBITED**: Deleting any spoken content, even if repetitive, informal, or seemingly irrelevant
 - **PROHIBITED**: Adding subjective interpretations, explanatory comments, or speculative statements
 - **MANDATORY**: Retain 100% of the original transcript content
@@ -174,4 +196,4 @@ Follow the structure defined in `assets/meeting-template.md` for this step:
 2. **Document Preservation**: Each step's output becomes the input for the next step
 3. **Content Integrity**: Never delete substantive content; only remove fillers per the rules
 4. **Terminology Consistency**: Maintain consistent use of terminology throughout all steps
-5. **Q&A Focus**: Pay special attention to preserving Q&A sections accurately
+5. **Q&A Focus**: Pay special attention to preserving Q&A sections accurately and split multiple questions into individual Q&A pairs per section 2.5
