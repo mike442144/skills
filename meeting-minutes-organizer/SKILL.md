@@ -19,10 +19,10 @@ This skill transforms a meeting transcript (docx, txt, html, or markdown format)
 - `.md` / `.markdown` - Markdown files
 
 **Output Documents (in order):**
-1. **Step 1**: Structured plain text extracted from the input file
-2. **Step 2**: 《访谈逐字稿》- Complete verbatim transcript with speaker identification, terminology normalization, and transcription error correction
-3. **Step 3**: 《会议实录》- Polished meeting minutes with formal written language
-4. **Step 4**: 《内容梳理》- Restructured Q&A sections with split multiple questions
+1. **Step 1**: raw.md- Structured plain text extracted from the input file
+2. **Step 2**: 访谈逐字稿.md- Complete verbatim transcript with speaker identification, terminology normalization, and transcription error correction
+3. **Step 3**: 会议实录.md- Polished meeting minutes with formal written language
+4. **Step 4**: 内容梳理.md- Restructured Q&A sections with split multiple questions
 
 ## Required Resources
 
@@ -81,7 +81,7 @@ If chunked:
 
 ---
 
-## Step 2: Generate 《访谈逐字稿》
+## Step 2: Generate 访谈逐字稿.md
 
 ### Objective
 Produce a complete, unedited verbatim transcript with standardized speaker names, supplemented meeting metadata, normalized terminology, and corrected transcription errors.
@@ -122,11 +122,11 @@ Based on context (industry, company business, mentioned products/technologies):
 - **MANDATORY**: Retain 100% of the original transcript content
 
 ### Output Format
-Follow the 《访谈逐字稿》 section in `assets/meeting-template.md`.
+Follow the `访谈逐字稿` section in `assets/meeting-template.md`.
 
 ---
 
-## Step 3: Generate 《会议实录》
+## Step 3: Generate 会议实录.md
 
 ### Objective
 Transform the colloquial verbatim transcript into a polished written meeting minutes document while preserving all substantive content.
@@ -160,7 +160,7 @@ If an interviewer's follow-up question interrupts a respondent's answer:
 - **PROHIBITED**: Deleting substantive statements (only fillers per 3.2 are removable)
 - **MANDATORY**: Maintain the logical flow and completeness of the meeting
 
-## Step 4: Generate 《内容梳理》
+## Step 4: Generate 内容梳理.md
 
 ### Objective
 Restructure Q&A sections for improved clarity by splitting multiple questions into individual Q&A pairs while preserving all content.
@@ -194,7 +194,7 @@ If a questioner asks multiple questions in a single utterance during a Q&A secti
 - **MANDATORY**: Only restructure the format/organization, not the substance
 
 ### Output Format
-Follow the 《内容梳理》 section in `assets/meeting-template.md`.
+Follow the `内容梳理` section in `assets/meeting-template.md`.
 
 ---
 
