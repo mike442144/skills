@@ -3,7 +3,7 @@ name: meeting-minutes-organizer
 description: This skill should be used when the user wants to organize and transform a meeting transcript (in docx, txt, html, or markdown format) into a structured, objective, and concise Markdown meeting notes document. Triggers include phrases like "整理会议纪要", "整理访谈记录", "transcript to notes", or when the user provides a transcript file (.docx/.txt/.html/.md) and asks for it to be organized. The skill processes the transcript in three sequential steps, each producing an intermediate document.
 metadata:
   author: Mike Chen
-  version: '1.4'
+  version: '1.5'
 ---
 
 # Meeting Minutes Organizer
@@ -24,32 +24,6 @@ This skill transforms a meeting transcript (docx, txt, html, or markdown format)
 3. **Step 3**: 《会议实录》- Polished meeting minutes with formal written language
 4. **Step 4**: 《内容梳理》- Restructured Q&A sections with split multiple questions
 
-## 长时间会议处理策略
-
-对于长时间会议（转录文字超过50,000字符），建议采用以下策略：
-
-### 分块处理方案
-1. **自动分块检测**：当输入文本超过50,000字符时，自动按以下规则分块：
-   - 按时间间隔分块（每30分钟为一个块）
-   - 按话题自然转变点分块
-   - 保持段落完整性（不在句子中间切分）
-
-2. **分块重叠机制**：每个分块与前一块保持10-15%的重叠内容，确保：
-   - 上下文连贯性
-   - 说话人识别连续性
-   - 术语一致性
-
-3. **全局状态管理**：
-   - 建立全局说话人映射表
-   - 维护全局术语词典
-   - 统一时间线标记
-
-### 手动分块指南
-如果自动分块不适用，可以手动：
-1. 将长转录按话题分成多个文件
-2. 分别处理每个文件
-3. 使用"会议基本信息"中的时间标记合并结果
-
 ## Required Resources
 
 - **docx skill**: Load this skill to read and extract content from .docx transcript files
@@ -57,7 +31,7 @@ This skill transforms a meeting transcript (docx, txt, html, or markdown format)
 ## Step 1: Extract and Convert Text
 
 ### Objective
-Detect the input file format and extract its text content. Convert non-plain-text formats (docx, html) to Markdown; read plain-text formats (txt, md) directly. For long transcripts, provide chunking recommendations.
+Detect the input file format and extract its text content. Convert non-plain-text formats (docx, html) to Markdown; read plain-text formats (txt, md) directly. If the text is long, chunk it for subsequent steps.
 
 ### Instructions
 
@@ -75,29 +49,34 @@ Detect the input file format and extract its text content. Convert non-plain-tex
 
 5. **For .md/.markdown files**: Read the file directly, treating Markdown syntax as plain text
 
-6. **Long transcript detection**:
-   - If the extracted text exceeds 50,000 characters, note: "检测到长时间会议转录（约XX字符），建议采用分块处理"
-   - Estimate meeting duration: 每1,000字符 ≈ 5-7分钟发言时间
-   - Recommend chunking strategy based on content structure
+6. Preserve the original paragraph/segment structure as much as possible
 
-7. **Chunking recommendations**:
-   - **For transcripts with clear time markers**: "检测到时间标记，建议按时间分块处理（如每30分钟一段）"
-   - **For topic-based transcripts**: "检测到话题转变点，建议按话题分块处理"
-   - **For continuous monologues**: "检测到长时间独白，建议按固定长度分块（如每10,000字符一段）"
+7. **Chunking** (if the extracted text exceeds 30,000 characters):
+   - Split the text into chunks of approximately 15,000–20,000 characters each
+   - Always split at a **paragraph boundary** (blank line or speaker-turn change); never break mid-sentence
+   - If timestamps are present in the transcript, prefer splitting at timestamp gaps
+   - Number each chunk sequentially: `[Chunk 1 of N]`, `[Chunk 2 of N]`, etc.
+   - See the **Long Transcript Chunking Strategy** section below for the full processing workflow
 
-8. Preserve the original paragraph/segment structure as much as possible
+8. Output the extracted/converted text as a Markdown document (or a series of chunk documents)
 
-9. Output the extracted/converted text as a Markdown document
-
-10. This document serves as input for Step 2
+9. This document serves as input for Step 2
 
 ### Output Format
 ```
-[Step 1 输出]
-（转换后的 Markdown 格式文本内容）
+[Step 1 Output]
+(Converted Markdown text content)
+```
 
-[处理建议]
-（针对长时间会议的chunking建议，如适用）
+If chunked:
+```
+[Step 1 Output — Chunk 1 of N]
+(Chunk 1 content)
+
+[Step 1 Output — Chunk 2 of N]
+(Chunk 2 content)
+
+...
 ```
 
 ---
@@ -106,21 +85,6 @@ Detect the input file format and extract its text content. Convert non-plain-tex
 
 ### Objective
 Produce a complete, unedited verbatim transcript with standardized speaker names, supplemented meeting metadata, normalized terminology, and corrected transcription errors.
-
-### 长时间会议处理策略
-
-如果Step 1检测到长时间会议转录（超过50,000字符），采用以下分块处理策略：
-
-#### 分块处理原则
-1. **分块大小**：建议每30-45分钟会议内容为一个处理块（约6,000-10,000字符）
-2. **重叠区域**：相邻分块保持10-15%的内容重叠，确保上下文连续性
-3. **说话人一致性**：建立全局说话人映射表，确保跨块说话人识别一致
-4. **术语统一**：维护全局术语词典，确保跨块术语标准化一致
-
-#### 分块处理流程
-1. **第一块处理**：完整执行Step 2所有步骤，建立基准
-2. **后续块处理**：继承前一块的说话人映射和术语词典
-3. **合并检查**：处理完成后检查分块边界处的连贯性
 
 ### Instructions
 
@@ -136,10 +100,7 @@ Read the Step 1 output document in full, then perform the following:
 Using the template in `assets/meeting-template.md`, complete the meeting metadata:
 - **会议主题** (Meeting Topic): Inferred from context or marked as [待确认]
 - **日期/时间** (Date/Time): Extracted from transcript or marked as [待确认]
-  - **对于分块处理**：记录每个分块的起始时间和持续时间
-  - **示例**："2024-03-30 09:00-09:45 (第一部分)"，使用时间标记确保跨块连续性
 - **参会人** (Participants): List all identified speakers with their roles
-  - **对于分块处理**：建立全局说话人ID映射表，确保跨块一致性
 - **会议平台** (Platform): If mentioned in transcript (e.g., Zoom, 腾讯会议, 飞书), record it
 
 #### 2.3 Normalize Terminology
@@ -148,19 +109,6 @@ Based on context (industry, company business, mentioned products/technologies):
 - Examples: "某大" → "某大型银行", "DPO" → "数据保护官", product code names to full product names
 - Use full official names for listed companies, products, and technical roadmaps when identifiable from context
 - If uncertain about a specific term's meaning, preserve the original wording
-
-**对于分块处理**：
-- **建立全局术语表**：记录每个术语的标准化形式
-- **跨块一致性**：确保相同术语在所有分块中使用相同标准化形式
-- **术语表维护**：
-  ```
-  术语表格式：
-  | 原始术语 | 标准化形式 | 首次出现位置 | 上下文说明 |
-  |----------|------------|--------------|------------|
-  | 某大 | 某大型银行 | 块1, 09:15 | 指代XX银行 |
-  | DPO | 数据保护官 | 块1, 09:30 | Data Protection Officer |
-  ```
-- **术语传递**：将术语表传递给后续处理块使用
 
 #### 2.4 Correct Transcription Errors
 - Review for obvious speech-to-text errors (homophones, character recognition mistakes)
@@ -288,6 +236,78 @@ Follow the structure defined in `assets/meeting-template.md` for this step:
 ### 正文
 
 （经过处理的会议实录内容）
+```
+
+---
+
+## Long Transcript Chunking Strategy
+
+This section applies **only** when Step 1 detects that the extracted text exceeds 30,000 characters. For shorter transcripts, ignore this section entirely and process the text as a single unit.
+
+### Trigger
+
+After Step 1 extracts the full text, count the total characters. If the count exceeds **30,000 characters**, activate chunking.
+
+### Chunking Rules (performed in Step 1)
+
+1. Target chunk size: **15,000–20,000 characters** per chunk
+2. Split at **paragraph boundaries** (blank lines or speaker-turn changes); never break mid-sentence
+3. If timestamps exist in the transcript, prefer splitting at timestamp gaps
+4. Number chunks sequentially: `[Chunk 1 of N]`, `[Chunk 2 of N]`, etc.
+
+### Execution Flow
+
+Process **all chunks through one step** before advancing to the next step. This ensures global consistency of speaker names and terminology across the entire document.
+
+```
+Step 1: Extract full text → Chunk into N parts → Output chunk list
+         ↓
+Step 2: Process Chunk 1 → Build speaker map + terminology dictionary
+         Process Chunk 2 → Carry forward speaker map + terminology dictionary + context summary
+         ... (repeat for all N chunks)
+         → After all chunks: finalize global speaker map + terminology dictionary
+         ↓
+Step 3: Process Chunk 1 (using finalized speaker map + terminology dictionary)
+         Process Chunk 2 → Carry forward context summary
+         ... (repeat for all N chunks)
+         ↓
+Step 4: Process Chunk 1
+         Process Chunk 2 → Carry forward context summary
+         ... (repeat for all N chunks)
+         ↓
+Final:  Concatenate all chunk outputs in order → Produce final document
+```
+
+Key points:
+- Complete **all chunks within one step** before moving to the next step (all Step 2 first, then all Step 3, then all Step 4)
+- This ensures the speaker map and terminology dictionary are fully built in Step 2 before Step 3 begins polishing language
+- The final document is a simple ordered concatenation of all chunk outputs; meeting metadata (header, speaker list) appears only once at the top
+
+### Context Carry-Forward (replaces overlap)
+
+Instead of overlapping content between chunks, use a **context summary** to maintain continuity:
+
+1. After finishing each chunk (through Step 4), produce a brief **context summary** (≤ 500 characters) containing:
+   - The current topic being discussed
+   - Any unfinished argument or thread
+   - The last speaker and their stance
+   - Any newly introduced terminology or abbreviations
+
+2. When processing the next chunk, prepend this context summary as background information
+
+3. Additionally, carry forward two persistent artifacts across all chunks:
+   - **Speaker Map**: `Speaker Name → Role/Title` (append new speakers as they appear)
+   - **Terminology Dictionary**: `Original Term → Standardized Form` (append new terms as they appear)
+
+### Example Context Summary
+
+```
+[Context from Chunk 1]
+Topic: Discussion of Q3 revenue decline in the retail segment.
+Last speaker: Zhang Wei (CFO), explaining that the decline was primarily driven by
+reduced foot traffic in tier-3 cities.
+Unfinished thread: Zhang Wei was about to address the margin impact when the chunk ended.
+New terms: "新零售" → "新零售业务板块", "三线" → "三线城市"
 ```
 
 ---
