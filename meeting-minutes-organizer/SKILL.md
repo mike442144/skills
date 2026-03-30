@@ -141,10 +141,25 @@ Read the Step 2 output document in full, then perform the following:
 - **PROHIBITED**: Changing the declarative stance of statements
 - **MANDATORY**: Preserve all original content
 
-#### 3.2 Remove Fillers and Hedging Phrases
-Delete sentences that are purely acknowledgments or verbal fillers from the interviewer/host:
+#### 3.2 Remove Fillers, Greetings, and Secretary Content
+Delete the following types of content:
+
+**A. Fillers and Hedging Phrases from Interviewer/Host:**
 - Examples: "嗯嗯", "OK", "好的", "对对对", "然后然后", "然后的话", "就是说", "其实其实", "这个这个"
 - If a sentence contains both filler and substantive content, retain only the substantive portion
+
+**B. Greetings from Any Participant:**
+- Examples: "大家好", "早上好", "下午好", "很高兴见到大家", "感谢各位参加"，“谢谢你的提问”
+- Applies to all speakers (including interviewees/respondents)
+
+**C. All Content from Meeting Secretary:**
+- Identify the speaker role as "会议秘书" or "Secretary"
+- Delete all utterances from this role entirely
+
+**D. Transitional Courtesies from Key Speakers (e.g., CEO, Presenter):**
+- Examples: "谢谢你的问题", "这个问题由我来回答", "后面那个关于XXX的问题由XXX来回答", "让我来补充一下", "我接着刚才的话题"
+- Applies to speakers with roles like CEO, 主讲人, or primary presenters
+- Only delete if the statement is purely transitional with no substantive content
 
 #### 3.3 Complete Interrupted Responses
 If an interviewer's follow-up question interrupts a respondent's answer:
