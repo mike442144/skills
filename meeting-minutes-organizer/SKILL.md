@@ -3,7 +3,7 @@ name: meeting-minutes-organizer
 description: This skill should be used when the user wants to organize and transform a meeting transcript (in docx, txt, html, or markdown format) into a structured, objective, and concise Markdown meeting notes document. Triggers include phrases like "整理会议纪要", "整理访谈记录", "transcript to notes", or when the user provides a transcript file (.docx/.txt/.html/.md) and asks for it to be organized. The skill processes the transcript in three sequential steps, each producing an intermediate document.
 metadata:
   author: Mike Chen
-  version: '1.6'
+  version: '1.7'
 ---
 
 # Meeting Minutes Organizer
@@ -163,13 +163,22 @@ If an interviewer's follow-up question interrupts a respondent's answer:
 ## Step 4: Generate 内容梳理.md
 
 ### Objective
-Restructure Q&A sections for improved clarity by splitting multiple questions into individual Q&A pairs while preserving all content.
+Restructure Q&A sections for improved clarity by splitting multiple questions into individual Q&A pairs. Non-Q&A sections are preserved exactly as-is from Step 3 without any modification.
 
 ### Instructions
 
 Read the Step 3 output document in full, then perform the following:
 
-#### 4.1 Restructure Multiple-Question Q&A Pairs
+#### 4.1 Distinguish Q&A Sections from Non-Q&A Sections
+- Identify which parts of the meeting are Q&A sections (explicit question-answer interactions) and which are not (e.g., opening remarks, presentations, statements, monologues, discussions without Q&A format)
+- Non-Q&A sections include but are not limited to: host introductions, speaker presentations, panel discussions without explicit Q&A, closing remarks
+
+#### 4.2 Preserve Non-Q&A Sections Unchanged (MANDATORY)
+- **NON-Q&A SECTIONS MUST BE COPIED VERBATIM FROM STEP 3 OUTPUT** — no edits, no restructuring, no modifications whatsoever
+- Maintain the original order: non-Q&A sections stay in their original positions relative to Q&A sections
+- Do not merge, split, or reorganize non-Q&A content in any way
+
+#### 4.3 Restructure Q&A Sections Only
 If a questioner asks multiple questions in a single utterance during a Q&A section:
 - Split the questions into individual Q&A pairs
 - Each question should be paired with its corresponding answer
@@ -187,11 +196,11 @@ If a questioner asks multiple questions in a single utterance during a Q&A secti
     提问者: 问题三？ 回答者2: 回答三。
     ```
 
-#### 4.2 Preserve Content Integrity (MANDATORY)
+#### 4.4 Preserve Content Integrity (MANDATORY)
 - **PROHIBITED**: Altering, summarizing, or condensing any substantive content
-- **PROHIBITED**: Changing the wording of questions or answers
+- **PROHIBITED**: Changing the wording of questions, answers, or non-Q&A content
 - **MANDATORY**: Retain 100% of the original meeting content
-- **MANDATORY**: Only restructure the format/organization, not the substance
+- **MANDATORY**: Only restructure Q&A sections; non-Q&A sections must remain identical to Step 3 output
 
 ### Output Format
 Follow the `内容梳理` section in `assets/meeting-template.md`.
