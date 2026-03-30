@@ -100,7 +100,6 @@ Read the Step 1 output document in full, then perform the following:
 Using the template in `assets/meeting-template.md`, complete the meeting metadata:
 - **会议主题** (Meeting Topic): Inferred from context or marked as [待确认]
 - **日期/时间** (Date/Time): Extracted from transcript or marked as [待确认]
-- **参会人** (Participants): List all identified speakers with their roles
 - **会议平台** (Platform): If mentioned in transcript (e.g., Zoom, 腾讯会议, 飞书), record it
 
 #### 2.3 Normalize Terminology
@@ -146,7 +145,6 @@ Read the Step 2 output document in full, then perform the following:
 Delete sentences that are purely acknowledgments or verbal fillers from the interviewer/host:
 - Examples: "嗯嗯", "OK", "好的", "对对对", "然后然后", "然后的话", "就是说", "其实其实", "这个这个"
 - If a sentence contains both filler and substantive content, retain only the substantive portion
-- This rule applies ONLY to the interviewer's/host's statements; do not remove fillers from the interviewee's/participants' responses
 
 #### 3.3 Complete Interrupted Responses
 If an interviewer's follow-up question interrupts a respondent's answer:
@@ -184,16 +182,18 @@ If a questioner asks multiple questions in a single utterance during a Q&A secti
 - Each question should be paired with its corresponding answer
 - Maintain the original sequence of questions and answers
 - Do not alter the content of any question or answer
-- **Use `---` to separate each Q&A pair** for improved readability
 - Example transformation:
   - Before: "提问者: 问题一？问题二？问题三？ 回答者1: 回答一、二。回答者2: 回答三。"
   - After:
     ```
-    提问者: 问题一？ 回答者1: 回答一。
-    ---
-    提问者: 问题二？ 回答者1: 回答二。
-    ---
-    提问者: 问题三？ 回答者2: 回答三。
+    提问者: 问题一？ 
+    回答者1: 回答一。
+    
+    提问者: 问题二？ 
+    回答者1: 回答二。
+    
+    提问者: 问题三？ 
+    回答者2: 回答三。
     ```
 
 #### 4.4 Preserve Content Integrity (MANDATORY)
