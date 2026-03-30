@@ -3,7 +3,7 @@ name: meeting-minutes-organizer
 description: This skill should be used when the user wants to organize and transform a meeting transcript (in docx, txt, html, or markdown format) into a structured, objective, and concise Markdown meeting notes document. Triggers include phrases like "整理会议纪要", "整理访谈记录", "transcript to notes", or when the user provides a transcript file (.docx/.txt/.html/.md) and asks for it to be organized. The skill processes the transcript in three sequential steps, each producing an intermediate document.
 metadata:
   author: Mike Chen
-  version: '1.5'
+  version: '1.6'
 ---
 
 # Meeting Minutes Organizer
@@ -122,33 +122,7 @@ Based on context (industry, company business, mentioned products/technologies):
 - **MANDATORY**: Retain 100% of the original transcript content
 
 ### Output Format
-Follow the structure defined in `assets/meeting-template.md` for this step:
-
-```
-## 会议基本信息
-
-| 字段 | 内容 |
-|------|------|
-| 会议主题 | （填写内容） |
-| 日期/时间 | （填写内容） |
-| 会议平台 | （填写内容） |
-
----
-
-## 访谈逐字稿
-
-> **说明**：以下为《访谈逐字稿》，完整保留原始发言内容，未经删减。
-
-### 发言人列表
-
-| 发言人 | 身份/角色 |
-|--------|-----------|
-| （姓名） | （角色） |
-
-### 正文
-
-（完整的逐字稿内容，使用统一后的发言人名称）
-```
+Follow the 《访谈逐字稿》 section in `assets/meeting-template.md`.
 
 ---
 
@@ -220,23 +194,7 @@ If a questioner asks multiple questions in a single utterance during a Q&A secti
 - **MANDATORY**: Only restructure the format/organization, not the substance
 
 ### Output Format
-Follow the structure defined in `assets/meeting-template.md` for this step:
-
-```
-## 会议实录
-
-> **说明**：以下为《会议实录》，已将口语化表述转为书面语，删除了无实质内容的应和语句和口头禅。
-
-### 发言人列表
-
-| 发言人 | 身份/角色 |
-|--------|-----------|
-| （同上） | （同上） |
-
-### 正文
-
-（经过处理的会议实录内容）
-```
+Follow the 《内容梳理》 section in `assets/meeting-template.md`.
 
 ---
 
