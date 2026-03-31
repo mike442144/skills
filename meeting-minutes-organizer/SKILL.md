@@ -21,8 +21,7 @@ This skill transforms a meeting transcript (docx, txt, html, or markdown format)
 **Output Documents (in order):**
 1. **Step 1**: raw.md- Structured plain text extracted from the input file
 2. **Step 2**: 访谈逐字稿.md- Complete verbatim transcript with speaker identification, terminology normalization, and transcription error correction
-3. **Step 3**: 会议实录.md- Polished meeting minutes with formal written language
-4. **Step 4**: 内容梳理.md- Restructured Q&A sections with split multiple questions
+3. **Step 3**: 会议实录.md- Polished meeting minutes with formal written language (will be modified in-place by Step 4)
 
 ## Required Resources
 
@@ -173,14 +172,14 @@ If an interviewer's follow-up question interrupts a respondent's answer:
 - **PROHIBITED**: Deleting substantive statements (only fillers per 3.2 are removable)
 - **MANDATORY**: Maintain the logical flow and completeness of the meeting
 
-## Step 4: Generate 内容梳理.md
+## Step 4: Modify 会议实录.md In-Place
 
 ### Objective
-Restructure Q&A sections for improved clarity by splitting multiple questions into individual Q&A pairs. Non-Q&A sections are preserved exactly as-is from Step 3 without any modification.
+Restructure Q&A sections for improved clarity by splitting multiple questions into individual Q&A pairs directly in the Step 3 output file (`会议实录.md`). Non-Q&A sections are preserved exactly as-is.
 
 ### Instructions
 
-Read the Step 3 output document in full, then perform the following:
+Read the Step 3 output document (`会议实录.md`) in full, then perform the following:
 
 #### 4.1 Distinguish Q&A Sections from Non-Q&A Sections
 - Identify which parts of the meeting are Q&A sections (explicit question-answer interactions) and which are not (e.g., opening remarks, presentations, statements, monologues, discussions without Q&A format)
@@ -218,7 +217,7 @@ If a questioner asks multiple questions in a single utterance during a Q&A secti
 - **MANDATORY**: Only restructure Q&A sections; non-Q&A sections must remain identical to Step 3 output
 
 ### Output Format
-Follow the `内容梳理` section in `assets/meeting-template.md`.
+The modified `会议实录.md` file becomes the final output document.
 
 ---
 
@@ -300,4 +299,4 @@ New terms: "新零售" → "新零售业务板块", "三线" → "三线城市"
 2. **Document Preservation**: Each step's output becomes the input for the next step
 3. **Content Integrity**: Never delete substantive content; only remove fillers per the rules
 4. **Terminology Consistency**: Maintain consistent use of terminology throughout all steps
-5. **Q&A Focus**: Pay special attention to preserving Q&A sections accurately and split multiple questions into individual Q&A pairs per section 4.1
+5. **Q&A Focus**: Pay special attention to preserving Q&A sections accurately and split multiple questions into individual Q&A pairs per Step 4 instructions
