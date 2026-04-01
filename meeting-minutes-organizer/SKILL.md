@@ -50,8 +50,8 @@ Detect the input file format and extract its text content. Convert non-plain-tex
 
 6. Preserve the original paragraph/segment structure as much as possible
 
-7. **Chunking** (if the extracted text exceeds 30,000 characters):
-   - Split the text into chunks of approximately 15,000–20,000 characters each
+7. **Chunking** (if the extracted text exceeds 20,000 characters):
+   - Split the text into chunks of approximately 10,000–15,000 characters each
    - Always split at a **paragraph boundary** (blank line or speaker-turn change); never break mid-sentence
    - If timestamps are present in the transcript, prefer splitting at timestamp gaps
    - Number each chunk sequentially: `[Chunk 1 of N]`, `[Chunk 2 of N]`, etc.
@@ -227,11 +227,11 @@ This section applies **only** when Step 1 detects that the extracted text exceed
 
 ### Trigger
 
-After Step 1 extracts the full text, count the total characters. If the count exceeds **30,000 characters**, activate chunking.
+After Step 1 extracts the full text, count the total characters. If the count exceeds **20,000 characters**, activate chunking.
 
 ### Chunking Rules (performed in Step 1)
 
-1. Target chunk size: **15,000–20,000 characters** per chunk
+1. Target chunk size: **10,000–15,000 characters** per chunk
 2. Split at **paragraph boundaries** (blank lines or speaker-turn changes); never break mid-sentence
 3. If timestamps exist in the transcript, prefer splitting at timestamp gaps
 4. Number chunks sequentially: `[Chunk 1 of N]`, `[Chunk 2 of N]`, etc.
