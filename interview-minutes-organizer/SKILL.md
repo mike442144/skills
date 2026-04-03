@@ -1,16 +1,18 @@
 ---
 name: interview-minutes-organizer
-description: This skill should be used when the user wants to organize and transform an interview transcript (in docx, txt, html, or markdown format) into a structured Markdown document through a four-step process. The first three steps extract text, generate verbatim transcript, and polish into formal written minutes. Step 4 extracts and restructures all content into effective Q&A pairs with clear questions and complete answers. Triggers include phrases like "整理访谈纪要", "整理采访记录", "interview transcript to notes", or when the user provides an interview transcript and asks for Q&A extraction.
+description: This skill should be used when the user wants to organize and transform an interview transcript (in docx, txt, html, or markdown format) into a structured Markdown document through a five-step process. The first three steps extract text, generate verbatim transcript, and polish into formal written minutes. Step 4 extracts effective questions only. Step 5 answers each question using the respondent's voice and narrative style based on the interview transcript. Triggers include phrases like "整理访谈纪要", "整理采访记录", "interview transcript to notes", or when the user provides an interview transcript and asks for Q&A extraction.
 metadata:
   author: Mike Chen
-  version: '1.0'
+  version: '2.0'
+  changelog: |
+    v2.0 (2026-04-03): Step 4 now outputs questions only. Added Step 5 to answer questions using respondent's voice in narrative style.
 ---
 
 # Interview Minutes Organizer
 
 ## Overview
 
-This skill transforms an interview transcript (docx, txt, html, or markdown format) into a structured Markdown Q&A document through a four-step process. Steps 1-3 are identical to the meeting-minutes-organizer skill. Step 4 differs by extracting all content into effective Q&A pairs.
+This skill transforms an interview transcript (docx, txt, html, or markdown format) into a structured Markdown Q&A document through a five-step process. Steps 1-3 are identical to the meeting-minutes-organizer skill. Step 4 extracts effective questions only. Step 5 answers each question using the respondent's voice and narrative style.
 
 **Supported Input Formats:**
 - `.docx` - Word documents
@@ -22,7 +24,8 @@ This skill transforms an interview transcript (docx, txt, html, or markdown form
 1. **Step 1**: raw.md - Structured plain text extracted from the input file
 2. **Step 2**: 访谈逐字稿.md - Complete verbatim transcript with speaker identification, terminology normalization, and transcription error correction
 3. **Step 3**: 访谈实录.md - Polished interview minutes with formal written language
-4. **Step 4**: 有效问题.md - Extracted effective Q&A pairs with clear questions and complete answers
+4. **Step 4**: 有效问题.md - Extracted effective questions only (without answers)
+5. **Step 5**: 访谈纪要.md - Narrative-style answers to each effective question using respondent's voice
 
 ## Required Resources
 
@@ -181,7 +184,7 @@ Save as `访谈实录.md`.
 ## Step 4: Generate 有效问题.md
 
 ### Objective
-Based on `访谈实录.md`, extract and restructure all content into effective Q&A pairs. Each pair consists of a clear question from the interviewer and a complete answer from the respondent with explicit arguments and supporting evidence.
+Based on `访谈实录.md`, extract effective questions that meet three criteria. This step outputs questions only, without answers.
 
 ### Instructions
 
@@ -203,7 +206,7 @@ An effective question must meet all three criteria:
 
 3. **完备性 (Completeness)**: All extracted "effective questions" together must cover the entire interview content.
    - No substantive content from the interview should be left out
-   - Every major topic discussed must be represented in at least one Q&A pair
+   - Every major topic discussed must be represented in at least one question
 
 #### 4.2 Extract and Merge Questions
 
@@ -219,31 +222,28 @@ Process the interview transcript systematically:
 
 #### 4.3 Format Output
 
-Each Q&A pair must follow this format:
+Each question must follow this format:
 
 ```markdown
 ### 问题 N
 
 **访谈者**: [合并后的完整问题，包含所有相关子问题]
-
-**受访者**: [完整的回答，包含明确的论点和完备的论据]
 ```
 
 Where:
 - N is the sequential question number (1, 2, 3...)
 - The question starts with "访谈者:" followed by the merged question text
-- The answer starts with "受访者:" followed by the complete response
-- Both question and answer should be polished to formal written language
-- Preserve all substantive content from the original interview
+- Questions should be polished to formal written language
+- Do NOT include answers in this step
 
 #### 4.4 Quality Checks
 
 Before finalizing, verify:
 
-1. **Validity check**: Each answer contains clear arguments (论点) and supporting evidence (论据)
+1. **Validity check**: Each question has a corresponding answer in the interview with clear arguments and supporting evidence
 2. **Independence check**: No two questions overlap in logical scope; related questions are properly merged
 3. **Completeness check**: All major topics from the interview are covered; no substantive content is omitted
-4. **Accuracy check**: Questions and answers faithfully represent the original interview content without distortion
+4. **Accuracy check**: Questions faithfully represent the original interview content without distortion
 
 ### Output Format
 Save as `有效问题.md` with the following structure:
@@ -261,19 +261,118 @@ Save as `有效问题.md` with the following structure:
 
 **访谈者**: [问题内容]
 
-**受访者**: [回答内容]
-
 ---
 
 ### 问题 2
 
 **访谈者**: [问题内容]
 
-**受访者**: [回答内容]
+---
+
+[继续至问题 N]
+```
+
+---
+
+## Step 5: Generate 访谈纪要.md
+
+### Objective
+Based on `访谈实录.md` and `有效问题.md`, answer each effective question using the respondent's voice and narrative style. The output is a comprehensive interview minutes document.
+
+### Instructions
+
+Read both `访谈实录.md` and `有效问题.md` in full, then perform the following for each question:
+
+#### 5.1 Answer Comprehensively
+
+For each question in `有效问题.md`:
+
+1. **Read the entire transcript**: Thoroughly review `访谈实录.md` to identify ALL content related to this question
+2. **Collect all arguments**: Gather every argument/claim the respondent made that relates to this question, regardless of where it appears in the transcript
+3. **Collect all evidence**: Gather all supporting evidence (data, examples, reasoning, detailed explanations) for each argument
+4. **Include everything**: Do not omit any relevant content, even if it was mentioned briefly or in passing
+
+#### 5.2 Use Narrative Style
+
+**MANDATORY requirements:**
+
+1. **Narrative prose, NOT bullet points**: Write in flowing, narrative paragraphs. Do NOT use bullet points, numbered lists, or summary-style formatting.
+   - ❌ WRONG: "主要有三个方面：第一...第二...第三..."
+   - ✅ CORRECT: "关于这个问题，目前的情况是...具体而言...此外..."
+
+2. **Start with arguments, then expand with evidence**: 
+   - First, clearly state the main argument/position
+   - Then, elaborate with supporting evidence (data, examples, reasoning)
+   - Structure: 论点 → 论据展开
+
+3. **Strictly follow the transcript**: 
+   - All arguments and evidence must come directly from `访谈实录.md`
+   - **PROHIBITED**: Adding speculative statements, assumptions, or interpretations
+   - **PROHIBITED**: Making inferences beyond what the respondent actually said
+   - **MANDATORY**: Use the respondent's actual statements, rephrased into formal written language
+
+#### 5.3 Format Output
+
+Each Q&A must follow this format:
+
+```markdown
+### 问题 N
+
+**访谈者**: [问题原文，从有效问题.md复制]
+
+**[受访者称呼]**: [叙述式回答，以受访者口吻]
+```
+
+Where:
+- The question is copied verbatim from `有效问题.md`
+- The answer starts with the respondent's name/role (e.g., "**李总**:" or "**受访者**:")
+- The answer is written in narrative prose style
+- The answer uses the respondent's voice and perspective (first-person or reported speech)
+
+#### 5.4 Quality Checks
+
+Before finalizing, verify:
+
+1. **Completeness**: Each answer includes ALL relevant arguments and evidence from the transcript
+2. **Narrative style**: Answers are written in flowing prose, NOT bullet points or lists
+3. **Accuracy**: No speculative or inferred content; all statements trace back to the transcript
+4. **Argument-first structure**: Each answer clearly presents arguments first, then supporting evidence
+5. **Respondent's voice**: Answers sound like the respondent is speaking, not a third-party summary
+
+### Output Format
+Save as `访谈纪要.md` with the following structure:
+
+```markdown
+# 访谈纪要
+
+> **访谈主题**: [主题]
+> **访谈日期**: [日期]
+> **受访者**: [受访者称呼]
+> **问题总数**: [N]
+
+---
+
+### 问题 1
+
+**访谈者**: [问题原文]
+
+**[受访者称呼]**: [叙述式回答，先给出论点，再用论据展开，使用叙述式文字]
+
+---
+
+### 问题 2
+
+**访谈者**: [问题原文]
+
+**[受访者称呼]**: [叙述式回答，先给出论点，再用论据展开，使用叙述式文字]
 
 ---
 
 [继续至问题 N]
+
+---
+
+**免责声明**: 本文件仅为访谈内容整理，不构成任何专业建议。所有内容均基于访谈实录，未添加推测性表述。
 ```
 
 ---
@@ -309,7 +408,12 @@ Step 3: Process Chunk 1 (using finalized speaker map + terminology dictionary)
          Process Chunk 2 → Carry forward context summary
          ... (repeat for all N chunks)
          ↓
-Step 4: Process Chunk 1
+Step 4: Process Chunk 1 → Extract questions
+         Process Chunk 2 → Carry forward context summary + merge questions
+         ... (repeat for all N chunks)
+         → After all chunks: finalize question list
+         ↓
+Step 5: Process Chunk 1 → Answer questions
          Process Chunk 2 → Carry forward context summary
          ... (repeat for all N chunks)
          ↓
@@ -352,9 +456,12 @@ New terms: "新零售" → "新零售业务板块", "三线" → "三线城市"
 
 ## Important Reminders
 
-1. **Sequential Execution**: Always execute steps in order (Step 1 → Step 2 → Step 3 → Step 4)
+1. **Sequential Execution**: Always execute steps in order (Step 1 → Step 2 → Step 3 → Step 4 → Step 5)
 2. **Document Preservation**: Each step's output becomes the input for the next step
 3. **Content Integrity**: Never delete substantive content; only remove fillers per the rules
 4. **Terminology Consistency**: Maintain consistent use of terminology throughout all steps
-5. **Q&A Quality**: Step 4 must ensure all extracted questions meet the three criteria: validity (有效性), independence (独立性), and completeness (完备性)
+5. **Question Quality**: Step 4 must ensure all extracted questions meet the three criteria: validity (有效性), independence (独立性), and completeness (完备性)
 6. **Question Merging**: Related questions must be merged; do not output redundant or overlapping questions
+7. **Step 5 Narrative Style**: Step 5 answers must be in narrative prose style (叙述式), NOT bullet points or lists
+8. **Step 5 Completeness**: Each answer in Step 5 must include ALL relevant arguments and evidence from the entire transcript
+9. **Step 5 Accuracy**: No speculative content in Step 5; all statements must trace back to the interview transcript
