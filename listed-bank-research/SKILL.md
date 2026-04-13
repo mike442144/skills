@@ -50,14 +50,25 @@ Refer to `references/bank_analysis_framework.md` for the complete analytical fra
 
 Data sources Priority (in order of priority):
 
-1. **Annual Report**: Full-year financial statements, business overview, risk management, corporate governance
-2. **Prospectus**：Detailed historical background and shareholding structure
-3. **Interim/Quarterly Report**: H1 data, half-year performance, Q1/Q3 data, quarterly performance
-4. **Disclosures by Regulatory Authorities**: (CBIRC, People's Bank of China)
-5. **Bloomberg/Wind Data**: For financial metrics, historical data, and industry comparisons
-6. **Broker Research Reports**
-7. **Investor Relations Activity Records**: Earnings call transcripts, investor presentations
-8. **Verification Requirements**:
+**Priority 0 — Installed Skills (check first before anything else):**
+Before using external data sources, scan all currently installed skills to identify any that can provide financial data or banking information (e.g., financial database skills, bank-specific data fetchers, report parsers). If a relevant skill exists, use it first.
+
+**How to apply this priority:**
+1. At the start of information collection, list all installed skills and evaluate their relevance to banking data needs
+2. For each data need (financial metrics, ratios, peer comparisons, etc.), check whether an installed skill can fulfill it
+3. Use installed skills as the primary data source wherever applicable
+4. Only proceed to external data sources (Priority 1-7 below) when installed skills cannot provide sufficient data
+5. When installed skills provide partial data, supplement with external sources for the remaining gaps
+
+**Priority 1 — Public Financial Data Platforms**: East Money (东方财富), Tonghuashun (同花顺), Xueqiu (雪球), cninfo (巨潮资讯网), etc. For financial metrics, historical data, and industry comparisons.
+**Priority 2 — Annual Report**: Full-year financial statements, business overview, risk management, corporate governance
+**Priority 3 — Prospectus**：Detailed historical background and shareholding structure
+**Priority 4 — Interim/Quarterly Report**: H1 data, half-year performance, Q1/Q3 data, quarterly performance
+**Priority 5 — Disclosures by Regulatory Authorities**: (CBIRC, People's Bank of China)
+**Priority 6 — Broker Research Reports**
+**Priority 7 — Investor Relations Activity Records**: Earnings call transcripts, investor presentations
+
+**Verification Requirements**:
    - Cross-validate key data
    - Trace unusual data back to original announcements
 
