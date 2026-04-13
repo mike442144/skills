@@ -3,7 +3,7 @@ name: listed-bank-research
 description: This skill should be used when the user wants to conduct in-depth fundamental research on any listed bank in A-share (China) market, Hong Kong-listed (HKEX) bank stocks, or US-listed Chinese banks. Triggers include phrases like "研究XX银行", "分析XX银行基本面", "帮我看看XX银行", "XX银行深度分析", "研究银行股", "分析银行财报", or when the user provides a bank stock code/ticker and asks for analysis. The skill produces a comprehensive, neutral-analysis Markdown report covering bank business model, financial performance, asset quality, capital adequacy, profitability drivers, and risk factors. It does NOT include financial statement modeling, valuation, stock ratings, or investment recommendations.
 metadata:
   author: Mike Chen
-  version: '1.0'
+  version: '2.0'
 ---
 
 # Listed Bank Research Skill
@@ -46,31 +46,98 @@ Activate this skill when the user:
 
 Refer to `references/bank_analysis_framework.md` for the complete analytical framework and identify what information needs to be obtained.
 
-### Step 3: Gather information/data
+### Step 3: Systematic Data Collection (CRITICAL — Do NOT skip)
 
-Data sources Priority (in order of priority):
+**This is the most important step.** The #1 cause of uneven report quality is ad-hoc, unstructured data collection. You MUST follow this systematic approach.
 
-**Priority 0 — Installed Skills (check first before anything else):**
-Before using external data sources, scan all currently installed skills to identify any that can provide financial data or banking information (e.g., financial database skills, bank-specific data fetchers, report parsers). If a relevant skill exists, use it first.
+#### 3.1 Mandatory Data Collection Checklist
 
-**How to apply this priority:**
-1. At the start of information collection, list all installed skills and evaluate their relevance to banking data needs
-2. For each data need (financial metrics, ratios, peer comparisons, etc.), check whether an installed skill can fulfill it
-3. Use installed skills as the primary data source wherever applicable
-4. Only proceed to external data sources (Priority 1-7 below) when installed skills cannot provide sufficient data
-5. When installed skills provide partial data, supplement with external sources for the remaining gaps
+Before writing any report section, collect data according to this priority-tiered checklist. Each item is marked with:
+- **[P0]** = Must have. Report cannot be generated without this data.
+- **[P1]** = Should have. If unavailable after 2 attempts, mark as "数据未披露" with explanation.
+- **[P2]** = Nice to have. If unavailable, omit the field gracefully without placeholder.
 
-**Priority 1 — Public Financial Data Platforms**: East Money (东方财富), Tonghuashun (同花顺), Xueqiu (雪球), cninfo (巨潮资讯网), etc. For financial metrics, historical data, and industry comparisons.
-**Priority 2 — Annual Report**: Full-year financial statements, business overview, risk management, corporate governance
-**Priority 3 — Prospectus**：Detailed historical background and shareholding structure
-**Priority 4 — Interim/Quarterly Report**: H1 data, half-year performance, Q1/Q3 data, quarterly performance
-**Priority 5 — Disclosures by Regulatory Authorities**: (CBIRC, People's Bank of China)
-**Priority 6 — Broker Research Reports**
-**Priority 7 — Investor Relations Activity Records**: Earnings call transcripts, investor presentations
+**Tier 1 — Core Financials (P0, collect first):**
+- [ ] 总资产 (Total Assets) — latest + 2 prior years
+- [ ] 客户贷款总额 (Total Loans) — latest + 2 prior years
+- [ ] 客户存款总额 (Total Deposits) — latest + 2 prior years
+- [ ] 营业收入 (Operating Income) — latest + 2 prior years
+- [ ] 归母净利润 (Net Profit attributable to shareholders) — latest + 2 prior years
+- [ ] 净利润 (Net Profit) — latest + 2 prior years
+- [ ] ROE — latest + 2 prior years
+- [ ] ROA — latest + 2 prior years
+- [ ] 净息差 NIM — latest + 2 prior years
+- [ ] 不良贷款率 NPL Ratio — latest + 2 prior years
+- [ ] 拨备覆盖率 Provision Coverage — latest + 2 prior years
+- [ ] 资本充足率 CAR — latest
+- [ ] 核心一级资本充足率 CET1 — latest
 
-**Verification Requirements**:
-   - Cross-validate key data
-   - Trace unusual data back to original announcements
+**Tier 2 — Business Structure (P0/P1, collect second):**
+- [ ] 利息净收入 (Net Interest Income) [P0]
+- [ ] 手续费及佣金净收入 (Net Fee Income) [P1]
+- [ ] 投资收益 (Investment Income) [P1]
+- [ ] 成本收入比 Cost-to-Income Ratio [P0]
+- [ ] 对公贷款总额及占比 [P1]
+- [ ] 零售贷款总额及占比 [P1]
+- [ ] 对公存款总额 [P1]
+- [ ] 零售存款总额 [P1]
+- [ ] 个人客户数 / AUM [P2]
+- [ ] 分支机构数量 [P2]
+- [ ] 员工人数 [P2]
+
+**Tier 3 — Asset Quality Detail (P1, collect third):**
+- [ ] 不良贷款余额 (NPL Balance) [P0]
+- [ ] 关注类贷款占比 Special Mention Ratio [P1]
+- [ ] 贷款拨备率 Loan Provision Ratio [P1]
+- [ ] 信用成本 Credit Cost [P2]
+- [ ] 核销金额 Write-off Amount [P2]
+- [ ] 逾期贷款分析 Overdue Loan Analysis [P2]
+- [ ] 贷款迁徙率 Migration Rate [P2]
+- [ ] 房地产行业贷款及不良率 [P1]
+- [ ] 政信/LGFV 贷款规模 [P1]
+
+**Tier 4 — Capital & Liquidity (P1, collect fourth):**
+- [ ] 一级资本充足率 Tier-1 Capital Ratio [P1]
+- [ ] 杠杆率 Leverage Ratio [P2]
+- [ ] LCR [P2]
+- [ ] NSFR [P2]
+- [ ] 存贷比 LDR [P1]
+- [ ] 每股分红 DPS [P1]
+- [ ] 分红率 Payout Ratio [P1]
+
+**Tier 5 — Peer Comparison (P1, collect fifth):**
+- [ ] 选取 3-5 家可比银行（同类别城商行/股份行）
+- [ ] 获取对比银行的：NIM、不良率、拨备覆盖率、ROE、总资产、净利润 [P1]
+
+#### 3.2 Data Collection Strategy (Accounting for API Limits)
+
+**When using mx-findata (or any tool with per-query limits):**
+- Each query can return max 3 indicators × 5 entities
+- Plan queries to maximize efficiency:
+  - Query 1: 总资产 + 净利润 + 营业收入 for target bank (3 years)
+  - Query 2: 不良率 + 拨备覆盖率 + NIM for target bank (3 years)
+  - Query 3: ROE + ROA + 成本收入比 for target bank
+  - Query 4: Peer comparison — pick 5 peers × 3 core metrics
+  - Query 5: Peer comparison — remaining peers × remaining metrics
+- Use `mx-finsearch` to fill gaps that structured data can't provide (e.g., loan industry breakdown, management commentary, regulatory penalties)
+
+#### 3.3 Data Gap Handling Protocol
+
+When a data field cannot be obtained after reasonable effort:
+
+**Rule 1 — Never fabricate data.** If a number is not available, say so explicitly.
+
+**Rule 2 — Tier-based handling:**
+- **P0 data missing**: STOP. Attempt alternative sources (web_search, direct PDF extraction). If still unavailable, note in the report: "【数据缺口】该指标为必需数据，但未能从公开渠道获取。可能原因：银行未披露/数据源覆盖不全。"
+- **P1 data missing**: Make 2 attempts from different sources. If still unavailable, write: "【数据未披露】XX银行未在年报中披露该指标" and proceed.
+- **P2 data missing**: Omit the field gracefully. Do not include empty placeholders.
+
+**Rule 3 — Use proxy data when direct data is unavailable:**
+- If loan industry breakdown not disclosed → use broker research reports for estimates
+- If LCR/NSFR not available for HKEX-listed banks → note that HKMA reporting requirements differ from mainland
+- If credit cost not directly stated → calculate as: 信用减值损失 / 平均贷款余额
+
+**Rule 4 — Cross-validation**: When data from different sources conflicts, prefer the annual report as the source of truth. Note discrepancies.
 
 ### Step 4: Compile the Research Report
 
@@ -83,15 +150,40 @@ Use the report template at `references/report_template.md` as the standard struc
 - **Section V (Asset Quality)** must include dedicated subsections for real estate and LGFV exposure with full-caliber quantification (on-balance-sheet loans + bond investments + non-standard + off-balance-sheet), trend analysis, and stress scenarios.
 - **Section VII (Risk Factors)** is a key section of the report — each risk must be specific, quantified, and assessed for trajectory. Include dedicated deep-dive subsections for real estate credit risk, LGFV/local government debt risk, consumer credit risk, and market risk. Conclude with a Risk Summary Matrix.
 
-Fill all `[...]` placeholders with actual data extracted from financial reports. Include data tables for every quantitative section.
+**Section completeness rule:** Each section of the report must have at least one data table with actual numbers. If P0 data for a section is missing, that section must still be written using qualitative analysis from news/reports, with explicit notation of what data is unavailable.
 
-### Step 5: Deliver the Report
+### Step 5: Report Completeness Check (MANDATORY)
+
+Before delivering the report, run this self-check:
+
+1. **Data table audit**: Count data tables in the report. A proper report should have at least 8-10 tables. If fewer, identify which sections are missing tables and fill them.
+2. **Placeholder scan**: Search for `[...]` or empty cells in tables. Every placeholder must be either filled or explicitly marked as "未披露" with a reason.
+3. **Section balance check**: Each major section (I-VIII) should have roughly comparable depth. If one section is 500 words and another is 50 words, the shorter one needs more work.
+4. **Peer comparison check**: Are there at least 3 peer banks referenced in the report? Are comparisons embedded in relevant sections?
+5. **Risk section check**: Does Section VII have quantified exposures? Is the Risk Summary Matrix complete?
+
+If any check fails, fix the report before delivery. Do NOT deliver an incomplete report.
+
+### Step 6: Deliver the Report
 
 1. Generate clean Markdown content
 2. Include data tables where appropriate (financial metrics comparison)
 3. Add charts/visualizations if data supports it (can be generated separately)
 4. Cite data sources and report dates
-5. Retain perspectives that hold materialist dialectical value, and discard all other perspectives. A perspective with materialist dialectical value must satisfy the following:
+5. At the end of the report, include a **Data Completeness Summary**:
+
+```
+## 数据完备性说明
+| 数据类别 | 获取情况 | 备注 |
+|---------|---------|------|
+| 核心财务指标 (Tier 1) | 完整/部分缺失 | 列出缺失项 |
+| 业务结构数据 (Tier 2) | 完整/部分缺失 | 列出缺失项 |
+| 资产质量明细 (Tier 3) | 完整/部分缺失 | 列出缺失项 |
+| 资本与流动性 (Tier 4) | 完整/部分缺失 | 列出缺失项 |
+| 同行对比数据 (Tier 5) | 完整/部分缺失 | 列出缺失项 |
+```
+
+6. Retain perspectives that hold materialist dialectical value, and discard all other perspectives. A perspective with materialist dialectical value must satisfy the following:
    - Materialist Nature: The subject of the perspective is a certain fact, rather than a certain opinion. Predictions about changes in facts are also considered opinions.
    - Unity of Opposites: If the perspective holds, it should serve as a driving force to further iterate the original conclusion, enabling a more comprehensive exploration of the matter, rather than merely serving as supplementary incremental information.
 
