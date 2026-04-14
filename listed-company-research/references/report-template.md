@@ -33,10 +33,19 @@ Present in a clean table format:
 | Headquarters | [City, Province/Country] |
 | Primary Office | [If different from HQ] |
 | Website | [URL] |
-| Controlling Shareholder | [Name and brief background — basic info only, not a full governance analysis] |
-| Employee Count | [Latest available figure with date] |
 
-### 1.2 Company Profile
+### 1.2 Ownership Structure
+
+| Shareholder | Stake (%) | Type |
+|-------------|-----------|------|
+| [Major Shareholder 1] | [%] | [State-owned / Private / Foreign / Institutional] |
+| [Major Shareholder 2] | [%] | [State-owned / Private / Foreign / Institutional] |
+| [Other Major Shareholders] | [%] | [...] |
+| Free Float | [%] | [...] |
+
+[Brief narrative: ownership concentration, actual controller (实际控制人), institutional investor presence, and implications for corporate governance. Note any significant recent changes in ownership structure.]
+
+### 1.3 Company Profile
 
 Write 2-4 paragraphs covering:
 - What the company does in one clear sentence (the "elevator pitch")
