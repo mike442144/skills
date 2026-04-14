@@ -109,6 +109,12 @@ Before writing any report section, collect data according to this priority-tiere
 - [ ] 选取 3-5 家可比银行（同类别城商行/股份行）
 - [ ] 获取对比银行的：NIM、不良率、拨备覆盖率、ROE、总资产、净利润 [P1]
 
+> ⚠️ **数据口径一致性要求（最高优先级）：** 同行对比时，必须确保数据口径一致。
+> - **期间指标（ROE、NIM、净利润增速等）**: 年报全年 vs 年报全年，或三季报累计 vs 三季报累计。严禁将全年数据与三季报/中报数据直接比较排名。银行盈利存在季节性（Q4通常为利润结算高峰期），三季报累计ROE/NIM不等于全年值。
+> - **时点指标（不良率、拨备覆盖率、总资产、CAR等）**: 可比性较强，但需标注具体时点（如"2025年末" vs "2025年9月末"）。
+> - **必须在表格中标注每家银行的数据来源口径**（如"年报全年"、"3Q累计"、"中报"）。
+> - **基于混合口径数据不得得出排名或定性结论**（如"领先"、"仅次于"、"偏低"等）。如果口径不一致，应保留数据但不下结论，或明确说明口径差异。
+
 #### 3.2 Data Collection Strategy (Accounting for API Limits)
 
 **When using mx-findata (or any tool with per-query limits):**
@@ -161,6 +167,7 @@ Before delivering the report, run this self-check:
 3. **Section balance check**: Each major section (I-VIII) should have roughly comparable depth. If one section is 500 words and another is 50 words, the shorter one needs more work.
 4. **Peer comparison check**: Are there at least 3 peer banks referenced in the report? Are comparisons embedded in relevant sections?
 5. **Risk section check**: Does Section VII have quantified exposures? Is the Risk Summary Matrix complete?
+6. **Data period consistency check**: For every peer comparison table, verify that period metrics (ROE, NIM, net profit growth) use consistent reporting periods. If the target bank uses annual data but peers use quarterly/interim data, each table cell must be labeled with its data source, and no ranking or qualitative conclusions (e.g., "leading", "second only to") should be drawn from mixed-period data.
 
 If any check fails, fix the report before delivery. Do NOT deliver an incomplete report.
 
