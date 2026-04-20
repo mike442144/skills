@@ -1,6 +1,6 @@
 ---
 name: listed-company-research
-description: "This skill should be used when the user wants to conduct in-depth fundamental research on any listed company, including A-share (China), Hong Kong-listed (HKEX), or US-listed (NYSE/NASDAQ) stocks. Triggers include phrases like '研究XX公司', '分析XX', 'XX公司基本面', '帮我看看XX', 'deep dive XX', 'research XX company', or when the user provides a stock code/ticker and asks for analysis. The skill produces a comprehensive, neutral-analysis Markdown report covering company overview, detailed business decomposition, industry competitive landscape, and risk factors. It does NOT include financial statement modeling, valuation, stock ratings, or investment recommendations."
+description: "This skill should be used when the user wants to conduct in-depth fundamental research on any listed company, including A-share (China), Hong Kong-listed (HKEX), or US-listed (NYSE/NASDAQ) stocks. Triggers include phrases like '研究XX公司', '分析XX', 'XX公司基本面', '帮我看看XX', 'deep dive XX', 'research XX company', '管理层展望', '战略规划', 'management strategy', 'outlook', or when the user provides a stock code/ticker and asks for analysis. The skill produces a comprehensive, neutral-analysis Markdown report covering company overview, detailed business decomposition, industry competitive landscape, management outlook & strategy, and risk factors. It does NOT include financial statement modeling, valuation, stock ratings, or investment recommendations."
 metadata:
   author: Mike Chen
   version: '1.0'
@@ -46,6 +46,8 @@ Before initiating any web search, scan all currently installed skills to identif
 - Latest annual report / 20-F / 6-K filing
 - Latest prospectus (if newly listed)
 - Company official website (about page, product/service pages, investor relations)
+- **Earnings call transcripts** — critical source for management outlook (Chapter 4); always prioritize obtaining the latest call transcript
+- **Investor day / capital markets day presentations** — key source for strategic plans and forward-looking guidance (Chapter 4)
 - ESG/CSR reports (for risk and governance information)
 - Company earnings call transcripts
 
@@ -95,12 +97,13 @@ Before delivering the report:
 
 ## Research Framework Summary
 
-The report covers four core pillars (in order):
+The report covers five core pillars (in order):
 
 1. **Company Overview** — Basic profile, listing info, market position summary
 2. **Business Deep Dive** — Detailed breakdown of each business segment with plain-language explanations of business models, customers, revenue drivers, and business processes
 3. **Industry & Competitive Landscape** — Industry overview, value chain, market size, competitive dynamics, company positioning
-4. **Risk Factors** — Systematic identification and analysis of business, financial, industry, regulatory, and other risks
+4. **Management Outlook & Strategy** — Management's view on current situation, strategic plans & future direction, and track record credibility assessment (words vs. actions)
+5. **Risk Factors** — Systematic identification and analysis of business, financial, industry, regulatory, and other risks
 
 **Explicitly excluded:** Financial statement line-by-line analysis, valuation modeling (DCF, multiples), stock ratings, target prices, investment recommendations.
 

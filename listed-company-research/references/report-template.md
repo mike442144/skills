@@ -201,11 +201,103 @@ Present the competitive landscape:
 
 ---
 
-## 4. Risk Factors
+## 4. Management Outlook & Strategy
+
+This section captures management's own voice on where the company stands and where it is headed. It serves as a bridge between external industry analysis (Chapter 3) and risk assessment (Chapter 5), enabling a "challenges stated externally → responses articulated internally" cross-check.
+
+### 4.1 Management View on Current Situation
+
+Extract and analyze how management perceives the current landscape.
+
+**Core elements to cover:**
+
+- **Management's assessment of industry/market conditions:** What does leadership believe is happening in their market right now? (Quote key passages from MD&A or earnings calls, then interpret)
+- **Attribution analysis for recent performance:** How does management explain recent results — good or bad? Do they attribute strengths to strategy/skill and weaknesses to external factors? Watch for self-serving bias
+- **Key opportunities and challenges as seen by management:** What keeps them up at night? What are they most excited about? List specific items they highlight
+- **Cross-check with Chapter 3:** Compare management's view against your independent industry analysis in Section 3. Note areas of alignment and divergence. Is management being overly optimistic, appropriately cautious, or surprisingly candid?
+
+**Information sources (in priority order):**
+1. Annual Report → "Management Discussion and Analysis" (MD&A) chapter — usually the richest single source
+2. Earnings call transcript (latest quarter) — Q&A session often reveals unscripted views
+3. Investor presentation / deck (latest version) — strategic narrative in management's own framing
+4. Chairman/CEO public interviews, speeches, or shareholder letters
+
+**Writing principles:**
+- Use direct quotes where powerful; always provide translation/interpretation for non-English quotes
+- Maintain a critical but fair tone — you are reporting what management says, not endorsing it
+- Flag any notable omissions: what is management NOT talking about that they should be?
+
+### 4.2 Strategic Plans & Future Direction
+
+Document where management intends to take the company.
+
+**Core elements to cover:**
+
+- **Medium-to-long-term strategic direction (3–5 year horizon):** What is the stated vision? Any specific targets (revenue, market share, profitability metrics, scale goals)?
+- **Specific strategic initiatives:**
+  - New business lines or product launches (what, timeline, expected contribution)
+  - Market expansion plans (geographic new entry, customer segment penetration)
+  - Technology / R&D investment priorities (AI, digital transformation, platform upgrades)
+  - Organizational changes (restructuring, M&A pipeline, partnership/JV strategies)
+- **Capital allocation plan:**
+  - CAPEX guidance: how much, on what, over what period
+  - M&A appetite: any announced targets, deal size parameters, focus areas
+  - Shareholder return policy: dividend policy (payout ratio trend, sustainability), share buyback program (authorization, utilization)
+  - Balance sheet target leverage or credit rating aspirations
+- **Key milestones and timetable:** Any publicly disclosed roadmap with dates or phases
+
+**Information sources:**
+1. Strategic plan section in annual report MD&A
+2. Investor day materials / capital markets day presentation
+3. Earnings call guidance section (forward-looking statements)
+4. Company press releases on major strategic initiatives
+5. Proxy statement (for compensation-aligned strategic goals)
+
+**Writing principles:**
+- Distinguish between firm commitments ("we will"), near-term guidance ("we expect"), and aspirational language ("we aim to", "we explore")
+- Present quantified targets in a table format for clarity:
+
+| Strategic Target | Metric | Stated Goal | Timeline | Current Progress |
+|------------------|--------|-------------|----------|-----------------|
+| [e.g., Revenue] | CNY bn | [X] by [Year] | [Year] | [Y] (as of latest) |
+| ... | | | | |
+
+### 4.3 Track Record: Words vs. Actions
+
+Assess management's credibility by comparing past statements against actual outcomes. This subsection is critical for judging whether future strategic plans (Section 4.2) are likely to materialize.
+
+**Methodology:**
+
+1. **Collect past statements:** Go back 2–3 years and find management's then-stated strategic goals, guidance, or commitments from:
+   - Prior annual reports (MD&A sections from 2–3 years ago)
+   - Prior investor presentations
+   - Prior earnings call transcripts (guidance given)
+2. **Compare against actuals:** For each stated goal, determine:
+   - **Achieved:** Did they do what they said? By when?
+   - **Partially achieved:** Close but not quite — why?
+   - **Not achieved / Missed:** Did they abandon it quietly? Address the miss openly?
+   - **Ongoing / Too early to judge:** Still in progress
+3. **Identify patterns:**
+   - Does management tend to **over-promise and under-deliver** (optimistic bias)?
+   - Are they **conservative** (under-promise, over-deliver)?
+   - Do they **pivot frequently** (strategic inconsistency) or **stay the course** (strategic discipline)?
+   - How do they handle misses — transparently or with excuses?
+
+**Output format — Credibility Scorecard:**
+
+| Past Statement (Year) | Stated Goal | Status | Actual Outcome | Management Response to Miss |
+|-----------------------|-------------|--------|----------------|----------------------------|
+| [Quote + source] | [What they said] | ✅ Achieved / ⚠️ Partial / ❌ Missed | [What happened] | [How they explained it] |
+
+**Overall assessment paragraph (2–4 sentences):** Summarize the pattern and give a qualitative judgment on management's forecasting reliability and strategic execution track record.
+
+---
+
+## 5. Risk Factors
 
 This is a priority section. Identify and analyze risks systematically across categories.
 
-### 4.1 Operational Risks
+### 5.1 Operational Risks
 
 - Revenue concentration risk (customer, product, geography)
 - Business model sustainability concerns
@@ -213,7 +305,7 @@ This is a priority section. Identify and analyze risks systematically across cat
 - Talent retention and key-person dependency
 - Execution risk of strategic initiatives
 
-### 4.2 Financial Risks
+### 5.2 Financial Risks
 
 - Liquidity / cash flow risk
 - Debt / leverage risk
@@ -221,7 +313,7 @@ This is a priority section. Identify and analyze risks systematically across cat
 - Asset quality concerns (e.g., NPL for financial companies, inventory for manufacturing)
 - Foreign exchange / interest rate exposure
 
-### 4.3 Industry Risks
+### 5.3 Industry Risks
 
 - Market saturation or decline
 - Technology disruption risk
@@ -229,20 +321,20 @@ This is a priority section. Identify and analyze risks systematically across cat
 - Cyclical downturn risk
 - Competition intensification
 
-### 4.4 Governance & Compliance Risks
+### 5.4 Governance & Compliance Risks
 
 - Related-party transaction risk
 - Controlling shareholder risk
 - Regulatory compliance risk (industry-specific)
 - Cross-border regulatory risk (if applicable)
 
-### 4.5 Macro & Systemic Risks
+### 5.5 Macro & Systemic Risks
 
 - Macroeconomic sensitivity
 - Geopolitical risk (especially for companies with international exposure)
 - Sanctions / trade restriction risk
 
-### 4.6 Risk Summary
+### 5.6 Risk Summary
 
 Provide a concise summary table:
 
@@ -261,9 +353,9 @@ Provide a concise summary table:
 
 ---
 
-## 5. Sources & Limitations
+## 6. Sources & Limitations
 
-### 5.1 Skills Used
+### 6.1 Skills Used
 
 List every installed skill that was invoked during this research. If no skills were used, state "No installed skills were used for this research."
 
@@ -272,7 +364,7 @@ List every installed skill that was invoked during this research. If no skills w
 | [skill name] | [brief description of data obtained] | [e.g., Section 1.1, Section 3.1] |
 | ... | | |
 
-### 5.2 Other Sources
+### 6.2 Other Sources
 
 List all other major sources used in the research:
 
@@ -281,7 +373,7 @@ List all other major sources used in the research:
 - Third-party research: [brokerage reports, industry reports, news sources]
 - Data platforms: [e.g., Wind, Bloomberg, public financial databases]
 
-### 5.3 Limitations
+### 6.3 Limitations
 
 Also note:
 - Key information gaps (what could not be found)
@@ -292,7 +384,7 @@ Also note:
 
 ## Formatting Guidelines
 
-- Use `##` for main sections (1 through 5)
+- Use `##` for main sections (1 through 6)
 - Use `###` for sub-sections (e.g., 2.1, 2.2)
 - Use tables for structured data wherever possible
 - Use bullet points for lists of items
