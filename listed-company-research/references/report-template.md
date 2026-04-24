@@ -189,14 +189,28 @@ Present the competitive landscape:
 ### 3.4 Company Positioning in the Industry
 
 - Where does the target company sit in the competitive landscape?
-- What is its defensible moat (if any)? Be specific:
-  - Scale advantages / cost leadership
-  - Network effects / platform economics
-  - Switching costs / customer stickiness
-  - Regulatory licenses / compliance advantages
-  - Brand / reputation
-  - Technology / data advantages
-  - Distribution channel advantages
+- What is its defensible moat (if any)? Be specific
+
+**Moat Assessment:**
+
+Evaluate each moat dimension on a 4-level scale and provide specific evidence for the rating.
+
+| Moat Dimension | Strength | Evidence / Rationale |
+|---------------|----------|----------------------|
+| Scale advantages / cost leadership | 🟢 Strong / 🟡 Moderate / 🔴 Weak / ➖ None | [Brief evidence: cost position relative to peers, market share, production efficiency, etc.] |
+| Network effects / platform economics | 🟢 Strong / 🟡 Moderate / 🔴 Weak / ➖ None | [Evidence of network effects: user growth feeding value, multi-sided platform dynamics] |
+| Switching costs / customer stickiness | 🟢 Strong / 🟡 Moderate / 🔴 Weak / ➖ None | [Evidence: contract structures, integration depth, churn rate, replacement difficulty] |
+| Regulatory licenses / compliance | 🟢 Strong / 🟡 Moderate / 🔴 Weak / ➖ None | [Evidence: license exclusivity, regulatory barriers to entry, compliance moat] |
+| Brand / reputation | 🟢 Strong / 🟡 Moderate / 🔴 Weak / ➖ None | [Evidence: brand recognition, pricing power from brand, NPS/customer loyalty metrics] |
+| Technology / data advantages | 🟢 Strong / 🟡 Moderate / 🔴 Weak / ➖ None | [Evidence: patent portfolio, R&D intensity, proprietary data assets, tech lead time] |
+| Distribution channel advantages | 🟢 Strong / 🟡 Moderate / 🔴 Weak / ➖ None | [Evidence: channel exclusivity, geographic coverage, distributor relationships] |
+
+**Overall Moat Rating:**
+
+| Overall Moat Width | Rationale |
+|-------------------|-----------|
+| 🟢 Wide / 🟡 Narrow / 🔴 None | [Synthesis: which dimensions are irreplicable? How durable are the advantages? What is the expected decay timeline? 2-4 sentences] |
+
 - Are there emerging threats to its competitive position?
 
 ---
@@ -340,7 +354,7 @@ Provide a concise summary table:
 
 | Risk Category | Key Risk | Impact Level | Likelihood | Mitigation Measures |
 |---------------|----------|-------------|------------|---------------------|
-| Operational | [Key risk 1] | High / Medium / Low | High / Medium / Low | [Yes/No + brief description] |
+| Operational | [Key risk 1] | 🔴 High / 🟡 Medium / 🟢 Low | 🔴 High / 🟡 Medium / 🟢 Low | [Yes/No + brief description] |
 | Financial | [Key risk 2] | ... | ... | ... |
 | ... | | | | |
 
