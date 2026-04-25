@@ -36,14 +36,18 @@ Present in a clean table format:
 
 ### 1.2 Ownership Structure
 
-| Shareholder | Stake (%) | Type |
-|-------------|-----------|------|
-| [Major Shareholder 1] | [%] | [State-owned / Private / Foreign / Institutional] |
-| [Major Shareholder 2] | [%] | [State-owned / Private / Foreign / Institutional] |
-| [Other Major Shareholders] | [%] | [...] |
-| Free Float | [%] | [...] |
+Present the top 10 shareholders (前十大股东) in a detailed table:
 
-[Brief narrative: ownership concentration, actual controller (实际控制人), institutional investor presence, and implications for corporate governance. Note any significant recent changes in ownership structure.]
+| Rank | Shareholder | Stake (%) | Shares Held | Share Type | Restrictions | Shareholder Type |
+|------|-------------|-----------|-------------|------------|--------------|------------------|
+| 1 | [Controlling Shareholder] | [%] | [shares] | [A/H/US] | [Restricted/Circulating] | [控股股东/实控人] |
+| 2 | [2nd largest] | [%] | [shares] | [A/H/US] | [Restricted/Circulating] | [分类见下方] |
+| ... | ... | ... | ... | ... | ... | ... |
+| 10 | [10th largest] | [%] | [shares] | [A/H/US] | [Restricted/Circulating] | [分类见下方] |
+
+Shareholder Type 分类：控股股东/实控人、国有股东(国资委/地方国资)、国家队(汇金/证金/中央汇金资管等)、社保基金、公募基金、私募基金、外资(QFII/陆股通)、险资、牛散、其他法人、其他自然人。
+
+[Brief narrative: ownership concentration, actual controller (实际控制人), top 10 combined stake %, free float %. Note presence of special shareholder types (国家队、社保基金、险资、知名牛散等) and implications for corporate governance. Flag any significant recent changes in ownership structure.]
 
 ### 1.3 Company Profile
 
