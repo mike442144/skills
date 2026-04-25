@@ -211,11 +211,28 @@ Evaluate each moat dimension on a 4-level scale and provide specific evidence fo
 
 **Overall Moat Rating:**
 
-| Overall Moat Width | Rationale |
-|-------------------|-----------|
-| 🟢 Wide / 🟡 Narrow / 🔴 None | [Synthesis: which dimensions are irreplicable? How durable are the advantages? What is the expected decay timeline? 2-4 sentences] |
+Rate on a 5-level scale. The core logic mirrors Morningstar's duration framework: the key question is not "does the company have advantages now?" but "how long can it sustain economic profits (ROIC > WACC) before competition erodes them?" Use the expected duration as the primary anchor, then calibrate based on moat source quality and threat intensity.
 
-- Are there emerging threats to its competitive position?
+| Overall Moat Rating | Expected Duration (ROIC > WACC) | Rationale |
+|---------------------|--------------------------------|-----------|
+| 🟢🟢 **Exceptional** | > 30 years | [Multiple strong dimensions that mutually reinforce. The moat is not just wide but deeply entrenched — competitors face a multi-layered network of structural barriers. 2-3 sentences on why this is beyond a typical Wide.] |
+| 🟢 **Wide** | 20–30 years | [At least one dimension is Strong, others at least Moderate. The advantages are rooted in structural factors that cannot be quickly replicated or bought. 2-3 sentences on specific irreplicable dimensions and their durability.] |
+| 🟡 **Narrow** | 10–20 years | [Advantages exist but are measurable in their limits. The moat is real but narrower — it buys time rather than permanent protection. May have only Moderate ratings across multiple dimensions. 2-3 sentences on what the moat protects against and what it doesn't.] |
+| 🟠 **Emerging / Eroding** | Uncertain / in transition (< 10 yr if eroding) | [The competitive position is in flux. Either a new moat is forming (network effects building, regulatory license gained) or an existing one is being breached (tech disruption, regulatory change, competitor incursion). Provide 2-3 sentences on direction, driver, and estimated inflection timeline.] |
+| 🔴 **None** | < 10 years or never | [No durable structural advantage. Any current profitability is explainable by cyclical factors, temporary product leadership, or favorable market conditions — not by barriers to competition. 2-3 sentences on why the advantages are absent or insufficient.] |
+
+**Select the row that best matches and delete the 4 unused rows from the delivered report.**
+
+**Moat Trajectory:**
+
+| Direction | Rationale |
+|-----------|-----------|
+| ⬆️ Strengthening / ➡️ Stable / ⬇️ Weakening | [1–2 sentences: what is driving near-term moat widening or narrowing? Distinguish cyclical headwinds from structural erosion. If Stable, note any early-warning signals worth monitoring.] |
+
+**Emerging Threats:**
+
+- Are there identifiable threats that could shrink the moat within the expected duration window?
+- Distinguish between: (a) distant theoretical risks, (b) early-stage technological/regulatory shifts, and (c) active competitive incursions already materializing.
 
 ---
 
