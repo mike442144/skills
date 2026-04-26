@@ -89,49 +89,49 @@ Source: [Primary source], [Secondary source]
 ### From Spreadsheets (Chinese)
 ```
 （来源：[文件名], Sheet "[工作表名]", 第X行）
-（来源：Switch 2 BOM Estimate 2026 03 03.xlsx, Sheet "BOM Estimate"）
+（来源：[Product] Cost Estimate [Date].xlsx, Sheet "Cost Estimate"）
 ```
 
 ### From Spreadsheets (English)
 ```
 (Source: [filename], Sheet "[sheet name]", Row X)
-(Source: Switch 2 BOM Estimate 2026 03 03.xlsx, Sheet "BOM Estimate")
+(Source: [Product] Cost Estimate [Date].xlsx, Sheet "Cost Estimate")
 ```
 
 ### From Documents / Interviews (Chinese)
 ```
 （来源：[文件名], [专家名/章节名]）
-（来源：Combined Memo of Nintendo Switch 2.docx, 富士康专家访谈）
+（来源：[Topic] Research Memo [Date].docx, [Industry]专家访谈）
 ```
 
 ### From Documents / Interviews (English)
 ```
 (Source: [filename], [expert name / section title])
-(Source: Combined Memo of Nintendo Switch 2.docx, Foxconn Expert Interview)
+(Source: [Topic] Research Memo [Date].docx, [Industry] Expert Interview)
 ```
 
 ### From Web Sources (Chinese)
 ```
 （来源：[媒体名], [日期]）
-（来源：日经新闻, 2026年3月15日）
+（来源：[媒体名称], [YYYY年M月D日]）
 ```
 
 ### From Web Sources (English)
 ```
 (Source: [media name], [date])
-(Source: Nikkei Asia, March 15, 2026)
+(Source: [Media Name], [Month DD, YYYY])
 ```
 
 ### Expert Interview / Channel Check (Chinese)
 ```
 （来源：[文件名], [专家名/职位], [置信度]）
-（来源：Nintendo Channel Check.docx, 某消费电子品牌采购负责人, 置信度：高）
+（来源：[Company] Channel Check [Date].docx, [Sector]采购负责人, 置信度：高）
 ```
 
 ### Expert Interview / Channel Check (English)
 ```
 (Source: [filename], [expert name/title], [conviction level])
-(Source: Nintendo Channel Check.docx, Procurement Director at Consumer Electronics Brand, Conviction: High)
+(Source: [Company] Channel Check [Date].docx, Procurement Director at [Sector], Conviction: High)
 ```
 
 ## Confidence Levels for Primary Research
@@ -170,13 +170,13 @@ Format the confidence level inline with the citation or in a dedicated column wh
 Example sensitivity matrix:
 
 ```markdown
-| DRAM Cost Increase | NAND +40% | NAND +50% | NAND +60% | NAND +70% |
-|--------------------|-----------|-----------|-----------|-----------|
-| **+40%**           | 2.7%      | 1.5%      | 0.3%      | -0.8%     |
-| **+50%**           | 2.2%      | 1.0%      | -0.2%     | -1.4%     |
-| **+60%**           | 1.6%      | 0.5%      | -0.7%     | -1.9%     |
+| Component A Cost Increase | Component B +40% | Component B +50% | Component B +60% | Component B +70% |
+|---------------------------|------------------|------------------|------------------|------------------|
+| **+40%**                  | 2.7%             | 1.5%             | 0.3%             | -0.8%            |
+| **+50%**                  | 2.2%             | 1.0%             | -0.2%            | -1.4%            |
+| **+60%**                  | 1.6%             | 0.5%             | -0.7%            | -1.9%            |
 
-*Base case (CY4Q25): bolded. Negative margin threshold crossed at DRAM +50% / NAND +60% and beyond.*
+*Base case ([Period]): bolded. Negative margin threshold crossed at Component A +50% / Component B +60% and beyond.*
 ```
 
 ## Tone and Voice
@@ -192,7 +192,7 @@ Example sensitivity matrix:
 When the report includes charts, diagrams, or tables:
 
 1. **Every visual must have a purpose**: Do not include decorative charts. Each visual should answer a specific question or support a specific claim.
-2. **Title the visual with a conclusion**: Chart/table titles should state the finding, not just describe the data. Good: "DRAM spot prices have risen 5-10x since early 2025"; Bad: "DRAM price chart".
+2. **Title the visual with a conclusion**: Chart/table titles should state the finding, not just describe the data. Good: "[Key component] spot prices have risen [X]x since [period]"; Bad: "[Key component] price chart".
 3. **Text interprets, not repeats**: The paragraph below a chart should explain what the chart means, not merely restate the numbers visible in the chart.
 4. **Cross-reference**: When a chart supports a claim made elsewhere in the report, include a cross-reference (e.g., "See Figure 3-2" or "详见第三章图表").
 5. **Source on every visual**: Every chart or table must carry a source line, even if the same source is cited in the body text.

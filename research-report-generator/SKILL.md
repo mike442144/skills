@@ -192,7 +192,7 @@ Total data points checked: [N]
 
 | # | Data Claim | Source Cited | Verification | Notes |
 |---|-----------|-------------|--------------|-------|
-| 1 | "Revenue was $240.56B" | BOM Estimate, Sheet "Summary", Row 5 | ✅ Verified | Exact match |
+| 1 | "Revenue was $XXX.XB" | Financial Model, Sheet "Summary", Row 5 | ✅ Verified | Exact match |
 | 2 | ... | ... | ... | ... |
 
 ### Chapter 2: [Title]

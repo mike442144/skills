@@ -72,7 +72,7 @@ Calculate and report:
 
 | # | Chapter | Original Value | Corrected Value | Source |
 |---|---------|---------------|-----------------|--------|
-| 1 | Ch.2    | DRAM price $55 | DRAM price $60  | BOM Estimate, Sheet "Memory Price" |
+| 1 | Ch.2    | Component price $55 | Component price $60  | Cost Estimate, Sheet "Component Price" |
 
 ## Detailed Checklist
 
@@ -80,8 +80,8 @@ Calculate and report:
 
 | # | Data Claim | Source Cited | Status | Notes |
 |---|-----------|-------------|--------|-------|
-| 1 | "Global sell-in reached 17.36M units" | HW Sales.xlsx, Sheet "Forecast", Row 12 | ✅ | Exact match |
-| 2 | "Holiday quarter peaked at 7.00M" | HW Sales.xlsx, Sheet "Forecast", Row 8 | ✅ | Exact match |
+| 1 | "Global shipments reached [X]M units" | Sales Data.xlsx, Sheet "Forecast", Row 12 | ✅ | Exact match |
+| 2 | "Peak quarter volume reached [Y]M" | Sales Data.xlsx, Sheet "Forecast", Row 8 | ✅ | Exact match |
 | 3 | ... | ... | ... | ... |
 
 ### Chapter 2: [Title]
