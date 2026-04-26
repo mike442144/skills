@@ -1,5 +1,5 @@
 ---
-name: research-report-generator
+name: research-report-writer
 description: >
   This skill should be used when the user wants to produce a structured company research report,
   industry research report, or any analytical report based on a collection of local research
