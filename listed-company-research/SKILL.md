@@ -3,7 +3,7 @@ name: listed-company-research
 description: "This skill should be used when the user wants to conduct in-depth fundamental research on any listed company, including A-share (China), Hong Kong-listed (HKEX), or US-listed (NYSE/NASDAQ) stocks. Triggers include phrases like '研究XX公司', '分析XX', 'XX公司基本面', '帮我看看XX', 'deep dive XX', 'research XX company', '管理层展望', '战略规划', 'management strategy', 'outlook', or when the user provides a stock code/ticker and asks for analysis. The skill produces a comprehensive, neutral-analysis Markdown report covering company overview, detailed business decomposition, industry competitive landscape, management outlook & strategy, and risk factors. It does NOT include financial statement modeling, valuation, stock ratings, or investment recommendations."
 metadata:
   author: Mike Chen
-  version: '1.0'
+  version: '1.1'
 ---
 
 # Listed Company Fundamental Research
@@ -94,6 +94,14 @@ Before delivering the report:
 - Ensure risk factors section is thorough and well-organized
 - Confirm the report is self-contained and readable without external references
 - Deliver the Markdown file and present it to the user
+
+### Step 5: Optional — Product Image Enhancement
+
+For companies with physical products, you may optionally enhance Section 2 (Business Deep Dive) with product images **after** the main report is complete. This is cosmetic only — it adds illustrative images without altering any analysis.
+
+Load `references/product-images-enhancement.md` for the full workflow (finding images via browser tools, sizing conventions, insertion template).
+
+Skip this step unless: the user requests it, or the company's products are highly visual and the website has accessible product pages.
 
 ## Research Framework Summary
 
