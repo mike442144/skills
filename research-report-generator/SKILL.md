@@ -115,6 +115,9 @@ Wait for user confirmation before proceeding to Phase 4.
 4. **Tables over prose**: When presenting comparative data, financial metrics, or multi-dimensional information, use Markdown tables.
 5. **Quantitative precision**: Include specific numbers, percentages, and time periods. Avoid vague language like "significant increase" without backing numbers.
 6. **Cross-validation**: When multiple sources provide the same metric, note any discrepancies and explain which figure is used and why.
+7. **Page-level discipline** (for multi-page outputs like PDF/PPT): Each logical section should follow the one-page-one-point principle — a declarative, conclusion-oriented title; one chart or table; 2-4 supporting bullets; and a source footer. See the style guide for details.
+8. **Visual-text integration**: Every chart or table must serve a clear analytical purpose. Titles should state the finding, not merely describe the data. Body text interprets the visual's implications rather than repeating its numbers.
+9. **Sensitivity analysis**: When a key variable is critical to the thesis (raw material cost, exchange rate, pricing, etc.), include a sensitivity matrix showing how changes in that variable affect the conclusion. See the style guide for the sensitivity table format.
 
 **If using parallel subagents**:
 - Each subagent writes its chapter(s) to a temporary file.
@@ -123,12 +126,12 @@ Wait for user confirmation before proceeding to Phase 4.
 
 ### Phase 5: Executive Summary
 
-**Goal**: Produce a concise executive summary that maps one-to-one with the report chapters.
+**Goal**: Produce a concise executive summary that organizes the report's most impactful findings into themes.
 
 **Process**:
 1. Re-read the completed report.
-2. For each chapter, distill the single most important finding into 2-3 sentences.
-3. Format the executive summary with the same chapter numbering as the report body.
+2. Identify the 3-6 most important findings. These may or may not align one-to-one with chapters — group related findings from different chapters into thematic clusters if they form a coherent investment narrative.
+3. organize the summary by theme, with each theme supported by 2-4 data-backed bullet points.
 4. Insert the executive summary immediately after the report title and before Chapter 1.
 
 **Executive summary format**:
@@ -136,16 +139,19 @@ Wait for user confirmation before proceeding to Phase 4.
 ```markdown
 ## Executive Summary
 
-### Chapter 1: [Title]
-- [Key finding 1]
-- [Key finding 2]
+### [Theme 1 — a complete conclusion statement]
+- [Key finding with number] — [1-sentence implication]
+- [Key finding with number] — [1-sentence implication]
+- [Key finding with number] — [1-sentence implication]
 
-### Chapter 2: [Title]
-- [Key finding 1]
-- [Key finding 2]
+### [Theme 2 — a complete conclusion statement]
+- [Key finding with number] — [1-sentence implication]
+- [Key finding with number] — [1-sentence implication]
 
 ...
 ```
+
+**Theme-first vs chapter-first**: Prefer theme-based grouping when the report covers interconnected topics (e.g., supply chain, demand, cost, and competition are all linked). Reserve chapter-by-chapter summaries for reports where chapters are isolated standalone analyses.
 
 ### Phase 6: Data Verification Checklist
 

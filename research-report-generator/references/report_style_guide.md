@@ -13,13 +13,13 @@ This reference provides detailed writing conventions and formatting standards fo
 
 ## Executive Summary
 
-### Chapter 1: [Title]
-- Key finding 1
-- Key finding 2
+### [Theme 1]
+- Key finding 1 (with number)
+- Key finding 2 (with number)
 
-### Chapter 2: [Title]
-- Key finding 1
-- Key finding 2
+### [Theme 2]
+- Key finding 1 (with number)
+- Key finding 2 (with number)
 
 ...
 
@@ -62,6 +62,28 @@ This reference provides detailed writing conventions and formatting standards fo
 ...
 ```
 
+## Page-Level Writing (Slide-Style)
+
+When the output medium supports page or slide boundaries (e.g., PPT, PDF, or HTML slides), adopt a **one-page-one-point** discipline:
+
+1. **Page title = conclusion**: Each page opens with a single declarative sentence that states the core finding. Do not use generic labels like "Overview" or "Analysis".
+2. **One chart or table per page**: Every page must contain at least one visual element (chart, table, diagram, or matrix). Text serves as interpretation, not filler.
+3. **Bullet discipline**: Use 2-4 bullets maximum per page. Each bullet should be a complete, data-backed statement.
+4. **Source footer**: Place the source attribution at the bottom of each page, not inline with the text.
+
+Example page structure:
+
+```
+[Page Title — declarative conclusion]
+
+[Chart / Table / Matrix]
+
+• Supporting point 1 (with number)
+• Supporting point 2 (with number)
+
+Source: [Primary source], [Secondary source]
+```
+
 ## Citation Formats
 
 ### From Spreadsheets (Chinese)
@@ -100,6 +122,30 @@ This reference provides detailed writing conventions and formatting standards fo
 (Source: Nikkei Asia, March 15, 2026)
 ```
 
+### Expert Interview / Channel Check (Chinese)
+```
+（来源：[文件名], [专家名/职位], [置信度]）
+（来源：Nintendo Channel Check.docx, 某消费电子品牌采购负责人, 置信度：高）
+```
+
+### Expert Interview / Channel Check (English)
+```
+(Source: [filename], [expert name/title], [conviction level])
+(Source: Nintendo Channel Check.docx, Procurement Director at Consumer Electronics Brand, Conviction: High)
+```
+
+## Confidence Levels for Primary Research
+
+When citing expert interviews, channel checks, or proprietary research, append a confidence level to signal data reliability:
+
+| Level | Criteria | Usage |
+|-------|----------|-------|
+| **High** | Multiple independent sources confirm; direct access to primary data; consistent across time | Use for core investment thesis drivers |
+| **Mid** | Single credible source or indirect inference; some cross-validation but not complete | Use for supporting arguments; flag if thesis-critical |
+| **Low** | Unverified rumor, single unconfirmed source, or significant ambiguity | Avoid in conclusions; mention only as context |
+
+Format the confidence level inline with the citation or in a dedicated column when presenting multi-source data.
+
 ## Table Formatting
 
 ### Financial Data Tables
@@ -114,6 +160,25 @@ This reference provides detailed writing conventions and formatting standards fo
 - Sort by the most relevant metric (descending by default)
 - Highlight outliers or key values with bold
 
+### Sensitivity / Scenario Analysis Tables
+- Use matrix format when two variables interact (e.g., input cost vs. output price)
+- Label axes clearly: rows = Variable A, columns = Variable B
+- Highlight the "base case" cell (usually center or top-left) with bold or shading notation
+- Highlight cells that cross critical thresholds (e.g., margin turning negative) with a note
+- Include a brief interpretation paragraph below the matrix explaining which combinations are most likely and why
+
+Example sensitivity matrix:
+
+```markdown
+| DRAM Cost Increase | NAND +40% | NAND +50% | NAND +60% | NAND +70% |
+|--------------------|-----------|-----------|-----------|-----------|
+| **+40%**           | 2.7%      | 1.5%      | 0.3%      | -0.8%     |
+| **+50%**           | 2.2%      | 1.0%      | -0.2%     | -1.4%     |
+| **+60%**           | 1.6%      | 0.5%      | -0.7%     | -1.9%     |
+
+*Base case (CY4Q25): bolded. Negative margin threshold crossed at DRAM +50% / NAND +60% and beyond.*
+```
+
 ## Tone and Voice
 
 - **Objective**: Present facts and analysis, not opinions. When interpretation is needed, clearly label it.
@@ -121,6 +186,16 @@ This reference provides detailed writing conventions and formatting standards fo
 - **Structured**: Use numbered lists for sequential items, bullet points for parallel items
 - **Professional**: Avoid colloquialisms, emoji, or casual language in the report body
 - **Balanced**: Present risks alongside opportunities, bear cases alongside bull cases
+
+## Visual-Text Integration
+
+When the report includes charts, diagrams, or tables:
+
+1. **Every visual must have a purpose**: Do not include decorative charts. Each visual should answer a specific question or support a specific claim.
+2. **Title the visual with a conclusion**: Chart/table titles should state the finding, not just describe the data. Good: "DRAM spot prices have risen 5-10x since early 2025"; Bad: "DRAM price chart".
+3. **Text interprets, not repeats**: The paragraph below a chart should explain what the chart means, not merely restate the numbers visible in the chart.
+4. **Cross-reference**: When a chart supports a claim made elsewhere in the report, include a cross-reference (e.g., "See Figure 3-2" or "详见第三章图表").
+5. **Source on every visual**: Every chart or table must carry a source line, even if the same source is cited in the body text.
 
 ## Common Pitfalls to Avoid
 
@@ -130,3 +205,13 @@ This reference provides detailed writing conventions and formatting standards fo
 4. **Currency confusion**: Specify currency (USD, JPY, CNY, HKD) on first mention
 5. **Survivorship bias**: When analyzing trends, note any data gaps or missing periods
 6. **Correlation vs causation**: When discussing relationships, be precise about what the data shows vs. what is inferred
+7. **Text-only pages**: Avoid pages with only prose and no visual element. If a page has no chart or table, add a summary table or key-metrics box.
+8. **Generic page titles**: Never use "Overview", "Background", or "Analysis" as a standalone page title. The title must state the conclusion.
+7. **Text-only pages**: Avoid pages with only prose and no visual element. If a page has no chart or table, add a summary table or key-metrics box.
+8. **Generic page titles**: Never use "Overview", "Background", or "Analysis" as a standalone page title. The title must state the conclusion.
+7. **Text-only pages**: Avoid pages with only prose and no visual element. If a page has no chart or table, add a summary table or key-metrics box.
+8. **Generic page titles**: Never use "Overview", "Background", or "Analysis" as a standalone page title. The title must state the conclusion.
+7. **Text-only pages**: Avoid pages with only prose and no visual element. If a page has no chart or table, add a summary table or key-metrics box.
+8. **Generic page titles**: Never use "Overview", "Background", or "Analysis" as a standalone page title. The title must state the conclusion.
+7. **Text-only pages**: Avoid pages with only prose and no visual element. If a page has no chart or table, add a summary table or key-metrics box.
+8. **Generic page titles**: Never use "Overview", "Background", or "Analysis" as a standalone page title. The title must state the conclusion.
