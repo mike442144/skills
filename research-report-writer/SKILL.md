@@ -1,15 +1,14 @@
 ---
 name: research-report-writer
 description: >
-  This skill should be used when the user wants to produce a structured company research report,
-  industry research report, or any analytical report based on a collection of local research
-  materials (documents, spreadsheets, PDFs, etc.). Triggers include phrases like "公司研究报告",
-  "研究报告", "research report", "write a report based on these materials", "帮我写个报告",
-  "根据资料写报告", "分析这些资料", "基于这些文件做研究", "做个研究", "出个报告",
-  "company research", "deep dive report", or when the user provides a folder of research
-  materials and asks for structured analysis. This skill orchestrates a 6-phase workflow:
-  material ingestion → outline confirmation → execution planning → report writing →
-  executive summary → data verification checklist.
+  This skill should be used when the user provides a local folder of research
+  materials (documents, spreadsheets, PDFs, etc.) and explicitly asks to produce
+  a structured research report based on those materials. Triggers include phrases
+  like "write a report based on these materials", "根据这些资料写研究报告",
+  "基于这个文件夹写报告", or when the user provides a folder path and asks
+  for structured analysis of its contents. This skill orchestrates a 6-phase
+  workflow: material ingestion → outline confirmation → execution planning →
+  report writing → executive summary → data verification checklist.
 ---
 
 # Research Report Generator
@@ -23,6 +22,7 @@ Generate structured, data-driven research reports from a collection of local res
 3. **Source attribution**: Every data point must cite its origin — file name, sheet name, row/column, or expert name from interview transcripts.
 4. **Neutral stance**: Maintain objective, balanced analysis. Present bull and bear cases where applicable.
 5. **Concise rigor**: Write tight, professional prose. No filler, no hedging without substance.
+6. **Anti-hallucination**: Never fabricate data or use the model's own knowledge to fill in quantitative claims. If a data point is not found in the provided materials, explicitly state "Not available in source materials" rather than inventing a figure. All numbers, percentages, and factual claims must be directly traceable to a specific source file, sheet, and location. Background context and industry knowledge from the model may only be used for qualitative explanation, never as a substitute for source data.
 
 ## Workflow
 
@@ -99,6 +99,8 @@ Wait for user confirmation before proceeding to Phase 4.
 ### Phase 4: Report Writing
 
 **Goal**: Execute the plan and produce the full report.
+
+**Output directory**: All output files are saved to the current workspace root directory. No subdirectories are created.
 
 **File naming**:
 - Chinese reports: `关于[主题]的研究报告.md`
