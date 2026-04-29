@@ -231,9 +231,11 @@ Rating scale:
 
 **Moat Trajectory:**
 
-| Direction | Rationale |
-|-----------|-----------|
-| ⬆️ Strengthening / ➡️ Stable / ⬇️ Weakening | [1–2 sentences: what is driving near-term moat widening or narrowing? Distinguish cyclical headwinds from structural erosion. If Stable, note any early-warning signals worth monitoring.] |
+In the delivered report, present the trajectory in this format:
+
+> **Moat Trajectory: ⬆️ Strengthening / ➡️ Stable / ⬇️ Weakening**
+>
+> [1–2 sentence rationale: what is driving near-term moat widening or narrowing? Distinguish cyclical headwinds from structural erosion. If Stable, note any early-warning signals worth monitoring.]
 
 **Emerging Threats:**
 
