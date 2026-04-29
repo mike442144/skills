@@ -3,7 +3,7 @@ name: listed-bank-research
 description: This skill should be used when the user wants to conduct in-depth fundamental research on any listed bank in A-share (China) market, Hong Kong-listed (HKEX) bank stocks, or US-listed Chinese banks. Triggers include phrases like "研究XX银行", "分析XX银行基本面", "帮我看看XX银行", "XX银行深度分析", "研究银行股", "分析银行财报", or when the user provides a bank stock code/ticker and asks for analysis. The skill produces a comprehensive, neutral-analysis Markdown report covering bank business model, financial performance, asset quality, capital adequacy, profitability drivers, and risk factors. It does NOT include financial statement modeling, valuation, stock ratings, or investment recommendations.
 metadata:
   author: Mike Chen
-  version: '2.0'
+  version: '2.1'
 ---
 
 # Listed Bank Research Skill
@@ -174,6 +174,16 @@ If any check fails, fix the report before delivery. Do NOT deliver an incomplete
 ### Step 6: Deliver the Report
 
 1. Generate clean Markdown content
+
+**Output directory**: All output files are saved to the current workspace root directory. No subdirectories are created.
+
+**File naming**:
+- A-share bank reports: `[stock code]_[bank name]_深度研究报告_YYYYMMDD_HHmm.md` (e.g., `600015_华夏银行_深度研究报告_20260428_1430.md`)
+- HKEX bank reports: `[stock code]_[bank name]_深度研究报告_YYYYMMDD_HHmm.md` (e.g., `01398_工商银行_深度研究报告_20260428_0915.md`)
+- US-listed Chinese bank reports: `[ticker]_[bank name]_深度研究报告_YYYYMMDD_HHmm.md` (e.g., `ACH_宜人金科_深度研究报告_20260428_1100.md`)
+
+> **Why HHmm suffix?** Adding hour-minute prevents same-day overwrites without requiring directory scans for version numbers. Two research sessions on the same bank won't share the same filename unless started within the same minute.
+
 2. Include data tables where appropriate (financial metrics comparison)
 3. Add charts/visualizations if data supports it (can be generated separately)
 4. Cite data sources and report dates
