@@ -9,7 +9,7 @@ This template defines the full structure and writing guidance for the research r
 At the very top of the report, include:
 
 ```markdown
-# [Company Full Name] ([Stock Code]) In-Depth Research Report
+# [Stock Short Name] ([Stock Code]) In-Depth Research Report
 
 > **Research Date:** YYYY-MM-DD
 > **Data As Of:** [most recent fiscal year/quarter covered by collected data]
@@ -213,15 +213,21 @@ Evaluate each moat dimension on a 4-level scale and provide specific evidence fo
 
 Rate on a 5-level scale. The core logic mirrors Morningstar's duration framework: the key question is not "does the company have advantages now?" but "how long can it sustain economic profits (ROIC > WACC) before competition erodes them?" Use the expected duration as the primary anchor, then calibrate based on moat source quality and threat intensity.
 
-| Overall Moat Rating | Expected Duration (ROIC > WACC) | Rationale |
-|---------------------|--------------------------------|-----------|
-| 🟢🟢 **Exceptional** | > 30 years | [Multiple strong dimensions that mutually reinforce. The moat is not just wide but deeply entrenched — competitors face a multi-layered network of structural barriers. 2-3 sentences on why this is beyond a typical Wide.] |
-| 🟢 **Wide** | 20–30 years | [At least one dimension is Strong, others at least Moderate. The advantages are rooted in structural factors that cannot be quickly replicated or bought. 2-3 sentences on specific irreplicable dimensions and their durability.] |
-| 🟡 **Narrow** | 10–20 years | [Advantages exist but are measurable in their limits. The moat is real but narrower — it buys time rather than permanent protection. May have only Moderate ratings across multiple dimensions. 2-3 sentences on what the moat protects against and what it doesn't.] |
-| 🟠 **Emerging / Eroding** | Uncertain / in transition (< 10 yr if eroding) | [The competitive position is in flux. Either a new moat is forming (network effects building, regulatory license gained) or an existing one is being breached (tech disruption, regulatory change, competitor incursion). Provide 2-3 sentences on direction, driver, and estimated inflection timeline.] |
-| 🔴 **None** | < 10 years or never | [No durable structural advantage. Any current profitability is explainable by cyclical factors, temporary product leadership, or favorable market conditions — not by barriers to competition. 2-3 sentences on why the advantages are absent or insufficient.] |
+In the delivered report, present the rating in this format (delete the other 4 options):
 
-**Select the row that best matches and delete the 4 unused rows from the delivered report.**
+> **[Rating Emoji] [Rating Level] — Expected Duration: [duration range]**
+>
+> [2–3 sentence rationale: why this rating? What are the specific irreplicable dimensions, structural barriers, or limits? Be concrete and specific to this company — not generic template language.]
+
+Rating scale:
+
+| Rating | Emoji | Expected Duration | Key Characteristics |
+|--------|-------|-------------------|---------------------|
+| Exceptional | 🟢🟢 | > 30 years | Multiple strong dimensions that mutually reinforce. Moat is deeply entrenched — competitors face multi-layered structural barriers. |
+| Wide | 🟢 | 20–30 years | At least one dimension is Strong, others at least Moderate. Advantages rooted in structural factors that cannot be quickly replicated or bought. |
+| Narrow | 🟡 | 10–20 years | Advantages exist but measurable in their limits. Moat buys time rather than permanent protection. May have only Moderate ratings across multiple dimensions. |
+| Emerging / Eroding | 🟠 | Uncertain / < 10 yr | Competitive position in flux — new moat forming or existing one being breached (tech disruption, regulatory change, competitor incursion). |
+| None | 🔴 | < 10 years or never | No durable structural advantage. Current profitability explainable by cyclical factors, temporary product leadership, or favorable conditions. |
 
 **Moat Trajectory:**
 
