@@ -71,14 +71,7 @@ Structure the report following the template in `references/report-template.md`. 
 
 ### Step 4: Review and Deliver
 
-**Output directory**: All output files are saved to the current workspace root directory. No subdirectories are created.
-
-**File naming**:
-- A-share reports: `[stock code]_[company name]_深度研究报告_YYYYMMDD_HHmm.md` (e.g., `002091_江苏国泰_深度研究报告_20260427_1430.md`)
-- HKEX reports: `[stock code]_[company name]_深度研究报告_YYYYMMDD_HHmm.md` (e.g., `09992_泡泡玛特_深度研究报告_20260428_0915.md`)
-- US reports: `[ticker]_[company name]_深度研究报告_YYYYMMDD_HHmm.md` (e.g., `LULU_lululemon_深度研究报告_20260423_1100.md`)
-
-> **Why HHmm suffix?** Adding hour-minute prevents same-day overwrites without requiring directory scans for version numbers. Two research sessions on the same company won't share the same filename unless started within the same minute.
+**Output**: `./[stock code/ticker]_[company name]_深度研究报告_YYYYMMDD_HHmm.md`
 
 Before delivering the report:
 - Verify all stock codes and company names are accurate
