@@ -215,9 +215,8 @@ Rate on a 5-level scale. The core logic mirrors Morningstar's duration framework
 
 In the delivered report, present the rating in this format (delete the other 4 options):
 
-> **[Rating Emoji] [Rating Level] — Expected Duration: [duration range]**
->
-> [2–3 sentence rationale: why this rating? What are the specific irreplicable dimensions, structural barriers, or limits? Be concrete and specific to this company — not generic template language.]
+**Overall Moat Rating:[Rating Emoji] [Rating Level] — Expected Duration: [duration range]**
+[2–3 sentence rationale: why this rating? What are the specific irreplicable dimensions, structural barriers, or limits? Be concrete and specific to this company — not generic template language.]
 
 Rating scale:
 
@@ -233,9 +232,8 @@ Rating scale:
 
 In the delivered report, present the trajectory in this format:
 
-> **Moat Trajectory: ⬆️ Strengthening / ➡️ Stable / ⬇️ Weakening**
->
-> [1–2 sentence rationale: what is driving near-term moat widening or narrowing? Distinguish cyclical headwinds from structural erosion. If Stable, note any early-warning signals worth monitoring.]
+**Moat Trajectory: ⬆️ Strengthening / ➡️ Stable / ⬇️ Weakening**
+[1–2 sentence rationale: what is driving near-term moat widening or narrowing? Distinguish cyclical headwinds from structural erosion. If Stable, note any early-warning signals worth monitoring.]
 
 **Emerging Threats:**
 
