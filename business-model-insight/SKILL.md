@@ -2,9 +2,10 @@
 name: business-model-insight
 description: >
   This skill should be used when the user wants to analyze and deconstruct a business model or commercial topic
-  through a structured six-step process. It explores the business model, competitive landscape, evolution direction,
-  and景气度 (prosperity) trends, then deconstructs the research report into what/why/how questions, extracts effective
-  propositions, scores them, and finally produces an insightful report using analogies and accessible language.
+  through a structured seven-step process. It first creates a working directory, then explores the business model,
+  competitive landscape, evolution direction, and景气度 (prosperity) trends, deconstructs the research report into
+  what/why/how questions, extracts effective propositions, scores them, and finally produces an insightful report
+  using analogies and accessible language. All output files are organized under a `[topic]商业模式研究/` directory.
   Triggers include phrases like "商业模式分析", "商业模式洞察", "business model analysis", "拆解商业模式",
   "研究XX行业的商业模式", or when the user provides a business topic and asks for deep business model analysis.
 metadata:
@@ -16,19 +17,49 @@ metadata:
 
 ## Overview
 
-This skill transforms a business topic into a comprehensive, structured business model insight report through a six-step process:
+This skill transforms a business topic into a comprehensive, structured business model insight report through a seven-step process:
 
-1. **Step 1**: Generate `商业模式研究报告.md` - Explore business model, competitive landscape, evolution direction, and prosperity trends
-2. **Step 2**: Generate `商业模式研究报告解构.md` - Deconstruct the report into what/why/how questions
-3. **Step 3**: Generate effective propositions with arguments from the research report
+0. **Step 0**: Create working directory `[topic]商业模式研究/` - Organize all output files under one folder
+1. **Step 1**: Generate `[dir]/商业模式研究报告.md` - Explore business model, competitive landscape, evolution direction, and prosperity trends
+2. **Step 2**: Generate `[dir]/商业模式研究报告解构.md` - Deconstruct the report into what/why/how questions
+3. **Step 3**: Generate `[dir]/有效命题提取.md` - Extract effective propositions with arguments from the research report
 4. **Step 4**: Score and rank propositions based on coverage of what/why/how questions
-5. **Step 5**: Generate linked questions from the highest-scoring proposition
-6. **Step 6**: Generate `商业模式洞察报告.md` - Answer all questions using accessible language and analogies
+5. **Step 5**: Generate linked questions from the highest-scoring proposition (save as `[dir]/链接问题提取.md`)
+6. **Step 6**: Generate `[dir]/商业模式洞察报告.md` - Answer all questions using accessible language and analogies
+
+Where `[topic]` is derived from the user's research topic, and `[dir]` = `[topic]商业模式研究/`.
 
 ## Required Resources
 
 - **web_search**: Use to gather comprehensive information about the business topic
 - **RAG_search**: Optional, for retrieving information from connected knowledge bases
+
+## Step 0: Create Working Directory
+
+### Objective
+Create a dedicated directory to organize all output files generated during the process, keeping the workspace tidy.
+
+### Instructions
+
+1. **Derive directory name** from the user's research topic:
+   - Extract a concise topic identifier (e.g., "柴油发电机在AI数据中心" → "柴油发电机AI数据中心")
+   - Append "商业模式研究" to form the directory name: `[topic]商业模式研究`
+   - Example: `柴油发电机AI数据中心商业模式研究/`
+
+2. **Create the directory** at the current workspace root:
+   - Use `mkdir -p "[topic]商业模式研究"` to create the directory
+   - All subsequent .md files must be saved inside this directory
+
+3. **Important**:
+   - Directory name should be concise but descriptive (avoid overly long names)
+   - Use Chinese characters as appropriate to match the topic language
+   - If the directory already exists, reuse it (do not overwrite existing files unless re-running a step)
+
+### Output
+- Directory created: `[topic]商业模式研究/`
+- All files from Step 1–6 are saved inside this directory
+
+---
 
 ## Step 1: Generate 商业模式研究报告.md
 
@@ -89,7 +120,7 @@ Based on the user's research topic, explore the business model through extensive
 
 ### Output Format
 
-Save as `商业模式研究报告.md`:
+Save as `[dir]/商业模式研究报告.md` (inside the working directory created in Step 0):
 
 ```markdown
 # 商业模式研究报告
@@ -158,7 +189,7 @@ Read `商业模式研究报告.md` in full, then apply the three questioning pri
 
 ### Output Format
 
-Save as `商业模式研究报告解构.md`:
+Save as `[dir]/商业模式研究报告解构.md` (inside the working directory):
 
 ```markdown
 # 商业模式研究报告解构
@@ -219,7 +250,7 @@ For each effective proposition:
 
 ### Output Format
 
-Save as a temporary working document (not required as final output):
+Save as `[dir]/有效命题提取.md` (inside the working directory):
 
 ```markdown
 # 有效命题提取
@@ -332,6 +363,8 @@ From `商业模式研究报告解构.md`, extract all questions covered by the s
 - [问题2]
 ```
 
+Save as `[dir]/链接问题提取.md` (inside the working directory).
+
 **Important:**
 - 只列出该命题覆盖的问题本身,不列出其他信息
 - 第一章删除得分算法,只保留命题本身
@@ -384,7 +417,7 @@ Based on `商业模式研究报告.md`, answer all linked questions using access
 
 ### Output Format
 
-Save as `商业模式洞察报告.md`:
+Save as `[dir]/商业模式洞察报告.md` (inside the working directory):
 
 ```markdown
 # 商业模式洞察报告
@@ -426,9 +459,10 @@ Save as `商业模式洞察报告.md`:
 
 ## Important Reminders
 
-1. **Sequential Execution**: Always execute steps in order (Step 1 → Step 2 → Step 3 → Step 4 → Step 5 → Step 6)
+1. **Sequential Execution**: Always execute steps in order (Step 0 → Step 1 → Step 2 → Step 3 → Step 4 → Step 5 → Step 6)
 2. **Document Dependencies**: Each step depends on previous step's output
-3. **Research Depth**: Step 1 must use extensive web search to gather comprehensive information
-4. **Analogy Consistency**: Step 6 must use the SAME analogy framework for all "是什么" and "怎么做" questions
-5. **Scoring Accuracy**: Step 4 scoring must be based on actual coverage of questions from Step 2
-6. **Language Style**: Step 6 output must be accessible and use everyday analogies, not academic jargon
+3. **Working Directory**: All output files must be saved inside the `[topic]商业模式研究/` directory created in Step 0
+4. **Research Depth**: Step 1 must use extensive web search to gather comprehensive information
+5. **Analogy Consistency**: Step 6 must use the SAME analogy framework for all "是什么" and "怎么做" questions
+6. **Scoring Accuracy**: Step 4 scoring must be based on actual coverage of questions from Step 2
+7. **Language Style**: Step 6 output must be accessible and use everyday analogies, not academic jargon
