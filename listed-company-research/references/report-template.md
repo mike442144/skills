@@ -55,8 +55,6 @@ Shareholder Type 分类：控股股东/实控人、国有股东(国资委/地方
 
 #### 港股（HKEX）
 
-港股不披露"前十大股东"。HKEX 仅要求披露 **5%以上主要股东（substantial shareholders）** 的权益变动（SFO 第XV部）。低于5%的持股变动除非涉及董事/高管交易，否则无需披露。
-
 获取 **5%以上主要股东** 列表（来自年报"Substantial Shareholders"章节或港交所权益披露公告）：
 
 | Shareholder | Stake (%) | Shares Held | Long/Short Position | Capacity | Notes |
@@ -66,8 +64,6 @@ Shareholder Type 分类：控股股东/实控人、国有股东(国资委/地方
 
 **注意事项：**
 - 控股股东通过多层架构持股的，需在控股结构图中注明（如：集团 → 子公司A → 上市公司）
-- 如果公开渠道仅能找到控股股东信息（如同花顺只列了2个主要股东），如实列出即可，不要凑数
-- 不要将基金管理的多个主体（如 Greenwoods Fund A、Fund B）与基金经理个人（如蒋锦志）混为一谈
 - 如能找到 CCASS 持仓集中度数据（前十大经纪商名义持股占比），可简要补充说明散户/机构集中度情况
 - [Brief narrative: 实际控制人、控股股东合计持股比例、公众持股量是否满足港交所最低25%要求、近年是否有重要股东变动]
 
