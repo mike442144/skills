@@ -36,18 +36,56 @@ Present in a clean table format:
 
 ### 1.2 Ownership Structure
 
+**按上市市场区分股东信息披露方式：**
+
+#### A股（沪深北）
+
 Present the top 10 shareholders (前十大股东) in a detailed table:
 
 | Rank | Shareholder | Stake (%) | Shares Held | Share Type | Restrictions | Shareholder Type |
 |------|-------------|-----------|-------------|------------|--------------|------------------|
-| 1 | [Controlling Shareholder] | [%] | [shares] | [A/H/US] | [Restricted/Circulating] | [控股股东/实控人] |
-| 2 | [2nd largest] | [%] | [shares] | [A/H/US] | [Restricted/Circulating] | [分类见下方] |
+| 1 | [Controlling Shareholder] | [%] | [shares] | [A/B/优先股] | [限售/流通] | [分类见下方] |
+| 2 | [2nd largest] | [%] | [shares] | [A/B/优先股] | [限售/流通] | [分类见下方] |
 | ... | ... | ... | ... | ... | ... | ... |
-| 10 | [10th largest] | [%] | [shares] | [A/H/US] | [Restricted/Circulating] | [分类见下方] |
+| 10 | [10th largest] | [%] | [shares] | [A/B/优先股] | [限售/流通] | [分类见下方] |
 
 Shareholder Type 分类：控股股东/实控人、国有股东(国资委/地方国资)、国家队(汇金/证金/中央汇金资管等)、社保基金、公募基金、私募基金、外资(QFII/陆股通)、险资、牛散、其他法人、其他自然人。
 
 [Brief narrative: ownership concentration, actual controller (实际控制人), top 10 combined stake %, free float %. Note presence of special shareholder types (国家队、社保基金、险资、知名牛散等) and implications for corporate governance. Flag any significant recent changes in ownership structure.]
+
+#### 港股（HKEX）
+
+港股不披露"前十大股东"。HKEX 仅要求披露 **5%以上主要股东（substantial shareholders）** 的权益变动（SFO 第XV部）。低于5%的持股变动除非涉及董事/高管交易，否则无需披露。
+
+获取 **5%以上主要股东** 列表（来自年报"Substantial Shareholders"章节或港交所权益披露公告）：
+
+| Shareholder | Stake (%) | Shares Held | Long/Short Position | Capacity | Notes |
+|-------------|-----------|-------------|---------------------|----------|-------|
+| [控股股东] | [%] | [shares] | Long | [实益拥有人/受控法团] | [...] |
+| [...] | ... | ... | ... | ... | ... |
+
+**注意事项：**
+- 控股股东通过多层架构持股的，需在控股结构图中注明（如：集团 → 子公司A → 上市公司）
+- 如果公开渠道仅能找到控股股东信息（如同花顺只列了2个主要股东），如实列出即可，不要凑数
+- 不要将基金管理的多个主体（如 Greenwoods Fund A、Fund B）与基金经理个人（如蒋锦志）混为一谈
+- 如能找到 CCASS 持仓集中度数据（前十大经纪商名义持股占比），可简要补充说明散户/机构集中度情况
+- [Brief narrative: 实际控制人、控股股东合计持股比例、公众持股量是否满足港交所最低25%要求、近年是否有重要股东变动]
+
+#### 美股（NYSE/NASDAQ）
+
+获取 **机构持股（Institutional Ownership）** 和 **内部人持股（Insider Ownership）** 信息（来自 SEC 13F/13G  filings 及 proxy statement DEF 14A）：
+
+| Holder Type | Top Holder | Stake (%) | Shares Held | Filing Type |
+|-------------|-----------|-----------|-------------|-------------|
+| Institution 1 | [...] | [%] | [shares] | 13F |
+| Institution 2 | [...] | [%] | [shares] | 13G |
+| Insider 1 | [...] | [%] | [shares] | Form 4 |
+| ... | ... | ... | ... | ... |
+
+**注意事项：**
+- 13F 文件仅披露超过1亿美元的机构季度持仓，不代表全部持股
+- 13G 文件披露持股超过5%的被动投资者
+- [Brief narrative: 机构持股比例、内部人持股比例、是否有 activist investor、控制权结构（A/B股投票权差异如有）]
 
 ### 1.3 Company Profile
 
