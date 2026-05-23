@@ -5,7 +5,7 @@ description: >
   through a structured seven-step process. It first creates a working directory, then explores the business model,
   competitive landscape, evolution direction, and景气度 (prosperity) trends, deconstructs the research report into
   what/why/how questions, extracts effective propositions, scores them, and finally produces an insightful report
-  using analogies and accessible language. All output files are organized under a `[topic]商业模式研究/` directory.
+  using clear, accessible language. All output files are organized under a `[topic]商业模式研究/` directory.
   Triggers include phrases like "商业模式分析", "商业模式洞察", "business model analysis", "拆解商业模式",
   "研究XX行业的商业模式", or when the user provides a business topic and asks for deep business model analysis.
 metadata:
@@ -25,7 +25,7 @@ This skill transforms a business topic into a comprehensive, structured business
 3. **Step 3**: Generate `[dir]/有效命题提取.md` - Extract effective propositions with arguments from the research report
 4. **Step 4**: Score and rank propositions based on coverage of what/why/how questions
 5. **Step 5**: Generate linked questions from the highest-scoring proposition (save as `[dir]/链接问题提取.md`)
-6. **Step 6**: Generate `[dir]/商业模式洞察报告.md` - Answer all questions using accessible language and analogies
+6. **Step 6**: Generate `[dir]/商业模式洞察报告.md` - Answer all questions using clear, accessible language
 
 Where `[topic]` is derived from the user's research topic, and `[dir]` = `[topic]商业模式研究/`.
 
@@ -374,7 +374,7 @@ Save as `[dir]/链接问题提取.md` (inside the working directory).
 ## Step 6: Generate 商业模式洞察报告.md
 
 ### Objective
-Based on `商业模式研究报告.md`, answer all linked questions using accessible language, analogies, and clear explanations.
+Based on `商业模式研究报告.md`, answer all linked questions using clear, accessible language and well-structured explanations.
 
 ### Instructions
 
@@ -382,18 +382,16 @@ Based on `商业模式研究报告.md`, answer all linked questions using access
 
 **对于"是什么"类问题:**
 - 用详实的回答来解释术语本身
-- 用生活中可以接触到的**通俗易懂案例进行类比**
-- **各个术语的类比需套用同一套案例**,以显示互相之间的逻辑关联
-- 例如: 如果解释"供应链"和"渠道壁垒",都用"开餐厅"这个案例来类比
+- 用清晰的业务逻辑直接阐明概念的内涵、外延和运作方式
+- 结合具体的行业数据和实际商业案例来说明，使解释具体可感
 
 **对于"为什么"类问题:**
 - 如果答案的**重点在原因**: 重点且详细地解释原因的**必要性或者充分性**
 - 如果答案的**重点在结果**: 重点且详细地解释结果的**显著性**(即为什么大概率得到这种结果)
 
 **对于"怎么做"类问题:**
-- 把核心原理用生活中可以接触到的**通俗易懂的案例进行类比解释**
-- **须和"是什么"问题的类比用同一套案例**
-- 在类比的过程中,用详实的回答来解释原理本身
+- 用清晰的业务逻辑直接解释核心原理和形成机制
+- 在解释过程中，结合具体的行业数据和实际商业案例来支撑说明
 
 #### 6.2 Structure the Insight Report
 
@@ -403,7 +401,7 @@ Based on `商业模式研究报告.md`, answer all linked questions using access
 **第二章**: "是什么"类问题的回答
 - 每一个问题为一个小节
 - 问题即为小节标题
-- 用详实回答+同一套案例类比
+- 用详实回答，结合业务逻辑和行业数据解释
 
 **第三章**: "为什么"类问题的回答
 - 每一个问题为一个小节
@@ -413,7 +411,7 @@ Based on `商业模式研究报告.md`, answer all linked questions using access
 **第四章**: "怎么做"类问题的回答
 - 每一个问题为一个小节
 - 问题即为小节标题
-- 用同一套案例类比解释核心原理
+- 用清晰的业务逻辑解释核心原理和形成机制
 
 ### Output Format
 
@@ -430,11 +428,11 @@ Save as `[dir]/商业模式洞察报告.md` (inside the working directory):
 
 ### [问题1]?
 
-[详实回答,使用生活案例类比]
+[详实回答,结合业务逻辑和行业数据]
 
 ### [问题2]?
 
-[详实回答,使用同一套生活案例类比]
+[详实回答,结合业务逻辑和行业数据]
 
 ## 第三章 为什么:逻辑解释
 
@@ -446,12 +444,11 @@ Save as `[dir]/商业模式洞察报告.md` (inside the working directory):
 
 ### [问题1]?
 
-[详实回答,使用与第二章同一套生活案例类比解释原理]
+[详实回答,用清晰的业务逻辑解释核心原理和形成机制]
 ```
 
 **Important:**
 - 文章总标题必须为"商业模式洞察报告",不得更改
-- **必须使用同一套案例**贯穿所有类比,确保逻辑连贯
 - 语言要深入浅出,通俗易懂
 - 用详实的回答,不要简略带过
 
@@ -463,6 +460,5 @@ Save as `[dir]/商业模式洞察报告.md` (inside the working directory):
 2. **Document Dependencies**: Each step depends on previous step's output
 3. **Working Directory**: All output files must be saved inside the `[topic]商业模式研究/` directory created in Step 0
 4. **Research Depth**: Step 1 must use extensive web search to gather comprehensive information
-5. **Analogy Consistency**: Step 6 must use the SAME analogy framework for all "是什么" and "怎么做" questions
-6. **Scoring Accuracy**: Step 4 scoring must be based on actual coverage of questions from Step 2
-7. **Language Style**: Step 6 output must be accessible and use everyday analogies, not academic jargon
+5. **Scoring Accuracy**: Step 4 scoring must be based on actual coverage of questions from Step 2
+6. **Language Style**: Step 6 output must be accessible, using clear business logic and concrete industry data rather than analogies
