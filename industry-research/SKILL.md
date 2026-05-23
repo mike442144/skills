@@ -28,6 +28,7 @@ This skill enables comprehensive, data-driven research on any industry. It produ
 - User needs competitive landscape or value chain analysis
 - User wants to understand policy environment or regulatory impact on an industry
 - User seeks investment opportunities or risk assessment in a sector
+- **User asks about industry cycles, price trends, or periodicity** (e.g., "XX行业周期情况", "XX产品价格走势", "周期分析") — for this sub-class, load `references/cycle-analysis-methodology.md` which provides a 7-step framework: cycle classification → historical replay → supply analysis → demand analysis → inventory cycle → oligopoly game theory → current cycle positioning + profit elasticity.
 
 ## Research Workflow
 
@@ -157,6 +158,7 @@ Before delivering:
 
 - `assets/industry-report-template.md`: Markdown template for industry research reports
 - `references/industry-data-sources.md`: Comprehensive list of industry data sources and how to access them
+- `references/cycle-analysis-methodology.md`: Framework for cyclical industry analysis — 7-step methodology covering cycle classification, historical replay, supply/demand/inventory analysis, oligopoly game theory, current cycle positioning, and profit elasticity modeling. Load when user asks about industry cycles, price trends, or periodicity (e.g., "XX行业周期", "价格走势", "周期分析").
 
 ## Important Notes
 

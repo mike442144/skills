@@ -468,3 +468,20 @@ Also note:
 - Include source citations inline: `(Source: 2024 Annual Report)` or `(Source: XYZ Securities Research, 2024)`
 - Keep paragraphs concise — aim for 3-5 sentences per paragraph
 - Target total report length: 3,000 - 8,000 words depending on company complexity
+
+---
+
+## Appendices (Optional)
+
+After Section 6, include appendices for supplementary analysis that enriches the main report without cluttering the core sections.
+
+### When to add appendices:
+- **Cross-market comparison** — When the target company faces structural headwinds (population decline, technology disruption, regulatory shifts, etc.) that have already played out in analogous markets. E.g., comparing a Chinese consumer company against Japanese peers who faced the same trends 20-30 years earlier. This is one of the most valuable supplementary analyses — it transforms abstract risk discussion into concrete historical evidence.
+- **Deep-dive on a specific topic** — When a single topic (e.g., M&A history, a specific subsidiary, a regulatory change) warrants more detail than fits in the main sections.
+- **Data tables or methodology notes** — When the research involved complex data reconciliation or methodology that the reader may want to verify.
+
+### Appendix formatting:
+- Label as "附录A", "附录B", etc. (or "Appendix A", etc. for English reports)
+- Include a brief introduction explaining why this appendix is relevant
+- Use the same source citation discipline as the main report
+- Keep appendices self-contained — a reader who skips them should still get the full picture from the main report

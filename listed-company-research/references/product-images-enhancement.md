@@ -37,7 +37,30 @@ Map each product image to the corresponding business segment in Section 2 of the
 | Industrial/B2B products | May require representative images with attribution |
 | New/unlisted products | May not exist on website — skip, don't fabricate |
 
-**Fallback for industrial products:** If the company doesn't showcase a specific product category on its website, you may use:
+## Troubleshooting & Fallbacks
+
+### Chinese Company Websites — WAF Blocking
+
+Chinese company websites frequently block automated browser access via cloud WAF services (Tencent EdgeOne, Alibaba Cloud WAF, Baidu AI Cloud, etc.). When `browser_navigate` returns an "Access Restricted" or security block page:
+
+**Do NOT retry the same URL — it will block again.** Immediately fall back to alternative sources:
+
+| Fallback Source | How to Use | Best For |
+|----------------|-----------|----------|
+| **Baidu Image Search** | `browser_navigate` to `https://image.baidu.com/search/index?tn=baiduimage&word=[PRODUCT_NAME]+产品图片`, then `browser_get_images` | All Chinese company products — most reliable fallback |
+| **JD.com product pages** | Navigate to JD product URL, `browser_get_images` | Well-known consumer products (may require login) |
+| **Taobao/Tmall** | Search product, extract listing images | Consumer goods with strong e-commerce presence |
+| **Xueqiu (雪球)** | Search stock ticker + product keywords | User-submitted product photos with context |
+
+**Workflow for Baidu fallback:**
+1. Navigate to `https://image.baidu.com/search/index?tn=baiduimage&word=[公司名]+[产品名]+产品图片`
+2. Call `browser_get_images` to extract all image URLs
+3. Verify URLs with `curl -sI` — Baidu CDN URLs (`*.baidu.com/it/u=...`) return HTTP 200 and are directly accessible
+4. Use the verified URLs directly in the report — no need to download or rehost
+
+### General Fallbacks
+
+If the company doesn't showcase a specific product category on its website, you may use:
 - Representative images from the same industry (with clear attribution)
 - Wikimedia Commons free-license images for context/scene shots
 - **Always** label these clearly — never imply they are the company's own photos
