@@ -156,6 +156,15 @@ Use the report template at `references/report_template.md` as the standard struc
 - **Section V (Asset Quality)** must include dedicated subsections for real estate and LGFV exposure with full-caliber quantification (on-balance-sheet loans + bond investments + non-standard + off-balance-sheet), trend analysis, and stress scenarios.
 - **Section VII (Risk Factors)** is a key section of the report — each risk must be specific, quantified, and assessed for trajectory. Include dedicated deep-dive subsections for real estate credit risk, LGFV/local government debt risk, consumer credit risk, and market risk. Conclude with a Risk Summary Matrix.
 
+**Key writing principles:**
+
+- **Writing format — narrative over bullet (critical user preference):** The user explicitly corrected that bullet points are too condensed — they assume prior knowledge and compress away the reasoning. When explaining strategic concepts, business model details, or analytical conclusions, use **narrative paragraphs**, not bullet lists. The pattern is: **conclusion-first** (state the key finding in one sentence), then **narrative expansion** (2-4 paragraphs explaining what it means, why it matters, and how it works in plain language). For example, instead of listing "零售转型" as "- 零售AUM增长 → 手续费占比提升 → 风险定价能力增强", write 3 paragraphs explaining what 零售转型 means for a bank (shift from corporate-driven to retail-driven revenue), how it changes the business model (from interest rate spread dependency to fee-based and wealth management income), and why it creates a competitive moat (customer stickiness, cross-sell potential, lower cyclical earnings volatility). Bullet lists are acceptable for raw data tables, financial metrics, and short factual enumerations — NOT for explaining concepts, strategies, or analytical reasoning.
+- **Attribution discipline (critical):**
+  - **Do not invent packaging phrases** that sound like research report quotes (e.g., "息差筑底", "资产质量向好拐点", "业绩触底回升"). Use plain descriptive language or quote the source directly with attribution.
+  - **Do not reduce multi-factor causality to a single cause.** If a metric change (e.g., NIM narrowing) has multiple drivers (LPR cut + deposit cost rigidity + loan repricing + risk preference shift), list all factors. Never say "X导致Y" when the reality is "X、Y、Z多重因素共振".
+  - **When using company/management language, mark it as such.** Distinguish between: company原话 ("息差有望企稳"), 媒体报道 ("净息差收窄压力加大"), and analyst包装 ("息差筑底"). Do not mix these without attribution.
+  - **Data points require source tags.** Every quantitative claim (revenue, NIM, NPL ratio, ranking) must have an inline source note on first mention.
+
 **Section completeness rule:** Each section of the report must have at least one data table with actual numbers. If P0 data for a section is missing, that section must still be written using qualitative analysis from news/reports, with explicit notation of what data is unavailable.
 
 ### Step 5: Report Completeness Check (MANDATORY)
