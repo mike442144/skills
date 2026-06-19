@@ -43,8 +43,8 @@ Before initiating any web search, scan all currently installed skills for any re
 
 2. **wind-mcp-skill** (A-share/HK/US): Structured market data and real-time quotes — 前十大股东, 行情快照, 财务数据, 公司公告 (announcements RAG), 股本结构. Use for data NOT in Google Sheets (shareholder data, real-time prices, announcements) or when the target company is not tracked in any Google Sheet. See `references/wind-mcp-query-patterns.md` for proven query patterns.
 
-3. **mx-finance-data / mx-finance-search**: 东方财富 structured data and news/announcements. Good supplement; see memory for skill routing rules.
-4. **ifind-repilot** series: High-quality fallback when mx-finance-data is rate-limited or returns unreliable data (especially DPS for HK stocks).
+3. **ifind-repilot** series (announcement-search / finance-data-search): Primary fallback for Wind/Google Sheets gaps — high-quality announcement retrieval and financial data. Use especially when mx-finance-data is rate-limited or returns unreliable data (e.g., DPS for HK stocks).
+4. **mx-finance-data / mx-finance-search**: 东方财富 structured data and news/announcements. Supplement for real-time quotes, consensus estimates, and news search.
 
 **Pitfall — A-share annual report downloads (cninfo):** The cninfo downloader requires `--annual` flag. Correct: `node ~/Projects/tinyant/cninfo/index.js --codes 600066 --annual --year 2015-2024`. See `references/cninfo-annual-report-extraction.md` for MD&A extraction workflow.
 
@@ -90,7 +90,7 @@ The following patterns guide specific analysis situations. Each has a dedicated 
 | Trigger condition | Reference file | What it covers |
 |---|---|---|
 | Company claims business model transformation (SaaS转型, 轻资产转型, 科技赋能, 平台化) | `revenue-quality-diagnostics.md` | Fee rate benchmarking, cost structure consistency, revenue migration pattern, sub-mode analysis, business reclassification detection, overseas expansion claims verification |
-| Company has lending/financing/guarantee operations (助贷, 融资租赁, 消费金融, 担保) | `financial-institution-metrics.md` + `financial-company-asset-quality.md` | NIM, NPL, provision coverage, ECL three-stage, leverage, funding source analysis, off-balance-sheet guarantees, credit rating reports |
+| Company has lending/financing/guarantee operations (助贷, 融资租赁, 消费金融, 担保) | `financial-institution-metrics.md` + `financial-company-asset-quality.md` + `financial-company-ecl-analysis.md` | NIM, NPL, provision coverage, ECL three-stage, leverage, funding source analysis, off-balance-sheet guarantees, credit rating reports, 信用减值亏损 extraction |
 | Company has complex fee structures with derived metrics (净服务费率, 净息差, take rate) | `derived-metrics-extraction.md` | How to find management-defined metrics in MD&A, extract calculation formulas from footnotes, build multi-year trends, decompose via residual method |
 | Need to reverse-engineer a hidden denominator from disclosed ratio formula | `reverse-engineering-ratio-formulas.md` | Back-calculate undisclosed metrics from disclosed components |
 | Wind shows extreme YoY discontinuity (e.g., revenue -40%+ for profitable company) | `accounting-restatement-analysis.md` | Detect 前期会计差错更正, build restated-vs-pre-restated comparison, flag base-effect distortion. **五粮液 2025 worked example.** |
