@@ -344,3 +344,26 @@ When analyzing a company with financial business, create a comparison table:
 - Basel III: Capital adequacy framework for banks
 - PBOC regulations: Loan classification and provisioning requirements
 - CBIRC guidelines: Risk management for financial institutions
+
+## Fintech Platform Funding Source Analysis
+
+Annual reports often disclose the NUMBER of cooperation partners (e.g., "近75家各类银行、金融租赁公司及主机厂") but NOT the proportion breakdown by institution type (banks vs leasing vs consumer finance). This is a common data gap.
+
+**Workarounds:**
+1. "资本提供者日益多元化" or similar language signals a shift from banks (lower funding cost) to leasing companies (higher funding cost) — infer from fee rate changes
+2. Look for "核心客户" (core customer) data — number and average revenue per core customer can indicate concentration
+3. Check investor presentations or earnings call transcripts for more detailed breakdowns
+4. If critical to the analysis, note as data gap and recommend contacting IR
+
+**Funding cost differentials (auto finance platforms, China 2025):**
+
+| Institution Type | Funding Cost |
+|-----------------|-------------|
+| Banks | 2.0-2.5% |
+| AAA-rated leasing companies | 2.3-2.5% |
+| AA+ rated | 2.8-3.5% |
+| Small/medium leasing | 4-6%+ |
+
+A shift toward leasing companies as funding sources will push up the platform's 综合费率 (comprehensive fee rate).
+
+**"Tech platform" pitfall**: Companies like Yixin may present as "tech companies" but have substantial credit risk exposure through guarantees, SaaS services with implicit guarantees, or direct lending. Analyze BOTH tech platform metrics (GMV, take rate, merchant count) AND financial institution metrics (NIM, NPL, provision coverage). The two analyses may reveal different risk profiles.

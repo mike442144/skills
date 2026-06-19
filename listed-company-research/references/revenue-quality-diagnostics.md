@@ -127,3 +127,35 @@ When looking for peer take rates, use these search queries:
 - `"[company name] annual report revenue breakdown by segment"`
 - For US-listed Chinese fintech: check 20-F filings for "net revenue per loan" or "take rate" disclosures
 - Broker reports (券商研报) often calculate and compare take rates across peers — search `"[company] 研报 费率 对比"`
+
+## Sub-mode Disclosure Analysis
+
+When a company's annual report discloses that a business segment operates through multiple sub-modes (e.g., Yixin's SaaS split into "纯技术" and "流量+科技" modes), these sub-modes often have dramatically different risk profiles.
+
+1. **Extract sub-mode breakdown**: Look for tables/paragraphs splitting revenue, transaction volume, or financing amount by sub-mode. Companies may only start disclosing in certain years (e.g., Yixin started 2024).
+2. **Assess risk-bearing by sub-mode**: "Pure tech" = partner bears risk; "full-service" = company bears risk. The segment's risk profile depends on the MIX, not the aggregate.
+3. **Multi-year tracking**: Collect ALL years of sub-mode data before updating the report. Check earlier annual reports for retrospective data.
+4. **Risk concentration**: If 90%+ of volume is in the risk-bearing sub-mode, the segment IS risk-bearing regardless of labels.
+5. **Pitfall**: Companies may only disclose volume split (not revenue split). Assume revenue ∝ volume, but note the assumption.
+
+## Detecting Business Reclassification
+
+When a reported metric changes dramatically (e.g., SaaS fee rate jumping 4.5%→11.2%), check if the business definition changed:
+
+1. Look for historical baselines before the change (e.g., 2023 SaaS was "pure tech" at 4.5%)
+2. Check management language for "strategic transformation" or "business model evolution"
+3. Verify whether the metric definition stayed the same or was redefined
+
+If reclassified (e.g., loan facilitation revenue moved into SaaS), the dramatic change reflects accounting, not unit economics. Always establish the "true baseline."
+
+## Overseas Expansion Claims Verification
+
+When a company claims to have "entered" or "become top N in" an overseas market (e.g., "跻身新加坡前三"):
+
+1. **Check licensing**: Does the company hold the relevant financial/business license in that jurisdiction? (e.g., MAS license for Singapore financial services)
+2. **Understand regulatory gaps**: Many jurisdictions have lighter regulation for "tech platforms" or "matchmaking services" vs direct lending. A company may operate in a gap rather than passing strict compliance.
+3. **Market size context**: "Top 3 in Singapore" may mean very small absolute scale (Singapore's auto finance market is tiny due to COE quota system).
+4. **Business model difference**: Overseas operations may use a different model (pure SaaS/tech vs risk-bearing) with lower compliance requirements.
+5. **No enforcement action ≠ compliance excellence**: Absence of penalties only shows no obvious violations, not a robust compliance framework.
+
+Example: Yixin claimed "top 3 non-bank auto finance provider in Singapore" — MAS doesn't directly regulate car dealers or pure tech platforms. The claim reflects market share, not regulatory endorsement.

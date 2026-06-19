@@ -152,6 +152,8 @@ node scripts/cli.mjs call stock_data get_stock_fundamentals '{"question":"600066
 
 **⚠️ Pitfall — CIQ Google Sheets 补充：** 用户维护的 CIQ 财务 Google Sheets 是极高价值的长周期数据源（10-20 年历史）。当 Wind/mx 免费层仅支持 3 年回溯时，优先检查 Google Sheets（通过 `google-workspace` skill）。注意：CIQ 数据单位为 CNY MN（百万元），毛利率/ROE 等为小数格式（0.372 = 37.2%）。Tab 名通常为"公司简称+财务"。详见 `gs-financial-structure.md`。
 
+**⚠️ Pitfall — 极端异常值必须交叉验证（会计差错更正检测）：** 当 `get_stock_fundamentals` 返回的多年数据出现极端不连续（如某年营收/净利润同比骤降40%以上，且公司仍在正常经营），**立即**用 `get_company_announcements` 搜索 `"前期会计差错更正"` 或 `"会计政策变更"`。这是数据质量的第一道关卡——更正后的数据可能让一家正常公司看起来"崩盘"了。五粮液案例：Wind返回2025年营收405亿元（-54.5% YoY），看似经营崩溃，实际上是收入确认口径从"发货即确认"改为"终端动销完成后确认"导致的历史重述。**处理规则：** 发现极端异常值时，绝不能直接写入报告；先查公告确认是真实经营恶化还是会计口径变更，再决定如何呈现。详见 SKILL.md 中的 "Accounting restatement detection and analysis" pattern 和 `references/accounting-restatement-analysis.md`。
+
 ## 7. 批量财务数据抓取（多家公司）
 
 当需要同时抓取多家公司的年度财务数据时，使用以下批量模式。返回的是**跨年度聚合列**（如"2021到2025年营业收入"），不是逐年的单列。
@@ -195,3 +197,5 @@ for name, code in companies:
 7. **数据收集顺序建议**：先查公司基本信息 → 财务数据（多年度+最新季报）→ 股东信息 → 公告 → 最后用web_search补充行业/竞争格局/产品拆分信息。不要把web_search作为第一手段。
 8. **合同负债（预收款）作为先行指标**：对设备类公司（医疗器械、工业设备等），`get_stock_fundamentals` 查询"合同负债"或"预收账款"可获得在手订单规模。联影医疗案例中，合同负债29.75亿元（+39.1%YoY）是未来收入的领先指标。建议纳入标准查询清单。
 9. **资产负债表关键项查询模板**：`688271.SH2025年年报应收账款存货商誉资产负债率总资产净资产` — 一次查询可拿到多个BS关键指标，用于风险评估章节。
+
+10. **global_stock_data 对港股金融公司的局限性**：`global_stock_data` server for HK/US stocks is less reliable than `stock_data` for A-shares. Common failure modes: (1) Returns QUERY_FAILED for valid queries — try dropping leading zeros from stock codes (e.g., `02858.HK` → `2858.HK`). (2) Historical multi-year queries may return null for some metrics — fall back to Google Sheets + web search. (3) Some metrics (拨备覆盖率, 逾期率, 不良贷款率) are NOT available through wind-mcp for HK stocks — use credit rating reports and annual report appendices instead. Always have a fallback plan when researching HK-listed financial companies.
