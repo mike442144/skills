@@ -37,11 +37,14 @@ Gather as much publicly available information as possible. **Always follow this 
 **Priority 0 — Installed Skills (check first before anything else):**
 Before initiating any web search, scan all currently installed skills for any relevant to this research task (financial databases, document parsers, browser automation, etc.). Use installed skills as the primary data source; only fall back to web search when they cannot provide sufficient data. Track every skill invoked (name, data provided, report section) for the "Sources & Limitations" section.
 
-**Key installed skills for listed company research:**
-- **wind-mcp-skill** (A-share/HK/US): The single best structured data source. Covers: 前十大股东 (equity holders by quarter), 行情快照 (price/market cap/PE/PB), 财务数据 (fundamentals by quarter/year), 公司公告 (announcements RAG), 股本结构 (total shares, float, restricted). Use `stock_data` server for A-shares, `global_stock_data` for HK/US. See `references/wind-mcp-query-patterns.md` for proven query patterns.
-- **google-workspace**: User's CIQ-sourced Google Sheets for 10+ year financial history. See `references/gs-financial-structure.md`.
-- **mx-finance-data / mx-finance-search**: 东方财富 structured data and news/announcements. Good supplement; see memory for skill routing rules.
-- **ifind-repilot** series: High-quality fallback when mx-finance-data is rate-limited or returns unreliable data (especially DPS for HK stocks).
+**Key installed skills for listed company research (in query order):**
+
+1. **google-workspace** — CIQ-sourced Google Sheets (check FIRST for financial data): The user maintains industry-specific Google Sheets with 19+ years of financial history (Key Stats, IS, BS, CF, Ratios). Use this as the primary source for multi-year financial trends, balance sheet detail, and cash flow breakdown — far deeper history than Wind/mx free tiers (3-year limit). If the target company's tab is not found in known sheets, run the Drive API discovery workflow (see `references/gs-financial-structure.md`) before concluding the company is not tracked. **Limitation:** Google Sheets does NOT contain CIQ's `Industry Specific`, `Segments`, `Pension OPEB`, or `Supplemental` sheets.
+
+2. **wind-mcp-skill** (A-share/HK/US): Structured market data and real-time quotes — 前十大股东 (equity holders by quarter), 行情快照 (price/market cap/PE/PB), 财务数据 (fundamentals by quarter/year), 公司公告 (announcements RAG), 股本结构 (total shares, float, restricted). Use `stock_data` server for A-shares, `global_stock_data` for HK/US. See `references/wind-mcp-query-patterns.md` for proven query patterns. Use Wind for data NOT in Google Sheets (e.g., shareholder data, real-time prices, announcements) or when the target company is not tracked in any Google Sheet.
+
+3. **mx-finance-data / mx-finance-search**: 东方财富 structured data and news/announcements. Good supplement; see memory for skill routing rules.
+4. **ifind-repilot** series: High-quality fallback when mx-finance-data is rate-limited or returns unreliable data (especially DPS for HK stocks).
 
 **Pitfall — A-share annual report downloads (cninfo):** The cninfo downloader (`~/Projects/tinyant/cninfo/index.js`) requires the `--annual` flag for annual reports. Without it, the tool defaults to recent-announcements mode and ignores `--year`. Correct: `node ~/Projects/tinyant/cninfo/index.js --codes 600066 --annual --year 2015-2024`. See `references/cninfo-annual-report-extraction.md` for the full workflow including MD&A section extraction from PDFs (TOC-vs-content pitfall, section number variation across years, end-marker detection).
 
@@ -65,15 +68,6 @@ If the business was reclassified (e.g., loan facilitation revenue moved into Saa
 **Pattern — "Net service rate" analysis for platform businesses:** When analyzing platform/intermediary businesses, look for metrics that separate "gross rate" from "net rate" (after deducting pass-through costs like channel commissions, dealer rebates). Example: Yixin's annual report disclosed "net service rate" (净服务费率) = SaaS revenue minus commissions / transaction volume. This revealed that the 11.2% gross fee was actually 6.1% channel cost + 5.1% net service rate. Without this decomposition, you'd overestimate the company's true value-add.
 
 **Workflow — IMA notes synchronization:** When iterating on a report with the user, update the local .md file first. Only push to IMA notes after the user says "finalize" or explicitly asks to sync. Don't push intermediate versions — it creates version confusion.
-
-**Priority 0.5 — CIQ Financial Data (Google Sheets):**
-The user maintains CIQ-sourced financial data in **Google Sheets**. Use the `google-workspace` skill to access them. These are the primary source for long-term (10+ year) financial trend analysis when free-tier tools (Wind/mx) only support 3-year lookback.
-
-- Multiple industry-specific spreadsheets, each with one tab per company (`公司名财务`).
-- Covers Key Stats, Income Statement, Balance Sheet, Cash Flow, Ratios — with **19+ years** of data.
-- **Note:** Google Sheets does NOT contain CIQ's `Industry Specific`, `Segments`, `Pension OPEB`, or `Supplemental` sheets. For those (NPL ratios, segment revenue breakdowns, etc.), use annual report appendices or credit rating reports instead.
-
-See `references/gs-financial-structure.md` for column/row mapping, extraction patterns, and known sheet inventory.
 
 **Priority 1 — Company Primary Sources (web search, highest priority when skills are insufficient):**
 - Latest annual report / 20-F / 6-K filing
