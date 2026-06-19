@@ -20,7 +20,7 @@ Each subagent independently researches one company using `listed-company-researc
 
 **Critical context to pass to each subagent:**
 - Working directory, wind-mcp-skill path, Wind MCP quoting rules
-- CIQ_Financials directory path
+- google-workspace skill path (for CIQ Google Sheets access)
 - List of ALL other companies being researched (so they know who to compare against)
 - Any already-existing report (e.g., 三鑫医疗 already done) for reference
 

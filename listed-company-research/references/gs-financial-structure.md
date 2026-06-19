@@ -2,85 +2,9 @@
 
 User maintains **multiple industry-specific Google Sheets** containing CIQ-sourced financial data for tracked companies. These are the primary source for long-term (10+ year) financial trend analysis in appendix sections.
 
-## Local CIQ Excel Files
+## Coverage Limitations
 
-The user maintains **two distinct types** of local CIQ-sourced Excel files. Check BOTH types for the target company.
-
-### Type A: Google Sheet Exports (`.xlsx`, openpyxl)
-
-These mirror the Google Sheet structure (one file with multiple tabs per company).
-
-| File Path | Industry Focus | Known Tabs |
-|-----------|----------------|------------|
-| `/home/mike/hermes-workspace/装修建材.xlsx` | 建材/家居/水泥 | Summary、三一重工财务、鲁阳节能财务、伟星新材财务、中材国际财务、中材国际经营数据、慕思财务、金螳螂财务、金螳螂运营、塔牌水泥财务、海螺水泥财务、北新建材财务、顾家家居财务、欧派家居财务、东方雨虹财务、资本结构 |
-
-**Data extraction pattern (local Excel):**
-```python
-import openpyxl
-wb = openpyxl.load_workbook('/home/mike/hermes-workspace/装修建材.xlsx', data_only=True)
-ws = wb['海螺水泥财务']  # tab naming: 公司名财务
-# Header row (row 1): Col E=2007, F=2008, ..., W=2025
-# Key Stats rows: label in col B (index 1), data starts at col E (index 4)
-# Balance Sheet: starts at row ~131, label in col B
-# Income Statement: starts at row ~39, label in col B
-```
-
-**Search for Type A files:** `find /home/mike -name "*.xlsx" -type f | grep -v node_modules`
-
-### Type B: CIQ Financials Directory (`.xls`, xlrd)
-
-A dedicated directory of **individually exported CIQ Financials files**, one per company:
-
-**Path:** `/home/mike/hermes-workspace/CIQ_Financials/`
-
-**File naming:** `<Company Full Name> <Exchange>:<Code> Financials.xls`
-(e.g., `Huaxin Building Materials Group Co Ltd SHSE 600801 Financials.xls`)
-
-**Format:** Old `.xls` format — use `xlrd`, NOT `openpyxl` (openpyxl does not support `.xls`).
-
-**Sheet structure (13 sheets):**
-| Sheet | Content |
-|-------|---------|
-| Key Stats | Summary metrics: Revenue, EBITDA, Net Income, DPS, EPS, Growth rates |
-| Income Statement | Full IS: Revenue → COGS → Gross Profit → SG&A → Op Income → Net Income |
-| Balance Sheet | Full BS: Current Assets → Total Assets → Current Liab → Total Liab → Equity |
-| Cash Flow | Full CF: Cash from Ops, CAPEX, Cash from Investing, Cash from Financing, Dividends, FCF |
-| Multiples | Valuation multiples by year |
-| Historical Capitalization | Market cap history |
-| Capital Structure Summary | Debt/equity breakdown |
-| Capital Structure Details | Detailed debt instruments |
-| Ratios | ROA/ROE, margins, turnover, liquidity, solvency ratios (20+ years) |
-| Supplemental | Supplementary line items |
-| Industry Specific | Industry-specific metrics |
-| Pension OPEB | Pension and OPEB data |
-| Segments | Revenue/D&A by business segment (Cement Sales, Concrete, Aggregate, etc.) |
-
-**Data extraction pattern (Type B):**
-```python
-import xlrd
-wb = xlrd.open_workbook('/home/mike/hermes-workspace/CIQ_Financials/Huaxin Building Materials Group Co Ltd SHSE 600801 Financials.xls')
-ws = wb.sheet_by_name('Income Statement')
-# Row 14: year headers (e.g., "12 months\nDec-31-2025")
-# Row 15: currency (all CNY)
-# Row 17+: line items with values in columns 1..N
-# Units: S&P Capital IQ default = CNY Millions
-# Years: typically 19+ years (2007-2025+)
-
-# Key rows in Income Statement (row index):
-# 17: Revenue, 19: Total Revenue, 20: COGS, 21: Gross Profit
-# 22: SG&A, 23: D&A, 24: Operating Income
-# 25: Interest Expense, 34: Income Tax, 35: Net Income to Company
-# 37: Net Income, 40: Basic EPS, 42: Diluted EPS
-# 44: Weighted Avg Basic Shares, 46: Diluted Shares
-# 48: DPS, 49: Payout Ratio %
-
-# Key rows in Cash Flow (row index):
-# 17: Cash from Ops, 18: CAPEX, 19: Free Cash Flow
-# 20: Cash from Investing, 21: Cash from Financing
-# 24: Dividends Paid, 25: Net Change in Cash
-```
-
-**Value of Type B files:** Contains **19+ years** of fully standardized CIQ data with 13 distinct analytical sheets. Far richer than Type A for balance sheet detail, cash flow breakdown, ratios, and segment analysis. Always check this directory FIRST for long-cycle financial history.
+The Google Sheets contain a subset of CIQ's standard sheets: **Key Stats, Income Statement, Balance Sheet, Cash Flow, Ratios** (with 19+ years of data). They do **NOT** contain CIQ's `Industry Specific`, `Segments`, `Pension OPEB`, or `Supplemental` sheets. For data typically found in those sheets (NPL ratios, loan composition, segment revenue breakdowns, etc.), use annual report appendices or credit rating reports instead.
 
 **Known units:** All financial figures in **CNY Millions** (S&P CIQ default). Ratios as decimals (0.296 = 29.6%). EPS in CNY.
 

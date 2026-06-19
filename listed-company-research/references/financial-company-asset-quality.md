@@ -12,21 +12,18 @@ Target company has any of these characteristics:
 
 ## Data Sources (Priority Order)
 
-### 1. CIQ Financials — "Industry Specific" Sheet
+### 1. Annual Report Appendices (附注)
 
-For financial services companies, CIQ's `Industry Specific` sheet contains critical data NOT in standard IS/BS/CF sheets:
+For financial services companies, CIQ's `Industry Specific` data (NPL, allowances, charge-offs, loan composition) is **not available** in the user's Google Sheets. Instead, extract these from the annual report's financial notes:
 
-```python
-import xlrd
-wb = xlrd.open_workbook('CIQ_Financials/<company> Financials.xls')
-sh = wb.sheet_by_name('Industry Specific')
-for r in range(sh.nrows):
-    row = [str(sh.cell_value(r, c))[:40] for c in range(sh.ncols)]
-    if any(x.strip() for x in row):
-        print(f"Row {r}: {row}")
-```
+- **NPL / 逾期率 / 不良率**: Look in 预期信用损失 (ECL) notes or 风险管理 chapter
+- **拨备覆盖率 / Provision coverage**: Calculate from 减值准备 and 不良贷款 figures
+- **Loan composition**: Look in 贷款及垫款 notes (by type: Consumer, Commercial, Vehicle, etc.)
+- **ECL three-stage data**: Look in 预期信用损失三阶段 model disclosure
 
-**Key fields typically found:**
+Use `get_company_announcements` with keywords like `"不良贷款率 拨备覆盖率 预期信用损失"` to find the relevant appendix pages.
+
+**Key fields to extract (from annual report, not CIQ):**
 - Non-Performing Loans (NPL) / Non-Accrual Loans
 - Specific Allowance (专项拨备)
 - General Allowance (一般拨备)

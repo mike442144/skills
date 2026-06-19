@@ -58,6 +58,19 @@ node scripts/cli.mjs call stock_data get_stock_fundamentals '{"question":"600079
 
 **返回格式：** 数字通常带单位（亿元/元/%），注意区分"年报"vs"一季报/中报/三季报"。同比增速返回百分比数值。
 
+### 分红/DPS数据 (Dividends & Splits)
+
+```bash
+# 多年DPS + 转增 + 红股（用于split-adjusted DPS分析）
+node scripts/cli.mjs call stock_data get_stock_fundamentals '{"question":"600066.SH2015到2025年每股股利每股分红派息转增比例"}'
+```
+
+**返回字段：** `每股税前股利`（元）、`每股红股`（股）、`每股转增股本`（股）。每行对应一个报告期（Q4 FY2015等）。
+
+**用途：** 检测历史转增/送股（如10转6），对DPS做追溯调整以保持与EPS的可比性。如果`每股红股`或`每股转增股本`非零，说明该年度发生了股本扩张，之前的DPS需要除以(1+送转比例)来调整。
+
+**✅ 已验证：** 宇通客车600066.SH 2015-2025年查询成功返回11行数据。
+
 ## 4. 公司公告 (Announcements)
 
 ```bash
@@ -81,32 +94,55 @@ node scripts/cli.mjs call financial_docs get_company_announcements '{"query":"68
 
 ## 5. 港股/美股
 
-港股用 `global_stock_data` server，美股同理：
+港股用 `global_stock_data` server，美股同理。**港股代码必须去掉前导零**：`01810.HK` → `1810.HK`，`02858.HK` → `2858.HK`。带前导零的代码会导致 `QUERY_FAILED`。
 
 ```bash
-# 港股股东
-node scripts/cli.mjs call global_stock_data get_global_stock_equity_holders '{"question":"腾讯(00700.HK)主要股东"}'
+# 港股股东（注意：去前导零）
+node scripts/cli.mjs call global_stock_data get_global_stock_equity_holders '{"question":"1810.HK主要股东、控股股东"}'
 
 # 港股财务
-node scripts/cli.mjs call global_stock_data get_global_stock_fundamentals '{"question":"腾讯(00700.HK)2025年ROE和营收"}'
+node scripts/cli.mjs call global_stock_data get_global_stock_fundamentals '{"question":"小米集团1810.HK2025年ROE和营收"}'
+
+# 港股行情（注意：字段名必须用 indicators.md 中的精确名称）
+node scripts/cli.mjs call global_stock_data get_global_stock_price_indicators '{"windcode":"1810.HK","indexes":"中文简称,最新成交价,涨跌幅,市盈率(TTM),市净率(LF),52周最高,52周最低"}'
 ```
 
-## 6. 分产品/分业务收入 (Segment Revenue)
+**⚠️ Pitfall — 港股股东数据不完整：** `get_global_stock_equity_holders` 对港股仅返回股东名称和排名（`主要股东名称名次`），**不返回持股比例和持股数量**。这与A股的 `get_stock_equity_holders`（返回持股比例%、持股数量股）完全不同。获取港股股东持股比例需通过：
+1. 港交所权益披露公告（HKEX Disclosure of Interests）— 5%以上股东
+2. 年报"Substantial Shareholders"章节（`get_company_announcements` 检索）
+3. 同花顺等第三方数据平台（web_search）
+4. 公司年报中的控股股东架构图（含信托/控股链条）
 
-NL入参，尝试从年报或财报附注中提取各产品线收入明细：
+**⚠️ Pitfall — 港股行情指标字段校验同样严格：** `get_global_stock_price_indicators` 的 `indexes` 字段必须使用 `references/indicators.md` 中的精确字段名。已验证的错误：`市盈率`（报 INVALID_PARAM_VALUE）→ 应为 `市盈率(TTM)`；`总市值` → 应为 `总市值1`。建议对港股也用 `get_global_stock_fundamentals` 查估值指标（更稳定），仅在需要盘中行情快照时用 price_indicators。
+
+**✅ 已验证案例 — 小米集团 1810.HK：** 基本信息、多年财务数据（2022-2025）、分产品收入（5大板块）、2026年Q1数据均成功返回。公告内容（年报MD&A/风险因素/董事长致辞）通过 `financial_docs.get_company_announcements` 成功获取。
+
+## 6. 分产品/分地区收入 (Segment Revenue)
+
+NL入参，尝试从年报或财报附注中提取各产品线/地区收入明细：
 
 ```bash
+# 分产品收入
 node scripts/cli.mjs call stock_data get_stock_fundamentals '{"question":"600079.SH2025年年报分产品收入各业务收入构成毛利率"}'
+
+# 分地区收入（国内/海外拆分）
+node scripts/cli.mjs call stock_data get_stock_fundamentals '{"question":"600066.SH2025年年报分地区收入各业务毛利率收入占比"}'
 ```
 
-**✅ 已验证有效案例（联影医疗 688271.SH）：** 查询返回了详细的分产品线数据，包含以下列：
+**✅ 已验证有效案例（分产品 — 联影医疗 688271.SH）：** 查询返回了详细的分产品线数据，包含以下列：
 - `主营构成_按产品_项目名称`（如"销售医学影像诊断设备及放射治疗设备"、"提供维修收入"、"软件收入"）
 - `项目收入`（亿元）
 - `项目毛利率`（%）
 - `项目收入占比`（%）
 - `名次`（排序）
 
-对设备公司尤其有效，能返回各产品线（CT/MR/MI/XR/RT）的独立收入、毛利率、占比。
+**✅ 已验证有效案例（分地区 — 宇通客车 600066.SH）：** 分地区查询返回：
+- `主营地区名称`（如"海外"/"国内"/"其他业务(地区)"）
+- `主营地区收入`（亿元）
+- `主营地区毛利率`（%）
+- `主营地区收入占比`（%）
+
+对出海型企业尤其有用，可直接拿到海外/国内的收入和毛利率拆分。
 
 **⚠️ Pitfall:** Wind MCP的NL工具对分产品收入数据的覆盖**因标的而异**，部分公司能返回详细数据（含收入、毛利率、收入占比），部分公司仅返回汇总数据或空。正确做法：先尝试此查询，若返回有效数据（rows非空且项目名称不为null）则直接使用；若返回空或仅有合计行，则必须通过 `get_company_announcements` 检索年报全文（`top_k`设大，如5-10），从年报正文/附注中手动提取分产品收入。也可直接搜索券商研报（via `mx-finance-search`）获取产品拆分数据。
 
@@ -114,7 +150,7 @@ node scripts/cli.mjs call stock_data get_stock_fundamentals '{"question":"600079
 
 **⚠️ Pitfall — 投资收益/公允价值变动明细：** Wind MCP 的 `get_stock_fundamentals` 对"投资收益""公允价值变动""信托理财""股票投资"等细项查询经常返回 `QUERY_FAILED`。这是 Wind NL 解析器的覆盖盲区，不是 Key 或网络问题。不要重试。正确做法：通过 `get_company_announcements` 检索年报全文从附注提取，或在业绩说明会 Q&A 中寻找管理层回应。
 
-**⚠️ Pitfall — CIQ 本地 Excel 补充：** 用户维护的 CIQ 财务 Excel（如 `装修建材.xlsx`）是极高价值的长周期数据源（10-20 年历史）。当 Wind/mx 免费层仅支持 3 年回溯时，优先检查本地 Excel。使用 `openpyxl` 读取，注意：CIQ 数据单位为 CNY MN（百万元），毛利率/ROE 等为小数格式（0.372 = 37.2%）。Sheet 名通常为"公司简称+财务"。
+**⚠️ Pitfall — CIQ Google Sheets 补充：** 用户维护的 CIQ 财务 Google Sheets 是极高价值的长周期数据源（10-20 年历史）。当 Wind/mx 免费层仅支持 3 年回溯时，优先检查 Google Sheets（通过 `google-workspace` skill）。注意：CIQ 数据单位为 CNY MN（百万元），毛利率/ROE 等为小数格式（0.372 = 37.2%）。Tab 名通常为"公司简称+财务"。详见 `gs-financial-structure.md`。
 
 ## 7. 批量财务数据抓取（多家公司）
 
