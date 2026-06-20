@@ -343,6 +343,9 @@ Assess management's credibility by comparing past statements against actual outc
 
 **Methodology:**
 
+If the multi-year MD&A review was performed (see `references/multi-year-mda-review.md`), this section should be built directly from its output — specifically dimensions 3.1 (Strategic Timeline) and 3.4 (Guidance vs Actuals). Do not re-collect past statements ad hoc; the structured MD&A review already covers the full period systematically.
+
+If the MD&A review was NOT performed (e.g., recent IPO with <5 years of history, or abbreviated research), fall back to manual collection:
 1. **Collect past statements:** Go back 2–3 years and find management's then-stated strategic goals, guidance, or commitments from:
    - Prior annual reports (MD&A sections from 2–3 years ago)
    - Prior investor presentations
@@ -468,6 +471,37 @@ Also note:
 - Include source citations inline: `(Source: 2024 Annual Report)` or `(Source: XYZ Securities Research, 2024)`
 - Keep paragraphs concise — aim for 3-5 sentences per paragraph
 - Target total report length: 3,000 - 8,000 words depending on company complexity
+
+### Narrative Prose vs Bullet Points (IMPORTANT)
+
+**Default to narrative prose for explaining concepts, business models, and strategic analysis.** Use bullet points only for: raw data lists, sequential steps, and metrics inventories. Do NOT use bullets for analytical content that requires unpacking and contextualizing.
+
+**Why:** Bullet points are highly compressed summaries. A reader who hasn't previously studied the company or industry cannot quickly understand the significance of a bullet like "KD组装模式 → 技术输出". They need the reasoning chain explained: what it is, how it works, why it matters, and what the competitive implication is. Bullets are appropriate for the author's own notes, but the final deliverable must be readable by someone encountering this company for the first time.
+
+**Pattern — Conclusion-first narrative:**
+
+When explaining a concept (e.g., "宇通模式", "三直四化", "属地化经营"), follow this structure:
+1. State the concept in one sentence (the summary/conclusion).
+2. Then explain in 2-4 paragraphs of narrative prose:
+   - What does it mean in plain language? (with analogies if helpful)
+   - How does it work mechanically? (walk through the process)
+   - Why does it matter competitively? (what barrier does it create, what alternative does it replace)
+   - What is the strategic implication for the investment thesis?
+
+**Example (good — narrative):**
+> 宇通在这一阶段正式提出了"宇通模式"这个概念。简单来说，传统的中国制造业出口就是"卖产品"——把车造好，运到海外，一手交钱一手交货，交易结束。但宇通模式不一样，它不仅仅是卖车，而是帮助海外国家建立本地的客车制造能力。
+>
+> 具体怎么做呢？宇通在十几个国家推行KD（Knock Down）组装模式。所谓KD组装，就是宇通把客车的零部件运到目标国家，然后当地的工厂按照宇通的技术标准和工艺流程进行组装...
+>
+> 这个模式的意义在于：它让宇通在海外市场的竞争壁垒从"产品性价比"升级为"生态系统控制力"。竞争对手可以模仿产品，但很难复制一整套技术输出体系。
+
+**Example (bad — bullet, too compressed):**
+> **"宇通模式"正式提出：**
+> - "独创中国制造出口的'宇通模式'"
+> - "成为中国汽车工业由产品输出走向技术输出的典范"
+> - 从卖产品→建立本地客车制造能力（KD组装）
+
+**When bullets ARE appropriate:** Data tables, metric inventories, step-by-step procedures (Step 1 → Step 2 → Step 3), risk summary tables, competitive landscape matrices. Anywhere the content is factual/sequential rather than analytical.
 
 ---
 

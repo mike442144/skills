@@ -60,7 +60,7 @@ Key milestones:
 
 ### 1.4 Strategic Positioning
 
-[Narrative: the bank's stated strategy, how it has evolved over recent years, and key strategic initiatives currently underway. This sets the context for all subsequent analysis.]
+[Narrative: the bank's stated strategy, how it has evolved over recent years, and key strategic initiatives currently underway. This sets the context for all subsequent analysis. If the multi-year MD&A review was performed (see `references/multi-year-mda-review.md`), draw the strategic evolution narrative from dimension 3.1 (Strategic Positioning Timeline) rather than reconstructing it ad hoc.]
 
 ---
 
@@ -215,7 +215,7 @@ Key milestones:
 | Interbank Liabilities | [...] | [...] | [...] |
 | Bonds Issued | [...] | [...] | [...] |
 
-[Narrative: NIM drivers — asset-side pricing power, liability-side cost control, structural factors (demand deposit ratio, loan-to-asset ratio), repricing dynamics, outlook for NIM trend. Include peer comparison.]
+[Narrative: NIM drivers — asset-side pricing power, liability-side cost control, structural factors (demand deposit ratio, loan-to-asset ratio), repricing dynamics, outlook for NIM trend. Include peer comparison. If the multi-year MD&A review was performed (see `references/multi-year-mda-review.md`), incorporate dimension 3.2 (NIM Narrative Tracking) — management's year-by-year attribution and forward-looking statements — to test whether their NIM guidance has been reliable.]
 
 ### 4.2 Non-Interest Income Quality
 

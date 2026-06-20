@@ -3,7 +3,7 @@ name: listed-bank-research
 description: This skill should be used when the user wants to conduct in-depth fundamental research on any listed bank in A-share (China) market, Hong Kong-listed (HKEX) bank stocks, or US-listed Chinese banks. Triggers include phrases like "研究XX银行", "分析XX银行基本面", "帮我看看XX银行", "XX银行深度分析", "研究银行股", "分析银行财报", or when the user provides a bank stock code/ticker and asks for analysis. The skill produces a comprehensive, neutral-analysis Markdown report covering bank business model, financial performance, asset quality, capital adequacy, profitability drivers, and risk factors. It does NOT include financial statement modeling, valuation, stock ratings, or investment recommendations.
 metadata:
   author: Mike Chen
-  version: '2.1'
+  version: '2.2'
 ---
 
 # Listed Bank Research Skill
@@ -41,6 +41,18 @@ Activate this skill when the user:
      - 平安银行 = 000001.SZ
      - 宁波银行 = 002142.SZ
      - 北京银行 = 601169.SH
+     - 南京银行 = 601009.SH
+     - 杭州银行 = 600926.SH
+     - 成都银行 = 601838.SH
+     - 江苏银行 = 600919.SH
+     - 长沙银行 = 601577.SH
+     - 重庆银行 = 601963.SH / 01963.HK
+     - 贵阳银行 = 601997.SH
+     - 郑州银行 = 002936.SZ / 06196.HK
+     - 青岛银行 = 002948.SZ / 03866.HK
+     - 苏州银行 = 002966.SZ
+     - 齐鲁银行 = 601665.SH
+     - 厦门银行 = 601187.SH
 
 ### Step 2: Use the Bank Analysis Framework
 
@@ -117,15 +129,38 @@ Before writing any report section, collect data according to this priority-tiere
 
 #### 3.2 Data Collection Strategy (Accounting for API Limits)
 
-**When using mx-findata (or any tool with per-query limits):**
-- Each query can return max 3 indicators × 5 entities
-- Plan queries to maximize efficiency:
-  - Query 1: 总资产 + 净利润 + 营业收入 for target bank (3 years)
-  - Query 2: 不良率 + 拨备覆盖率 + NIM for target bank (3 years)
-  - Query 3: ROE + ROA + 成本收入比 for target bank
-  - Query 4: Peer comparison — pick 5 peers × 3 core metrics
-  - Query 5: Peer comparison — remaining peers × remaining metrics
-- Use `mx-finsearch` to fill gaps that structured data can't provide (e.g., loan industry breakdown, management commentary, regulatory penalties)
+**Tool hierarchy for bank research (proven by execution):**
+
+| Priority | Tool | Best For | Notes |
+|----------|------|----------|-------|
+| 1st | **ifind-repilot-finance-data-search** (同花顺 F9 银行模块) | Bank-specific deep data: loan structure by industry with NPL rates, migration rates, capital composition, deposit structure, dividend history, employee/management details, NIM decomposition | The F9 outputs `F9-{bank}-银行贷款结构`, `F9-{bank}-银行分析指标`, `F9-{bank}-银行存款结构` are GOLD MINES — far richer than any other source for bank research. See `references/ifind_f9_bank_data_model.md` for the full query map. |
+| 2nd | **Wind MCP** (`get_stock_fundamentals`) | Core 3-year financials (总资产/营收/净利润/ROE/NIM/不良率/拨备覆盖率/CAR/CET1), peer comparison across multiple banks, basic info, shareholders, events | Good for multi-year trends and peer side-by-side. BUT: often returns `None` for bank-specific metrics (ROA, RE exposure, fee breakdown). Unit inconsistency warning: total assets/deposits may come back in "万亿元" (e.g., 1.84) while loans come back in "亿元" (e.g., 8070.96) — ALWAYS verify units. |
+| 3rd | **mx-finance-data** (东方财富) | Fallback if Wind/ifind unavailable or rate-limited | May require EM_API_KEY that could be unconfigured. Subject to 3-indicator × 5-entity per-query limit. |
+| 4th | **baidu-search / web_search** | Qualitative info: management strategy, regulatory penalties, news context | Use for context and qualitative analysis, not primary financial data. |
+
+**Recommended query sequence (optimized for completeness + API efficiency):**
+
+*Phase A — Core financials (Wind, 2-3 queries):*
+- Query 1 (target bank): `get_stock_fundamentals` — 最近3年总资产、营业收入、归母净利润、ROE、ROA
+- Query 2 (target bank): `get_stock_fundamentals` — 最近3年净息差NIM、不良贷款率、拨备覆盖率、资本充足率、核心一级资本充足率
+- Query 3 (target bank): `get_stock_fundamentals` — 最近3年利息净收入、手续费及佣金净收入、成本收入比、每股净资产
+
+*Phase B — Bank-specific deep data (ifind F9, 3-5 queries — CRITICAL for report depth):*
+- Query 4: `"{bank}{code}最近3年对公贷款总额、零售贷款总额、贷款总额、存款总额"` → triggers F9 银行分析指标 table
+- Query 5: `"{bank}{code}2024-2025年房地产行业贷款金额、房地产业不良率、个人住房贷款金额"` → RE exposure
+- Query 6: `"{bank}{code}2023-2025年生息资产平均利率、付息负债平均利率、净利差"` → NIM decomposition
+- Query 7: `"{bank}{code}最近5年送股、转增股本、配股、增发历史"` → capital events (CHECK for DPS retroactive adjustment needs)
+- Query 8: `"{bank}{code}董事长、行长、高管团队名单"` → management info (F9 管理层 table)
+
+*Phase C — Peer comparison (Wind, 1 query per peer):*
+- For each of 3-5 comparable banks: `get_stock_fundamentals` — 最近3年总资产、营业收入、归母净利润、ROE、净息差NIM、不良贷款率、拨备覆盖率、资本充足率
+- Then 1 ifind query: `"{peer1}、{peer2}、{peer3}、{peer4}2025年成本收入比"` (or ROA/ROE — batch multiple peers in one query)
+
+*Phase D — Regional economy (ifind EDB, 1-2 queries):*
+- `"{province}2023-2025年GDP、GDP增速、人均可支配收入"`
+- `"{city}2023-2025年GDP、GDP增速、人均GDP"` (for city/rural commercial banks)
+
+**DPS source reconciliation (known pitfall):** Wind may return DPS as a single dividend payment (e.g., 0.28 元) while ifind F9 returns annual cumulative DPS including interim dividends (e.g., 0.66 元). ALWAYS cross-check with ifind F9 分红明细 table, which shows the full `股利支付率` and annual cash dividend total. For banks with stock splits/转增/可转债转股, also check if total share count changed — DPS must be compared on a consistent share base.
 
 #### 3.3 Data Gap Handling Protocol
 
@@ -144,6 +179,12 @@ When a data field cannot be obtained after reasonable effort:
 - If credit cost not directly stated → calculate as: 信用减值损失 / 平均贷款余额
 
 **Rule 4 — Cross-validation**: When data from different sources conflicts, prefer the annual report as the source of truth. Note discrepancies.
+
+> 📖 **ifind F9 bank data reference**: For a complete map of ifind-repilot's F9 bank analysis modules (loan structure by industry with NPL, bank analysis indicators, deposit structure, dividend history, management bios, employee compensation), see `references/ifind_f9_bank_data_model.md`. This is the most valuable single data source for bank research — far richer than Wind or mx for bank-specific metrics.
+
+#### 3.3 Multi-Year MD&A Review (for banks listed ≥ 5 years)
+
+For depth research, perform a systematic multi-year MD&A review per `references/multi-year-mda-review.md`. This produces structured inputs for Sections I.4 (Strategic Positioning), IV.1 (NIM Narrative), V (Asset Quality Narrative), and credibility assessment — tracking how management's story on NIM, asset quality, and strategy has evolved and whether forward-looking statements were borne out by subsequent results.
 
 ### Step 4: Compile the Research Report
 
