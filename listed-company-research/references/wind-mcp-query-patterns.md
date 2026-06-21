@@ -150,6 +150,10 @@ node scripts/cli.mjs call stock_data get_stock_fundamentals '{"question":"600066
 
 **⚠️ Pitfall — 投资收益/公允价值变动明细：** Wind MCP 的 `get_stock_fundamentals` 对"投资收益""公允价值变动""信托理财""股票投资"等细项查询经常返回 `QUERY_FAILED`。这是 Wind NL 解析器的覆盖盲区，不是 Key 或网络问题。不要重试。正确做法：通过 `get_company_announcements` 检索年报全文从附注提取，或在业绩说明会 Q&A 中寻找管理层回应。
 
+**⚠️ Pitfall — 费用项单位不一致 & 比率重复：** `get_stock_fundamentals` 批量查询费用项时，不同行项目可能返回不同单位。宇通客车600066案例（2025年年报）：研发费用/销售费用/管理费用返回亿元（18.08/14.23/8.35），但财务费用返回的值（42.14）实际单位为百万元（= 0.42亿元），与年报MD&A的4,214.25万元吻合，但与其他费用项差100倍。同时，"销售费用占营业收入比例"和"研发费用占营业收入比例"返回了相同的值（4.36%），实际销售费用率应为3.44%（142,337/4,142,617）。**处理规则：** 费用类数据必须与年报MD&A"利润表及现金流量表相关科目变动分析表"交叉验证，不信任Wind返回的单位标注和比率计算。
+
+**⚠️ Pitfall — 公告RAG可能返回空结果：** `get_company_announcements` 对部分股票的所有查询均返回空数组，即使是年报类查询。宇通客车600066案例：4个不同关键词查询（经营情况讨论与分析、风险因素、主要控股参股公司分析、利润分配方案）全部返回空。这不同于"覆盖因标的而异"的分产品收入问题——是整个RAG索引对该股票可能未建索引。**处理规则：** 若首次查询返回空，不要重试其他关键词组合（浪费时间）；直接改用 cninfo 年报PDF下载 + pymupdf提取MD&A，或 web_search 搜索券商研报补充。
+
 **⚠️ Pitfall — CIQ Google Sheets 补充：** 用户维护的 CIQ 财务 Google Sheets 是极高价值的长周期数据源（10-20 年历史）。当 Wind/mx 免费层仅支持 3 年回溯时，优先检查 Google Sheets（通过 `google-workspace` skill）。注意：CIQ 数据单位为 CNY MN（百万元），毛利率/ROE 等为小数格式（0.372 = 37.2%）。Tab 名通常为"公司简称+财务"。详见 `gs-financial-structure.md`。
 
 **⚠️ Pitfall — 极端异常值必须交叉验证（会计差错更正检测）：** 当 `get_stock_fundamentals` 返回的多年数据出现极端不连续（如某年营收/净利润同比骤降40%以上，且公司仍在正常经营），**立即**用 `get_company_announcements` 搜索 `"前期会计差错更正"` 或 `"会计政策变更"`。这是数据质量的第一道关卡——更正后的数据可能让一家正常公司看起来"崩盘"了。五粮液案例：Wind返回2025年营收405亿元（-54.5% YoY），看似经营崩溃，实际上是收入确认口径从"发货即确认"改为"终端动销完成后确认"导致的历史重述。**处理规则：** 发现极端异常值时，绝不能直接写入报告；先查公告确认是真实经营恶化还是会计口径变更，再决定如何呈现。详见 SKILL.md 中的 "Accounting restatement detection and analysis" pattern 和 `references/accounting-restatement-analysis.md`。

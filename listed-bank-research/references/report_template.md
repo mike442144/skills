@@ -281,7 +281,7 @@ Key milestones:
 | [Year - 2] | [...] | [...] | [...] |
 | [Year - 3] | [...] | [...] | [...] |
 
-[Narrative: overall asset quality trajectory, whether NPL formation is accelerating or decelerating, write-off and disposal intensity.]
+[Narrative: overall asset quality trajectory, whether NPL formation is accelerating or decelerating, write-off and disposal intensity. If the multi-year MD&A review was performed (see `references/multi-year-mda-review.md`), incorporate dimension 3.3 (Asset Quality Narrative vs Reality) — did management flag risks before or after deterioration showed in the numbers, and were confidence statements ("资产质量总体可控") borne out?]
 
 ### 5.2 Forward-Looking Indicators
 

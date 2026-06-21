@@ -1,6 +1,6 @@
 # Multi-Year MD&A Systematic Review
 
-> Trigger: depth research on a company listed ≥ 5 years. Produces structured inputs for report Sections 4.1 (Management View), 4.2 (Strategy), and 4.3 (Track Record).
+> Produces structured inputs for report Sections 4.1 (Management View), 4.2 (Strategy), and 4.3 (Track Record).
 
 ## Why This Matters
 

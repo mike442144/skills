@@ -3,14 +3,16 @@ name: listed-company-research
 description: "This skill should be used when the user wants to conduct in-depth fundamental research on any listed company, including A-share (China), Hong Kong-listed (HKEX), or US-listed (NYSE/NASDAQ) stocks. Triggers include phrases like '研究XX公司', '分析XX', 'XX公司基本面', '帮我看看XX', 'deep dive XX', 'research XX company', '管理层展望', '战略规划', 'management strategy', 'outlook', or when the user provides a stock code/ticker and asks for analysis. The skill produces a comprehensive, neutral-analysis Markdown report covering company overview, detailed business decomposition, industry competitive landscape, management outlook & strategy, and risk factors. It does NOT include financial statement modeling, valuation, stock ratings, or investment recommendations."
 metadata:
   author: Mike Chen
-  version: '2.0'
+  version: '3.0'
 ---
 
 # Listed Company Fundamental Research
 
 ## Workflow
 
-### Step 1: Identify the Target Company
+### Step 1: Preparations
+
+#### Identify the Target Company:
 
 Parse the user's input to identify the target company:
 - Extract company name, stock code, ticker, or any identifiable reference
@@ -20,7 +22,7 @@ Parse the user's input to identify the target company:
   - US: alphabetic ticker (e.g., AAPL, TSLA, BABA)
 - If ambiguous, ask the user to clarify which company or market
 
-### Step 1.5: Determine Current Fiscal Year Context (PRE-QUERY)
+#### Determine Current Fiscal Year Context (PRE-QUERY)
 
 **Before issuing any data queries, determine which fiscal periods are available.** This is the #1 data freshness failure mode — querying "2024年年报" when "2025年年报" is already published.
 
@@ -30,21 +32,18 @@ Parse the user's input to identify the target company:
 - **Rule of thumb:** In June 2026 → latest annual report = 2025年年报, latest quarter = 2026年一季报. Always query these FIRST.
 - **For segment/product revenue:** Always use the latest annual report (e.g., 2025年年报 in mid-2026), NOT the prior year's.
 
-### Step 1.6: Mandatory Pre-Collection Trigger Check (DO NOT SKIP)
-
-Before starting data collection in Step 2, run through these mandatory trigger checks. Each one that applies MUST be executed — these are not optional "load when convenient" steps:
-
-1. **Multi-year MD&A review (MANDATORY for all companies)** → MUST load `references/multi-year-mda-review.md` and execute the multi-year annual report download + MD&A extraction workflow. This feeds §4.1/4.2/4.3 (management view, strategic plans, track record) with historical depth. Download as many years as available (up to 10); for recently-listed companies, cover all available years. Skipping this produces a report with shallow management assessment limited to the latest year's MD&A only.
-2. **CIQ Google Sheets check** → MUST attempt to access Google Sheets via the `google-workspace/productivity-tools` skill (see `references/gs-financial-structure.md` for sheet IDs, tab naming, and extraction patterns). This provides 19+ years of financial data — far beyond Wind MCP's 5-year limit. Only conclude "not tracked" after running the Drive API discovery workflow.
-3. **Scan all trigger table conditions** (Step 2, Analytical Patterns section below) — load any reference file whose trigger condition matches the target company before beginning data collection.
-
-**Why this check exists:** In prior sessions, the trigger table was treated as optional and skipped entirely, resulting in reports with only 5-year financial data (Wind limit) instead of 19+ years (CIQ Google Sheets), and no systematic multi-year MD&A review for companies listed 20+ years. This is the #1 data depth failure mode.
-
 ### Step 2: Collect Information
 
 Gather as much publicly available information as possible. **Always follow this priority order:**
 
-**Priority 0 — Installed Skills (check first before anything else):**
+**Priority 0 — Multi-year annual report download (MANDATORY for all companies):**
+
+MUST download multi-year annual report PDFs (up to 10 years; for recently-listed companies, cover all available years). Annual reports are the primary data source for: §2 business segments / product-line revenue / subsidiary operating data, §4.1/4.2/4.3 management MD&A (see `references/multi-year-mda-review.md` for the systematic multi-year extraction workflow), §5 risk factors, and financial footnote detail (AR aging, provision tables, segment notes, etc.) that structured databases do not provide.
+
+- **A-share**: `node ~/Projects/tinyant/cninfo/index.js --codes <6-digit> --annual --year <start-end>`. The `--annual` flag is REQUIRED — without it the tool defaults to recent announcements only. See `references/cninfo-annual-report-extraction.md` for PDF download details and MD&A text extraction workflow.
+- **HKEX**: Use `~/Projects/tinyant/hkexnews/index.js` (港交所披露易), NOT cninfo. Example: `node ~/Projects/tinyant/hkexnews/index.js --codes 02858 --year 2019-2022`.
+
+**Priority 1 — Installed Skills (check before anything else):**
 Before initiating any web search, scan all currently installed skills for any relevant to this research task. Use installed skills as the primary data source; only fall back to web search when they cannot provide sufficient data. Track every skill invoked (name, data provided, report section) for the "Sources & Limitations" section.
 
 **Key installed skills (in query order):**
@@ -56,27 +55,23 @@ Before initiating any web search, scan all currently installed skills for any re
 3. **ifind-repilot** series (announcement-search / finance-data-search): Primary fallback for Wind/Google Sheets gaps — high-quality announcement retrieval and financial data. Use especially when mx-finance-data is rate-limited or returns unreliable data (e.g., DPS for HK stocks).
 4. **mx-finance-data / mx-finance-search**: 东方财富 structured data and news/announcements. Supplement for real-time quotes, consensus estimates, and news search.
 
-**Pitfall — A-share annual report downloads (cninfo):** The cninfo downloader requires `--annual` flag. Correct: `node ~/Projects/tinyant/cninfo/index.js --codes 600066 --annual --year 2015-2024`. See `references/cninfo-annual-report-extraction.md` for MD&A extraction workflow.
-
-**Pitfall — HK stock annual report downloads:** Use `~/Projects/tinyant/hkexnews/index.js` (港交所披露易), NOT cninfo. Example: `node ~/Projects/tinyant/hkexnews/index.js --codes 02858 --year 2019-2022`.
-
 **Pitfall — "Residual method" for fee decomposition:** When decomposing a bundled fee into components, the residual is the **least reliable** estimate. Be explicit: "X% is directly from annual report, Y% is industry benchmark, Z% is residual and therefore uncertain." Never present residual estimates with the same confidence as directly sourced data. See `references/derived-metrics-extraction.md` for the full fee decomposition methodology.
 
 **Workflow — IMA notes synchronization:** Update the local .md file first. Only push to IMA notes after the user says "finalize" or explicitly asks to sync.
 
-**Priority 1 — Company Primary Sources** (when skills insufficient):
-- Latest annual report / 20-F / 6-K filing, prospectus, company website
+**Priority 2 — Company Primary Sources** (when skills insufficient):
+- 20-F / 6-K filing, prospectus, company website
 - **Earnings call transcripts** — critical for management outlook (Chapter 4)
 - **Investor day / capital markets day presentations** — key for strategic plans (Chapter 4)
 - ESG/CSR reports
 
-**Priority 2 — Regulatory & Exchange Sources:**
+**Priority 3 — Regulatory & Exchange Sources:**
 - Exchange announcements, regulatory filings (CSRC, SEC, SFC)
 
-**Priority 3 — Third-Party Analysis:**
+**Priority 4 — Third-Party Analysis:**
 - Industry research reports, brokerage reports, reputable financial media, industry associations
 
-**Priority 4 — General Context:**
+**Priority 5 — General Context:**
 - Market commentary, peer company disclosures, macroeconomic/policy context
 
 **Collection rules:**
@@ -91,7 +86,7 @@ Before initiating any web search, scan all currently installed skills for any re
 - **Anti-hallucination (qualitative)**: Never infer specific company names, client names, supplier names, or business relationships from industry context. Only list names that appear in sourced disclosures. If not disclosed, write "specific client names not disclosed."
 - **Estimation methodology transparency (剩余法/残差法)**: When decomposing a total figure via residual method, label each component's confidence: directly measured > estimated via benchmarking > residual/remainder. Never present residual with same confidence as directly sourced data.
 
-### Step 2: Analytical Patterns (load reference when triggered)
+### Step 3: Analytical Patterns (load reference when triggered)
 
 The following patterns guide specific analysis situations. Each has a dedicated reference file — load it via `skill_view(name="listed-company-research", file_path="references/...")` when the trigger condition applies.
 
@@ -118,7 +113,7 @@ The following patterns guide specific analysis situations. Each has a dedicated 
 | Researching 3+ companies in one industry simultaneously | `multi-company-research-pattern.md` | Parallel subagent workflow, cross-reference phase, industry synthesis |
 | Auto finance / loan facilitation platform company | `global-auto-finance-market-comparison.md` | Market size, penetration rates, interest rates, key players across USA/Europe/Japan/Australia/China |
 
-**⚠️ Trigger table enforcement:** The table above is NOT a "load when convenient" list. Before beginning Step 2 data collection, scan every row and load every reference whose trigger condition matches. Note: `multi-year-mda-review.md` and `gs-financial-structure.md` are NOT in the trigger table — they are mandatory unconditional steps in Step 1.6 above.
+**⚠️ Trigger table enforcement:** The table above is NOT a "load when convenient" list. Before beginning Step 2 data collection, scan every row and load every reference whose trigger condition matches. 
 
 **Inline pattern — Equipment company leading indicators (合同负债 + 产销量):**
 For hardware/equipment companies (医疗器械、工业设备、消费电子等), two metrics are powerful leading indicators:
@@ -148,7 +143,7 @@ When the latest quarter shows YoY revenue/profit decline (e.g., Q1 -8% / -13%), 
 3. **Actual demand deterioration:** Only if neither (1) nor (2) applies, investigate fundamental demand weakness.
 **Diagnostic:** Compare扣非净利润 YoY vs 归母净利润 YoY — if 扣非 decline is much smaller (e.g., -5% vs -13%), the gap is non-recurring items, not core operations. Also check if subsequent months (e.g., April) recover to positive growth, confirming the decline was seasonal/base-effect.
 
-### Step 3: Write the Research Report
+### Step 4: Write the Research Report
 
 Structure the report following the template in `references/report-template.md`. Load this file for the full template with detailed section-by-section guidance.
 
@@ -168,7 +163,7 @@ Structure the report following the template in `references/report-template.md`. 
 **Cross-market comparison (recommended when applicable):**
 When the target faces structural headwinds that have played out in analogous markets, proactively include a cross-market comparison as an appendix (e.g., Chinese consumer companies → Japanese peers; fintech → US/UK precedents). See `references/cross-market-comparison-framework.md`.
 
-### Step 4: Review and Deliver
+### Step 5: Review and Deliver
 
 **Output**: `./[stock code/ticker]_[company name]_深度研究报告_YYYYMMDD_HHmm.md`
 
@@ -182,11 +177,11 @@ Run through this checklist before delivery. Each item is a quality gate that, if
 4. **Stock codes and company names** accurate. Each major section has substantive content. Risk factors section is thorough.
 5. Save the Markdown file to the current workspace root directory and present it to the user.
 
-### Step 5: Multi-Company Parallel Research (When Applicable)
+### Step 6: Multi-Company Parallel Research (When Applicable)
 
 When the user asks to research 3+ companies simultaneously, use the parallel subagent workflow in `references/multi-company-research-pattern.md`. **Critical**: After parallel Phase 1, always do a cross-reference Phase 2 before synthesizing the industry report in Phase 3.
 
-### Step 6: Optional — Product Image Enhancement
+### Step 7: Optional — Product Image Enhancement
 
 For companies with physical products, optionally enhance Section 2 with product images after the main report is complete. See `references/product-images-enhancement.md`. Skip unless requested or products are highly visual.
 
