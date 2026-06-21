@@ -30,6 +30,16 @@ Parse the user's input to identify the target company:
 - **Rule of thumb:** In June 2026 → latest annual report = 2025年年报, latest quarter = 2026年一季报. Always query these FIRST.
 - **For segment/product revenue:** Always use the latest annual report (e.g., 2025年年报 in mid-2026), NOT the prior year's.
 
+### Step 1.6: Mandatory Pre-Collection Trigger Check (DO NOT SKIP)
+
+Before starting data collection in Step 2, run through these mandatory trigger checks. Each one that applies MUST be executed — these are not optional "load when convenient" steps:
+
+1. **Multi-year MD&A review (MANDATORY for all companies)** → MUST load `references/multi-year-mda-review.md` and execute the multi-year annual report download + MD&A extraction workflow. This feeds §4.1/4.2/4.3 (management view, strategic plans, track record) with historical depth. Download as many years as available (up to 10); for recently-listed companies, cover all available years. Skipping this produces a report with shallow management assessment limited to the latest year's MD&A only.
+2. **CIQ Google Sheets check** → MUST attempt to access Google Sheets via the `google-workspace/productivity-tools` skill (see `references/gs-financial-structure.md` for sheet IDs, tab naming, and extraction patterns). This provides 19+ years of financial data — far beyond Wind MCP's 5-year limit. Only conclude "not tracked" after running the Drive API discovery workflow.
+3. **Scan all trigger table conditions** (Step 2, Analytical Patterns section below) — load any reference file whose trigger condition matches the target company before beginning data collection.
+
+**Why this check exists:** In prior sessions, the trigger table was treated as optional and skipped entirely, resulting in reports with only 5-year financial data (Wind limit) instead of 19+ years (CIQ Google Sheets), and no systematic multi-year MD&A review for companies listed 20+ years. This is the #1 data depth failure mode.
+
 ### Step 2: Collect Information
 
 Gather as much publicly available information as possible. **Always follow this priority order:**
@@ -39,7 +49,7 @@ Before initiating any web search, scan all currently installed skills for any re
 
 **Key installed skills (in query order):**
 
-1. **google-workspace** — CIQ-sourced Google Sheets (check FIRST for financial data): 19+ years of financial history (Key Stats, IS, BS, CF, Ratios). Primary source for multi-year trends, balance sheet detail, and cash flow breakdown. If the target company's tab is not found in known sheets, run the Drive API discovery workflow (see `references/gs-financial-structure.md`) before concluding the company is not tracked. **Limitation:** Google Sheets does NOT contain CIQ's `Industry Specific`, `Segments`, `Pension OPEB`, or `Supplemental` sheets — for those, use annual report appendices or credit rating reports.
+1. **google-workspace/productivity-tools** — CIQ-sourced Google Sheets (check FIRST for financial data): 19+ years of financial history (Key Stats, IS, BS, CF, Ratios). Primary source for multi-year trends, balance sheet detail, and cash flow breakdown. If the target company's tab is not found in known sheets, run the Drive API discovery workflow (see `references/gs-financial-structure.md`) before concluding the company is not tracked. **Limitation:** Google Sheets does NOT contain CIQ's `Industry Specific`, `Segments`, `Pension OPEB`, or `Supplemental` sheets — for those, use annual report appendices or credit rating reports. **⚠️ Pitfall — skill name mismatch:** This skill was renamed from `google-workspace` to `productivity-tools`. If you cannot find `google-workspace` in the skills list, load `productivity-tools` instead and use its Google Sheets functionality.
 
 2. **wind-mcp-skill** (A-share/HK/US): Structured market data and real-time quotes — 前十大股东, 行情快照, 财务数据, 公司公告 (announcements RAG), 股本结构. Use for data NOT in Google Sheets (shareholder data, real-time prices, announcements) or when the target company is not tracked in any Google Sheet. See `references/wind-mcp-query-patterns.md` for proven query patterns.
 
@@ -103,11 +113,12 @@ The following patterns guide specific analysis situations. Each has a dedicated 
 | Chemical/petrochemical company, user asks for cycle analysis | `chemical-industry-cycle-analysis.md` | PPI/CIP/capex bottom signals, MDI cycle pattern, supply-demand, oil price impact |
 | Pharma company, need product-line revenue breakdown | `pharma-annual-report-product-breakdown.md` | 主营构成→核心产品毛利率表→子公司经营数据, extraction via cninfo PDF or ifind-repilot RAG |
 | Need to extract MD&A text from annual report PDFs (single-year mechanics) | `cninfo-annual-report-extraction.md` | TOC-vs-content pitfall, section number variation, end-marker detection, keyword filtering |
-| Depth research on company listed ≥ 5 years — systematic multi-year MD&A review | `multi-year-mda-review.md` | 10-year download/extract workflow, 4-dimension cross-year analysis (strategic timeline, theme tracking, attribution pattern, guidance vs actuals), feeds §4.1/4.2/4.3 |
 | User frames Company B against a previously-analyzed Company A's success pattern ("顺着XX的经验看看YY") | `cross-company-benchmark-comparison.md` | Trajectory verification (organic second-curve vs U-shape reversion), margin spread test, business model compatibility. 宇通 vs 中材国际 case study. |
 | Target faces structural headwinds that played out in other markets | `cross-market-comparison-framework.md` | Cross-market comparison: (Type 1) consumer goods/demographic decline → Japan/Korea precedents; (Type 2) fintech → US/UK precedents |
 | Researching 3+ companies in one industry simultaneously | `multi-company-research-pattern.md` | Parallel subagent workflow, cross-reference phase, industry synthesis |
 | Auto finance / loan facilitation platform company | `global-auto-finance-market-comparison.md` | Market size, penetration rates, interest rates, key players across USA/Europe/Japan/Australia/China |
+
+**⚠️ Trigger table enforcement:** The table above is NOT a "load when convenient" list. Before beginning Step 2 data collection, scan every row and load every reference whose trigger condition matches. Note: `multi-year-mda-review.md` and `gs-financial-structure.md` are NOT in the trigger table — they are mandatory unconditional steps in Step 1.6 above.
 
 **Inline pattern — Equipment company leading indicators (合同负债 + 产销量):**
 For hardware/equipment companies (医疗器械、工业设备、消费电子等), two metrics are powerful leading indicators:
@@ -129,6 +140,13 @@ When Wind shows extreme YoY change (e.g., revenue -54% for a profitable company 
 
 **Inline pattern — DPS adjustment through stock splits (转增):**
 When the company has had stock splits/bonus shares (e.g., 10转6), per-share metrics from before and after are NOT comparable. Either adjust historical figures retroactively or clearly annotate. Dividend payout ratios (% of net profit) are unaffected.
+
+**Inline pattern — Quarterly YoY decline analysis (高基数效应 vs 需求恶化):**
+When the latest quarter shows YoY revenue/profit decline (e.g., Q1 -8% / -13%), do NOT immediately conclude demand deterioration. Check three causes in order:
+1. **High-base effect from policy-driven demand surge:** Did the prior-year same quarter benefit from a one-time policy stimulus (e.g., "以旧换新" subsidy pulling demand forward)? If so, the decline is a base-effect artifact, not operational deterioration.
+2. **Year-end delivery rush pulling orders forward:** Did the prior December show an abnormally high monthly peak (e.g., 2x-3x of normal months)? If so, Q1 orders were partially consumed in Q4, creating a seasonal trough.
+3. **Actual demand deterioration:** Only if neither (1) nor (2) applies, investigate fundamental demand weakness.
+**Diagnostic:** Compare扣非净利润 YoY vs 归母净利润 YoY — if 扣非 decline is much smaller (e.g., -5% vs -13%), the gap is non-recurring items, not core operations. Also check if subsequent months (e.g., April) recover to positive growth, confirming the decline was seasonal/base-effect.
 
 ### Step 3: Write the Research Report
 
