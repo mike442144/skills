@@ -1,6 +1,6 @@
 # Multi-Year MD&A Systematic Review (Bank)
 
-> Trigger: depth research on a bank listed ≥ 5 years. Produces structured inputs for report Sections I.4 (Strategic Positioning), IV (Profitability Narrative), V (Asset Quality), and VII (Risk Factors).
+> Default step in all bank research (no minimum listing period). Produces structured inputs for report Sections I.4 (Strategic Positioning), IV.1 (NIM Narrative), V.1 (Asset Quality Narrative vs Reality), VII (Risk Factors), and VIII (Management Credibility Assessment).
 
 ## Why This Matters for Banks
 

@@ -60,7 +60,13 @@ Key milestones:
 
 ### 1.4 Strategic Positioning
 
-[Narrative: the bank's stated strategy, how it has evolved over recent years, and key strategic initiatives currently underway. This sets the context for all subsequent analysis. If the multi-year MD&A review was performed (see `references/multi-year-mda-review.md`), draw the strategic evolution narrative from dimension 3.1 (Strategic Positioning Timeline) rather than reconstructing it ad hoc.]
+#### Strategic Positioning Timeline (from MD&A Review)
+
+| Year | Stated Positioning | Key Strategic Initiatives | Prior Initiative Status |
+|------|-------------------|-------------------------|------------------------|
+| 20XX | [self-description] | [initiative + target] | [ongoing / completed / abandoned] |
+
+[Narrative: the bank's stated strategy, how it has evolved over recent years, and key strategic initiatives currently underway. This sets the context for all subsequent analysis. Draw the strategic evolution narrative from the multi-year MD&A review (dimension 3.1 — Strategic Positioning Timeline in `references/multi-year-mda-review.md`) rather than reconstructing it ad hoc. Track whether announced strategies were executed, escalated, de-emphasized, or quietly abandoned.]
 
 ---
 
@@ -215,7 +221,13 @@ Key milestones:
 | Interbank Liabilities | [...] | [...] | [...] |
 | Bonds Issued | [...] | [...] | [...] |
 
-[Narrative: NIM drivers — asset-side pricing power, liability-side cost control, structural factors (demand deposit ratio, loan-to-asset ratio), repricing dynamics, outlook for NIM trend. Include peer comparison. If the multi-year MD&A review was performed (see `references/multi-year-mda-review.md`), incorporate dimension 3.2 (NIM Narrative Tracking) — management's year-by-year attribution and forward-looking statements — to test whether their NIM guidance has been reliable.]
+#### NIM Narrative Tracking (from MD&A Review)
+
+| Year | NIM (%) | Management Attribution (up/down) | Forward Statement | Next Year Actual |
+|------|---------|----------------------------------|-------------------|-----------------|
+| 20XX | [...] | [factors cited] | [guidance if any] | [actual NIM next year] |
+
+[Narrative: NIM drivers — asset-side pricing power, liability-side cost control, structural factors (demand deposit ratio, loan-to-asset ratio), repricing dynamics, outlook for NIM trend. Include peer comparison. Incorporate the multi-year MD&A review (dimension 3.2 — NIM Narrative Tracking in `references/multi-year-mda-review.md`) — management's year-by-year attribution and forward-looking statements — to test whether their NIM guidance has been reliable. Distinguish genuine forward-looking guidance from formulaic regulatory boilerplate.]
 
 ### 4.2 Non-Interest Income Quality
 
@@ -281,7 +293,13 @@ Key milestones:
 | [Year - 2] | [...] | [...] | [...] |
 | [Year - 3] | [...] | [...] | [...] |
 
-[Narrative: overall asset quality trajectory, whether NPL formation is accelerating or decelerating, write-off and disposal intensity. If the multi-year MD&A review was performed (see `references/multi-year-mda-review.md`), incorporate dimension 3.3 (Asset Quality Narrative vs Reality) — did management flag risks before or after deterioration showed in the numbers, and were confidence statements ("资产质量总体可控") borne out?]
+#### Asset Quality Narrative vs Reality (from MD&A Review)
+
+| Year | NPL (%) | Management Tone | Sector Warnings Issued | Subsequent Reality |
+|------|---------|----------------|----------------------|-------------------|
+| 20XX | [...] | [confident / cautious / defensive] | [sectors flagged] | [what happened next] |
+
+[Narrative: overall asset quality trajectory, whether NPL formation is accelerating or decelerating, write-off and disposal intensity. Incorporate the multi-year MD&A review (dimension 3.3 — Asset Quality Narrative vs Reality in `references/multi-year-mda-review.md`) — did management flag risks before or after deterioration showed in the numbers, and were confidence statements ("资产质量总体可控") borne out? This warning-timing analysis also feeds Section VII.2/7.3 (RE/LGFV risk narratives).]
 
 ### 5.2 Forward-Looking Indicators
 
@@ -556,6 +574,14 @@ Key milestones:
 - Financial health assessment (profitability sustainability, asset quality trajectory)
 - Material risk factors and their potential impact
 - Notable trends that may shape the bank's future performance]
+
+### Management Credibility Assessment (from MD&A Review)
+
+| Year Guided | Statement | Metric | Actual Outcome | Verdict |
+|-------------|-----------|--------|---------------|---------|
+| 20XX | "[quote]" | [NIM/NPL/ROE/growth] | [actual] | ✅/⚠️/❌ |
+
+[Narrative: assess management's forecasting reliability across NIM guidance, asset quality guidance, growth targets, and capital management commitments. Distinguish formulaic regulatory language from genuine forward-looking statements with specific targets or timelines. This assessment is drawn from dimension 3.4 (Guidance vs Actuals) of the multi-year MD&A review.]
 
 ---
 

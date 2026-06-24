@@ -3,7 +3,7 @@ name: listed-bank-research
 description: This skill should be used when the user wants to conduct in-depth fundamental research on any listed bank in A-share (China) market, Hong Kong-listed (HKEX) bank stocks, or US-listed Chinese banks. Triggers include phrases like "研究XX银行", "分析XX银行基本面", "帮我看看XX银行", "XX银行深度分析", "研究银行股", "分析银行财报", or when the user provides a bank stock code/ticker and asks for analysis. The skill produces a comprehensive, neutral-analysis Markdown report covering bank business model, financial performance, asset quality, capital adequacy, profitability drivers, and risk factors. It does NOT include financial statement modeling, valuation, stock ratings, or investment recommendations.
 metadata:
   author: Mike Chen
-  version: '2.2'
+  version: '2.3'
 ---
 
 # Listed Bank Research Skill
@@ -106,7 +106,7 @@ Before writing any report section, collect data according to this priority-tiere
 - [ ] 逾期贷款分析 Overdue Loan Analysis [P2]
 - [ ] 贷款迁徙率 Migration Rate [P2]
 - [ ] 房地产行业贷款及不良率 [P1]
-- [ ] 政信/LGFV 贷款规模 [P1]
+- [ ] 政信/LGFV 贷款规模 [P1] — 估算方法：F9银行贷款结构中"租赁和商务服务业"+"水利环境和公共设施管理业"贷款余额合计作为代理指标，详见 references/ifind_f9_bank_data_model.md
 
 **Tier 4 — Capital & Liquidity (P1, collect fourth):**
 - [ ] 一级资本充足率 Tier-1 Capital Ratio [P1]
@@ -128,6 +128,15 @@ Before writing any report section, collect data according to this priority-tiere
 > - **基于混合口径数据不得得出排名或定性结论**（如"领先"、"仅次于"、"偏低"等）。如果口径不一致，应保留数据但不下结论，或明确说明口径差异。
 
 #### 3.2 Data Collection Strategy (Accounting for API Limits)
+
+**Annual Report Download & MD&A Review [P0]:**
+
+Before any API queries, download the target bank's annual reports for at least the latest 3 years and perform a systematic multi-year MD&A review per `references/multi-year-mda-review.md`. This produces four structured outputs that feed directly into report Sections I.4 (Strategic Positioning Timeline), IV.1 (NIM Narrative Tracking), V.1 (Asset Quality Narrative vs Reality), and VIII (Management Credibility Assessment). These inputs are P0 — the report's narrative depth depends on them.
+
+- **A-share banks**: `node ~/Projects/tinyant/cninfo/index.js --codes <6-digit> --annual --year <start-end>`
+- **HKEX banks**: `node ~/Projects/tinyant/hkexnews/index.js --codes <5-digit> --year <start-end>`
+
+See `references/multi-year-mda-review.md` for the full four-dimension analysis framework, table templates, and pitfalls (regulatory boilerplate vs genuine guidance, restatement effects, interim vs annual candor).
 
 **Tool hierarchy for bank research (proven by execution):**
 
@@ -152,15 +161,15 @@ Before writing any report section, collect data according to this priority-tiere
 - Query 7: `"{bank}{code}最近5年送股、转增股本、配股、增发历史"` → capital events (CHECK for DPS retroactive adjustment needs)
 - Query 8: `"{bank}{code}董事长、行长、高管团队名单"` → management info (F9 管理层 table)
 
-*Phase C — Peer comparison (Wind, 1 query per peer):*
-- For each of 3-5 comparable banks: `get_stock_fundamentals` — 最近3年总资产、营业收入、归母净利润、ROE、净息差NIM、不良贷款率、拨备覆盖率、资本充足率
-- Then 1 ifind query: `"{peer1}、{peer2}、{peer3}、{peer4}2025年成本收入比"` (or ROA/ROE — batch multiple peers in one query)
+*Phase C — Peer comparison (ifind batch query first, then Wind for补充):*
+- **首选（ifind batch，1 query）：** `"{peer1}、{peer2}、{peer3}、{peer4}、{peer5} 2025年总资产、营业收入、归母净利润、ROE、净息差、不良贷款率、拨备覆盖率、资本充足率"` — 一次 query 同时触发所有银行的 F9 银行分析指标模块，返回各银行的全量指标（含成本收入比、存贷比、净利差、CET1等同业对比关键字段），远比逐家 Wind 查询高效且口径一致
+- **补充（Wind，按需）：** 如需同业 3 年趋势数据或 Wind 特有字段（如每股净资产 BPS），再逐家 `get_stock_fundamentals` 查询
 
 *Phase D — Regional economy (ifind EDB, 1-2 queries):*
 - `"{province}2023-2025年GDP、GDP增速、人均可支配收入"`
 - `"{city}2023-2025年GDP、GDP增速、人均GDP"` (for city/rural commercial banks)
 
-**DPS source reconciliation (known pitfall):** Wind may return DPS as a single dividend payment (e.g., 0.28 元) while ifind F9 returns annual cumulative DPS including interim dividends (e.g., 0.66 元). ALWAYS cross-check with ifind F9 分红明细 table, which shows the full `股利支付率` and annual cash dividend total. For banks with stock splits/转增/可转债转股, also check if total share count changed — DPS must be compared on a consistent share base.
+**DPS source reconciliation (known pitfall):** Wind may return DPS as a single dividend payment (e.g., 0.28 元) while ifind F9 returns annual cumulative DPS including interim dividends (e.g., 0.66 元). ALWAYS cross-check with ifind F9 分红明细 table, which shows the full `股利支付率` and annual cash dividend total. For banks with stock splits/转增/可转债转股, also check if total share count changed — DPS must be compared on a consistent share base. 可转债转股的完整分析流程（调整后转股价计算、转股比例估算、DPS追溯调整方法）详见 `references/ifind_f9_bank_data_model.md`。
 
 #### 3.3 Data Gap Handling Protocol
 
@@ -181,10 +190,6 @@ When a data field cannot be obtained after reasonable effort:
 **Rule 4 — Cross-validation**: When data from different sources conflicts, prefer the annual report as the source of truth. Note discrepancies.
 
 > 📖 **ifind F9 bank data reference**: For a complete map of ifind-repilot's F9 bank analysis modules (loan structure by industry with NPL, bank analysis indicators, deposit structure, dividend history, management bios, employee compensation), see `references/ifind_f9_bank_data_model.md`. This is the most valuable single data source for bank research — far richer than Wind or mx for bank-specific metrics.
-
-#### 3.3 Multi-Year MD&A Review (for banks listed ≥ 5 years)
-
-For depth research, perform a systematic multi-year MD&A review per `references/multi-year-mda-review.md`. This produces structured inputs for Sections I.4 (Strategic Positioning), IV.1 (NIM Narrative), V (Asset Quality Narrative), and credibility assessment — tracking how management's story on NIM, asset quality, and strategy has evolved and whether forward-looking statements were borne out by subsequent results.
 
 ### Step 4: Compile the Research Report
 
