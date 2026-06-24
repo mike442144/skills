@@ -630,6 +630,16 @@ Key milestones:
 - [e.g., Wind / Bloomberg data]
 - [e.g., Regulatory filings from NFRA (formerly CBIRC)]
 
+### D. Data Completeness Summary
+
+| 数据类别 | 获取情况 | 备注 |
+|---------|---------|------|
+| 核心财务指标 (Tier 1) | 完整/部分缺失 | 列出缺失项 |
+| 业务结构数据 (Tier 2) | 完整/部分缺失 | 列出缺失项 |
+| 资产质量明细 (Tier 3) | 完整/部分缺失 | 列出缺失项 |
+| 资本与流动性 (Tier 4) | 完整/部分缺失 | 列出缺失项 |
+| 同行对比数据 (Tier 5) | 完整/部分缺失 | 列出缺失项 |
+
 ---
 
 *Disclaimer: This report is for research and informational purposes only. It does not constitute investment advice. All data sourced from public disclosures. Past performance is not indicative of future results.*
