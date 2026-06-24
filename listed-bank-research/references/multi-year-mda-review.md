@@ -10,7 +10,7 @@ Bank MD&A differs from general companies in two ways: (1) it is more quantitativ
 
 ## Step 1: Download Annual Reports
 
-Same as general companies:
+Download the latest 10 years of annual reports (or since listing if listed < 10 years):
 - **A-share banks**: `node ~/Projects/tinyant/cninfo/index.js --codes <6-digit> --annual --year <start-end>`
 - **HKEX banks**: `node ~/Projects/tinyant/hkexnews/index.js --codes <5-digit> --year <start-end>`
 
@@ -62,32 +62,33 @@ Track management's asset quality commentary:
 
 Feeds Section V (Asset Quality) and Section VII.2/7.3 (RE/LGFV risk).
 
-### 3.4 Guidance vs Actuals
+### 3.4 Strategic Outlook (展望) vs Reality
 
-Same as the general company version — extract explicit forward-looking guidance and track outcomes:
+Chinese banks rarely give formal numerical guidance (unlike US companies). Instead, their MD&A 展望 sections contain forward-looking statements about strategic direction, market outlook, and directional predictions. Track these and check if they were borne out:
 
-| Year Guided | Statement | Metric | Actual Outcome | Verdict |
-|-------------|-----------|--------|---------------|---------|
-| 20XX | "[quote]" | [NIM/NPL/ROE/growth] | [actual] | ✅/⚠️/❌ |
+- **Strategic direction**: "推进零售转型", "深化数字化转型", "拓展成渝地区市场"
+- **Directional predictions**: "息差有望企稳", "不良率保持稳定", "营收平稳增长"
+- **Risk outlook**: "密切关注房地产/LGFV风险" — was the warning timely?
+- **Semi-quantitative targets** (rare): "力争不良率控制在X%以内", "资本充足率不低于X%"
 
-Bank-specific guidance categories:
-- NIM guidance ("息差有望企稳" → did it?)
-- Asset quality guidance ("不良率将保持稳定" → did it?)
-- Growth targets (loan/deposit/AUM growth targets)
-- Capital management (CAR targets, fundraising plans)
+| Year | Outlook Statement | Type | Actual Outcome | Verdict |
+|------|------------------|------|---------------|---------|
+| 20XX | "[quote from 展望]" | [战略方向/指标方向/风险展望] | [what happened] | ✅/⚠️/❌ |
+
+Distinguish formulaic regulatory boilerplate ("本行持续加强风险管理") from genuine forward-looking statements with specific direction or targets. Feeds Section VIII (Management Credibility Assessment).
 
 ## Step 4: Synthesize Into Report Inputs
 
 | Analysis Dimension | Feeds Report Section | Output Format |
 |-------------------|---------------------|---------------|
 | 3.1 Strategic Timeline | §I.4 (Strategic Positioning) | Year-by-year positioning table |
-| 3.2 NIM Narrative | §IV.1 (NIM Deep Dive) | NIM attribution + guidance tracking table |
-| 3.3 Asset Quality Narrative | §V (Asset Quality) + §VII (Risk) | Narrative + warning-timing analysis |
-| 3.4 Guidance vs Actuals | §VIII (Summary) credibility assessment | Scorecard table |
+| 3.2 NIM Narrative | §IV.1 (NIM Deep Dive) | NIM attribution + forward statement tracking table |
+| 3.3 Asset Quality Narrative | §V.1 (Asset Quality) + §VII (Risk) | Narrative + warning-timing analysis |
+| 3.4 Strategic Outlook vs Reality | §VIII (Management Credibility Assessment) | Outlook vs Reality scorecard |
 
 ## Pitfalls
 
-1. **Regulatory language vs genuine guidance**: Bank MD&A contains boilerplate risk disclosures mandated by regulators. Distinguish formulaic language ("本行持续加强风险管理") from genuine forward-looking statements with specific targets or timelines.
+1. **Regulatory language vs genuine outlook**: Bank MD&A contains boilerplate risk disclosures mandated by regulators. Distinguish formulaic language ("本行持续加强风险管理") from genuine forward-looking statements with specific direction or targets.
 2. **Restatement effects**: Bank financials are frequently restated (especially after accounting standard changes like IFRS 9). When comparing MD&A narratives across years, verify that the metrics cited are on a consistent basis.
 3. **Interim vs annual**: Bank management commentary in interim reports can be more candid than annual reports (less polished). Supplement with H-share interim reports if available.
 4. **HKEX bank reports**: HK-listed Chinese banks' MD&A is shorter and less structured. The A-share version (if dual-listed) is always preferred for MD&A analysis. Use the H-share version only for pure HK-listed banks.

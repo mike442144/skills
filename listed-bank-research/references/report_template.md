@@ -577,11 +577,11 @@ Key milestones:
 
 ### Management Credibility Assessment (from MD&A Review)
 
-| Year Guided | Statement | Metric | Actual Outcome | Verdict |
-|-------------|-----------|--------|---------------|---------|
-| 20XX | "[quote]" | [NIM/NPL/ROE/growth] | [actual] | ✅/⚠️/❌ |
+| Year | Outlook Statement | Type | Actual Outcome | Verdict |
+|------|------------------|------|---------------|---------|
+| 20XX | "[quote from 展望]" | [战略方向/指标方向/风险展望] | [what happened] | ✅/⚠️/❌ |
 
-[Narrative: assess management's forecasting reliability across NIM guidance, asset quality guidance, growth targets, and capital management commitments. Distinguish formulaic regulatory language from genuine forward-looking statements with specific targets or timelines. This assessment is drawn from dimension 3.4 (Guidance vs Actuals) of the multi-year MD&A review.]
+[Narrative: assess management's forecasting reliability across strategic outlook, directional predictions (NIM, asset quality, growth), and risk awareness. Chinese banks rarely give formal numerical guidance — focus on directional statements ("息差有望企稳", "资产质量总体可控") and strategic outlook (展望) commitments, and track whether they were borne out. Distinguish formulaic regulatory boilerplate from genuine forward-looking statements. This assessment is drawn from dimension 3.4 (Strategic Outlook vs Reality) of the multi-year MD&A review.]
 
 ---
 

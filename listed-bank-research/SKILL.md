@@ -3,7 +3,7 @@ name: listed-bank-research
 description: This skill should be used when the user wants to conduct in-depth fundamental research on any listed bank in A-share (China) market, Hong Kong-listed (HKEX) bank stocks, or US-listed Chinese banks. Triggers include phrases like "研究XX银行", "分析XX银行基本面", "帮我看看XX银行", "XX银行深度分析", "研究银行股", "分析银行财报", or when the user provides a bank stock code/ticker and asks for analysis. The skill produces a comprehensive, neutral-analysis Markdown report covering bank business model, financial performance, asset quality, capital adequacy, profitability drivers, and risk factors. It does NOT include financial statement modeling, valuation, stock ratings, or investment recommendations.
 metadata:
   author: Mike Chen
-  version: '2.3'
+  version: '2.4'
 ---
 
 # Listed Bank Research Skill
@@ -129,14 +129,9 @@ Before writing any report section, collect data according to this priority-tiere
 
 #### 3.2 Data Collection Strategy (Accounting for API Limits)
 
-**Annual Report Download & MD&A Review [P0]:**
-
-Before any API queries, download the target bank's annual reports for at least the latest 3 years and perform a systematic multi-year MD&A review per `references/multi-year-mda-review.md`. This produces four structured outputs that feed directly into report Sections I.4 (Strategic Positioning Timeline), IV.1 (NIM Narrative Tracking), V.1 (Asset Quality Narrative vs Reality), and VIII (Management Credibility Assessment). These inputs are P0 — the report's narrative depth depends on them.
-
-- **A-share banks**: `node ~/Projects/tinyant/cninfo/index.js --codes <6-digit> --annual --year <start-end>`
-- **HKEX banks**: `node ~/Projects/tinyant/hkexnews/index.js --codes <5-digit> --year <start-end>`
-
-See `references/multi-year-mda-review.md` for the full four-dimension analysis framework, table templates, and pitfalls (regulatory boilerplate vs genuine guidance, restatement effects, interim vs annual candor).
+**Annual Report Download & MD&A Review [P0]:** Download the latest 10 years of annual reports and perform a multi-year MD&A review per `references/multi-year-mda-review.md` (feeds §I.4, IV.1, V.1, VIII).
+- A-share: `node ~/Projects/tinyant/cninfo/index.js --codes <6-digit> --annual --year <start-end>`
+- HKEX: `node ~/Projects/tinyant/hkexnews/index.js --codes <5-digit> --year <start-end>`
 
 **Tool hierarchy for bank research (proven by execution):**
 
