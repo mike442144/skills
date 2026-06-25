@@ -97,7 +97,26 @@ Write 2-4 paragraphs covering:
 
 ## 2. Business Deep Dive
 
-This is the core section. For each major business segment:
+This is the core section. Start with a multi-year revenue composition overview, then dive into each segment.
+
+### 2.0 Revenue Composition (Last 3 Years)
+
+Present a multi-year segment revenue breakdown table before diving into each segment's details. Source data from the latest annual report (if more recent quarterly disclosures contain updated segment data, use those and note the source).
+
+| Segment | [Year-2] Revenue | [Year-2] % | [Year-1] Revenue | [Year-1] % | [Year] Revenue | [Year] % | YoY |
+|---------|:-----------:|:-----:|:-----------:|:-----:|:-----------:|:-----:|:---:|
+| [Segment 1] | XX亿 | XX% | XX亿 | XX% | XX亿 | XX% | +XX% |
+| [Segment 2] | XX亿 | XX% | XX亿 | XX% | XX亿 | XX% | -XX% |
+| [Segment 3] | XX亿 | XX% | XX亿 | XX% | XX亿 | XX% | XX% |
+| Others / Inter-segment elimination | XX亿 | XX% | XX亿 | XX% | XX亿 | XX% | — |
+| **Total** | **XX亿** | **100%** | **XX亿** | **100%** | **XX亿** | **100%** | **+XX%** |
+
+> **Data source accuracy:** The table above must reflect the company's OWN reported segment definitions and reported figures (from the annual report's "分部报告" / "segment reporting" section). Do NOT reclassify or aggregate segments unless the company does so. If segment definitions changed during the 3-year window (e.g., a segment was renamed, split, or merged), explicitly note the reclassification and align the historical data using restated comparatives; if restated figures are not available, flag the discontinuity.
+
+**Key observations (2-3 concise points):**
+- **Growth engine vs. cash cow:** Which segments are growing above/below the company average? Is there a clear "second curve" emerging?
+- **Concentration:** Does any single segment contribute >50% of total revenue? Is revenue diversified or highly concentrated?
+- **Profitability skew (if disclosed):** When segment profitability is available, does the revenue share align with profit contribution, or does one segment punch above/below its weight?
 
 ### 2.X [Segment Name]
 
@@ -167,7 +186,6 @@ Customer Acquisition -> [Step 1] -> [Step 2] -> [Step 3] -> Revenue Recognition 
 After describing all segments, add a subsection analyzing:
 - How the different business segments relate to and support each other
 - Whether there are cross-selling opportunities or shared resources
-- Which segment is the "cash cow" vs. "growth engine" vs. "strategic investment"
 
 **Important writing principles for this section:**
 - Prioritize clarity over comprehensiveness — it is better to explain 3 things well than 7 things superficially
