@@ -8,10 +8,10 @@
 
 ```bash
 # Correct — downloads annual report PDFs
-node ~/Projects/tinyant/cninfo/index.js --codes 600066 --annual --year 2015-2024
+cd ~/Projects/tinyant/cninfo && node index.js --codes 600066 --annual --year 2015-2024
 
 # WRONG — downloads only recent announcements (ignores --year)
-node ~/Projects/tinyant/cninfo/index.js --codes 600066 --year 2015-2024
+cd ~/Projects/tinyant/cninfo && node index.js --codes 600066 --year 2015-2024
 ```
 
 Output goes to `~/Projects/tinyant/cninfo/data/<stock_code>/` with naming pattern `<YEAR>_<公司简称>_年度报告.pdf`.
