@@ -11,7 +11,7 @@ A single year's MD&A tells you what management *says now*. Ten years of MD&A tel
 Download the most recent ~10 years of annual report PDFs:
 
 - **A-share**: `cd ~/Projects/tinyant/cninfo && node index.js --codes <6-digit> --annual --year <start-end>`
-- **HKEX**: `cd ~/Projects/tinyant/hkexnews && node index.js --codes <5-digit> --year <start-end>`
+- **HKEX**: `cd ~/Projects/tinyant/hkexnews && node index.js --codes <5-digit> --annual --year <start-end>`
 
 If fewer than 5 years available (recent IPO), do all available years and note the limitation.
 

@@ -4,14 +4,8 @@
 
 ### Tool: `~/Projects/tinyant/cninfo/index.js`
 
-**CRITICAL**: The `--annual` flag is REQUIRED for annual reports. Without it, the tool defaults to recent announcements mode (last month only).
-
 ```bash
-# Correct — downloads annual report PDFs
 cd ~/Projects/tinyant/cninfo && node index.js --codes 600066 --annual --year 2015-2024
-
-# WRONG — downloads only recent announcements (ignores --year)
-cd ~/Projects/tinyant/cninfo && node index.js --codes 600066 --year 2015-2024
 ```
 
 Output goes to `~/Projects/tinyant/cninfo/data/<stock_code>/` with naming pattern `<YEAR>_<公司简称>_年度报告.pdf`.
@@ -34,24 +28,30 @@ Chinese annual reports have the MD&A section title in the TABLE OF CONTENTS (typ
 
 **Detection**: If extracted text is < 1000 chars, you almost certainly hit the TOC.
 
-### Pitfall 2: Section Number Varies by Year
+### Pitfall 2: Section Number AND Name Both Vary
 
-- 2015: MD&A is in **第四节** (Section 4)
-- 2016-2025: MD&A is in **第三节** (Section 3)
+The section number varies by year, AND the section name itself also varies across companies:
 
-Only 2015 used 第四节. The change happened after 2015, not after 2020. Do NOT hardcode the section number. Use a regex that matches both:
+| Year range | Section number | Section name variant |
+|-----------|---------------|---------------------|
+| 2015 | 第四节 | 经营情况讨论与分析 |
+| 2016-2019 | 第三节 | 管理层讨论与分析 (typical) |
+| 2020 | 第四节 (some companies) | 经营情况讨论与分析 |
+| 2021-2025 | 第三节 | 管理层讨论与分析 (typical) |
+
+**Critical**: Do NOT assume a fixed section number OR name. Some companies (e.g., 天山股份 2020) use "第四节 经营情况讨论与分析" even in post-2015 reports. The regex must match BOTH name variants:
 ```python
-pattern = r'第[三四]节\s*管理层讨论与分析'
+pattern = r'第[三四]节\s*(?:管理层讨论与分析|经营情况讨论与分析)'
 ```
 
-**Validation**: This extraction function has been tested across 2015-2025 (11 consecutive years) for 宇通客车 (600066.SH), producing 15,000-65,000 chars per year.
+**Validation**: Tested across 2015-2025 for 宇通客车 (600066.SH) and 天山股份 (000877.SZ), producing 15,000-65,000 chars per year. The 天山股份 2020 report confirmed the need for the broader pattern — the original narrow pattern (`管理层讨论与分析` only) failed to match because that year used "经营情况讨论与分析".
 
 ### Pitfall 3: Multiple Occurrences
 
 The section header appears at least twice (TOC + content). Solution: find ALL occurrences, pick the LAST one.
 
 ```python
-matches = list(re.finditer(r'第[三四]节\s*管理层讨论与分析', full_text))
+matches = list(re.finditer(r'第[三四]节\s*(?:管理层讨论与分析|经营情况讨论与分析)', full_text))
 start_pos = matches[-1].start()  # Last occurrence = actual content
 ```
 
@@ -78,11 +78,11 @@ def extract_mda(pdf_path):
     full_text = "\n".join([page.get_text() for page in doc])
     
     # Find ALL occurrences of section header
-    pattern = r'第[三四]节\s*管理层讨论与分析'
+    pattern = r'第[三四]节\s*(?:管理层讨论与分析|经营情况讨论与分析)'
     matches = list(re.finditer(pattern, full_text))
     if not matches:
-        # Fallback: search for content marker directly
-        match = re.search(r'一、经营情况讨论与分析', full_text)
+        # Fallback: search for content marker directly (either variant)
+        match = re.search(r'[一二]、(?:经营情况|管理层)讨论与分析', full_text)
         if match:
             start_pos = match.start()
         else:

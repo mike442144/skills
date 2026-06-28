@@ -40,8 +40,8 @@ Gather as much publicly available information as possible. **Always follow this 
 
 MUST download multi-year annual report PDFs (up to 10 years; for recently-listed companies, cover all available years). Annual reports are the primary data source for: §2 business segments / product-line revenue / subsidiary operating data, §4.1/4.2/4.3 management MD&A (see `references/multi-year-mda-review.md` for the systematic multi-year extraction workflow), §5 risk factors, and financial footnote detail (AR aging, provision tables, segment notes, etc.) that structured databases do not provide.
 
-- **A-share**: `cd ~/Projects/tinyant/cninfo && node index.js --codes <6-digit> --annual --year <start-end>`. The `--annual` flag is REQUIRED — without it the tool defaults to recent announcements only. See `references/cninfo-annual-report-extraction.md` for PDF download details and MD&A text extraction workflow.
-- **HKEX**: Use `~/Projects/tinyant/hkexnews/index.js` (港交所披露易), NOT cninfo. Example: `cd ~/Projects/tinyant/hkexnews && node index.js --codes 02858 --year 2019-2022`.
+- **A-share**: `cd ~/Projects/tinyant/cninfo && node index.js --codes <6-digit> --annual --year <start-end>`. See `references/cninfo-annual-report-extraction.md` for PDF download details and MD&A text extraction workflow.
+- **HKEX**: Use `~/Projects/tinyant/hkexnews/index.js` (港交所披露易), NOT cninfo. Example: `cd ~/Projects/tinyant/hkexnews && node index.js --codes 02858 --annual --year 2019-2022`.
 
 **Priority 1 — Installed Skills (check before anything else):**
 Before initiating any web search, scan all currently installed skills for any relevant to this research task. Use installed skills as the primary data source; only fall back to web search when they cannot provide sufficient data. Track every skill invoked (name, data provided, report section) for the "Sources & Limitations" section.

@@ -203,3 +203,5 @@ for name, code in companies:
 9. **资产负债表关键项查询模板**：`688271.SH2025年年报应收账款存货商誉资产负债率总资产净资产` — 一次查询可拿到多个BS关键指标，用于风险评估章节。
 
 10. **global_stock_data 对港股金融公司的局限性**：`global_stock_data` server for HK/US stocks is less reliable than `stock_data` for A-shares. Common failure modes: (1) Returns QUERY_FAILED for valid queries — try dropping leading zeros from stock codes (e.g., `02858.HK` → `2858.HK`). (2) Historical multi-year queries may return null for some metrics — fall back to Google Sheets + web search. (3) Some metrics (拨备覆盖率, 逾期率, 不良贷款率) are NOT available through wind-mcp for HK stocks — use credit rating reports and annual report appendices instead. Always have a fallback plan when researching HK-listed financial companies.
+
+11. **港股分产品/分地区收入数据极度有限**：`global_stock_data get_global_stock_fundamentals` 对港股的分产品收入查询通常只返回一个汇总行（如西部水泥2233.HK只返回"水泥生产及销售"一行），分地区查询仅返回"海外地区(不含中国)"且毛利率为null。**对于有多区域/多工厂运营的港股工业公司（水泥、制造、矿业等），Wind MCP几乎无法提供有价值的分部数据。** 正确的数据获取路径：hkexnews下载年报PDF → pymupdf提取全文 → 搜索"管理層討論及分析"/"業務回顧"章节，从中提取各区域/工厂的ASP、吨毛利、产能利用率、销量等详细运营数据。西部水泥案例中，年报PDF提供了6个国家/区域的逐厂运营数据（销量、ASP、吨毛利、产能利用率），这些信息Wind完全无法获取。**结论：港股工业公司的年报PDF是分部数据的第一来源，不是fallback。**
