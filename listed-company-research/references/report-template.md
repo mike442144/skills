@@ -387,6 +387,68 @@ If the MD&A review was NOT performed (e.g., recent IPO with <5 years of history,
 
 **Overall assessment paragraph (2–4 sentences):** Summarize the pattern and give a qualitative judgment on management's forecasting reliability and strategic execution track record.
 
+### 4.4 Capital Allocation Track Record (资本配置能力回顾)
+
+Assess whether management has been a good steward of capital over the company's history. This is distinct from §4.3 (which tests whether management keeps its word) — here the question is: regardless of what they said, did they deploy shareholder capital wisely and create (or destroy) value?
+
+**Methodology:**
+
+Collect 5+ years of cash flow statement data (from Google Sheets CIQ data, Wind, or annual reports), annual report MD&A capital expenditure disclosures, M&A announcements with post-deal outcomes, and dividend/buyback history. Build the analysis from actual financial outcomes, not management narratives.
+
+**Core dimensions:**
+
+**1. CAPEX cycle and investment returns**
+
+- Capital expenditure intensity over time (CAPEX/Revenue, CAPEX/OCF trends)
+- Timing of major investment cycles: did management invest counter-cyclically (at the bottom) or pro-cyclically (chasing the peak)?
+- For completed projects: achieved ROIC vs. the company's WACC — did investments clear the cost-of-capital hurdle?
+- Capacity utilization of major facilities/projects built in prior cycles
+- White elephant detection: any large investments that never reached stated utilization or profitability targets?
+
+**2. M&A track record**
+
+- Inventory of major acquisitions (deal value, year, strategic rationale stated at the time)
+- Post-deal integration outcomes: revenue synergies achieved? Cost synergies? Or value destruction?
+- Goodwill impairment history — has the company written down acquisition goodwill? When and how much?
+- Pattern: serial acquirer vs. disciplined buyer; premium paid vs. industry norm
+- Divestiture track record: did management exit poor businesses promptly or hold on too long?
+
+| Year | Target | Deal Value | Stated Rationale | Outcome (3-5yr) | Goodwill Impairment |
+|------|--------|-----------|-------------------|-----------------|---------------------|
+| [Year] | [Target] | [Value] | [Rationale] | [✅ Value created / ❌ Value destroyed / ⚠️ Mixed] | [Amount if any] |
+
+**3. Shareholder return consistency**
+
+- Dividend policy stability: payout ratio trend over 5+ years — consistent, rising, erratic, or cut during stress?
+- Dividend sustainability: was the payout funded by genuine FCF or by debt/equity issuance?
+- Buyback timing: did management repurchase shares at attractive valuations (low P/E, below book) or at peaks?
+- Total Shareholder Return (TSR) vs. peer median over the same period — context for whether capital allocation contributed to or detracted from shareholder value
+
+**4. Balance sheet management**
+
+- Leverage trajectory: did management maintain conservative leverage, or did they lever up aggressively for growth?
+- Financing timing: equity issuance at high valuations (accretive) vs. low valuations (dilutive)? Debt raised at favorable rates?
+- Credit rating trajectory: upgrades, downgrades, or stable?
+- Liquidity management: excess cash hoarding (opportunity cost) vs. productive deployment
+
+**5. Capital discipline signals**
+
+- Free cash flow conversion trend (FCF/Net Profit): consistently high (>80%) suggests earnings quality; persistently low suggests capital is being consumed
+- Excess cash behavior: returned to shareholders or accumulated on balance sheet earning sub-WACC returns?
+- Growth-at-any-cost detection: periods where management pursued revenue growth that destroyed margins and returns
+- Related-party capital flows: any capital deployed to entities benefiting insiders rather than all shareholders?
+
+**Output — Overall Capital Allocation Rating:**
+
+**Capital Allocation Rating: [🟢 Value-Creating / 🟡 Neutral / 🔴 Value-Destroying]**
+
+[2–4 sentence narrative assessment: What is the overall pattern? Cite the single most illustrative decision (positive or negative) as evidence. Note any inflection points where capital allocation quality changed (e.g., new CFO, shift from growth to returns focus). Distinguish between structural allocation skill and cyclical luck.]
+
+**Section-specific writing notes:**
+- Be specific: "Management invested ¥12bn in the X plant in 2019 at the cycle peak; it reached only 55% utilization by 2024 and impaired ¥2.1bn" — not "some investments underperformed"
+- Distinguish skill from luck: a single well-timed acquisition in a rising market ≠ capital allocation skill; look for patterns across multiple decisions
+- Note the counterfactual where relevant: "Had the ¥8bn buyback not been executed, FCF could have funded the entire dividend for 3 years"
+
 ---
 
 ## 5. Risk Factors
