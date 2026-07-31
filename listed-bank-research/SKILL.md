@@ -3,7 +3,7 @@ name: listed-bank-research
 description: This skill should be used when the user wants to conduct in-depth fundamental research on any listed bank in A-share (China) market, Hong Kong-listed (HKEX) bank stocks, or US-listed Chinese banks. Triggers include phrases like "研究XX银行", "分析XX银行基本面", "帮我看看XX银行", "XX银行深度分析", "研究银行股", "分析银行财报", or when the user provides a bank stock code/ticker and asks for analysis. The skill produces a comprehensive, neutral-analysis Markdown report covering bank business model, financial performance, asset quality, capital adequacy, profitability drivers, and risk factors. It does NOT include financial statement modeling, valuation, stock ratings, or investment recommendations.
 metadata:
   author: Mike Chen
-  version: '2.7'
+  version: '2.8'
 ---
 
 # Listed Bank Research Skill
@@ -138,6 +138,9 @@ Use the report template at `references/report_template.md` as the standard struc
   - **Do not reduce multi-factor causality to a single cause.** If a metric change has multiple drivers, list all factors. Never say "X导致Y" when the reality is "X、Y、Z多重因素共振".
   - **Distinguish company原话 ("息差有望企稳") vs 媒体报道 ("净息差收窄压力加大") vs analyst包装 ("息差筑底").** Do not mix without attribution.
   - **Data points require source tags** on first mention.
+- **Perspective retention (materialist dialectical value):** Retain perspectives that hold materialist dialectical value, and discard all other perspectives. A perspective with materialist dialectical value must satisfy the following:
+  - Materialist Nature: The subject of the perspective is a certain fact, rather than a certain opinion. Predictions about changes in facts are also considered opinions.
+  - Unity of Opposites: If the perspective holds, it should serve as a driving force to further iterate the original conclusion, enabling a more comprehensive exploration of the matter, rather than merely serving as supplementary incremental information.
 
 **Section completeness rule:** Each section must have at least one data table with actual numbers. If P0 data for a section is missing, write qualitative analysis from news/reports with explicit notation of what data is unavailable.
 
@@ -169,6 +172,3 @@ If any check fails, fix before delivery.
 
 2. Include data tables and cite data sources.
 3. At the end of the report, include a **Data Completeness Summary** per the template in `references/report_template.md` (Appendix D).
-4. Retain perspectives that hold materialist dialectical value, and discard all other perspectives. A perspective with materialist dialectical value must satisfy the following:
-   - Materialist Nature: The subject of the perspective is a certain fact, rather than a certain opinion. Predictions about changes in facts are also considered opinions.
-   - Unity of Opposites: If the perspective holds, it should serve as a driving force to further iterate the original conclusion, enabling a more comprehensive exploration of the matter, rather than merely serving as supplementary incremental information.
