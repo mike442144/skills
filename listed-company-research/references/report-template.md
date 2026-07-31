@@ -1,6 +1,8 @@
 # Listed Company Research Report Template
 
-This template defines the full structure and writing guidance for the research report. Follow each section's instructions carefully.
+This template defines the full structure and writing guidance for the research report.
+
+**Adaptation principle:** This template is a structural guide, not a straitjacket. For each section, ask: "Does this sub-section meaningfully apply to THIS company?" If a sub-section is irrelevant (e.g., "Production Inputs" for a pure platform company, "M&A track record" for a company that has never acquired), simplify it to one sentence or omit it. Depth should follow relevance — go deep where the company's story demands it, stay brief where it doesn. A focused 4,000-word report beats a padded 8,000-word one.
 
 ---
 
@@ -120,66 +122,37 @@ Present a multi-year segment revenue breakdown table before diving into each seg
 
 ### 2.X [Segment Name]
 
+For each segment, answer these core questions in narrative form. Not every question requires equal depth — weight them by relevance to this specific business.
+
 #### What Is This Business?
 
-- Explain what this business does in plain, non-jargon language
-- Use analogies if helpful (e.g., "Think of it as a marketplace that...")
-- If it involves a specific business model, name it (e.g., platform model, subscription, usage-based) and explain how it works
+Explain in plain language what this segment does, who it serves, and what problem it solves. Name the business model if applicable (platform, subscription, usage-based, manufacturing, etc.).
 
-#### Who Are the Customers?
+#### Customers & Revenue Model
 
-- Who are the end users / customers? (B2B, B2C, B2G, or a mix)
-- Describe the customer profile (e.g., SMEs, individual consumers, financial institutions)
-- What problem does this business solve for the customer?
-- Customer concentration: is revenue dependent on a few large clients or widely distributed?
+Who pays, for what, and how? Cover: customer profile (B2B/B2C/B2G), concentration (few large clients vs. distributed), revenue mechanism (fees, spreads, subscriptions, product sales), and key revenue drivers.
 
-#### Production Inputs & Resources
+#### Key Inputs & Resources
 
-- What inputs/resources does this business need to operate?
-  - Physical: equipment, facilities, inventory, raw materials
-  - Digital: data, technology, algorithms, software
-  - Human: specialized talent, sales teams
-  - Capital: funding requirements, asset intensity
-  - Regulatory: licenses, permits, compliance requirements
+What does this business need to operate? **Adapt depth to asset intensity:**
+- Heavy-asset / manufacturing: detail physical inputs (equipment, facilities, raw materials), capacity constraints, supply chain dependencies
+- Asset-light / platform / service: one paragraph on key resources (talent, technology, licenses, data) is sufficient — do NOT force-fit a manufacturing framework
 
-#### How Is Revenue Generated?
+#### Business Process (when non-obvious)
 
-- Revenue model: how does the business make money?
-  - Transaction fees / commissions / interest spread
-  - Subscription fees / recurring revenue
-  - Service fees / consulting fees
-  - Product sales / rental income
-  - Advertising revenue / data monetization
-- Revenue recognition: when and how is revenue recorded?
-- Pricing structure: how is pricing determined?
-- Key revenue drivers: what primarily drives revenue growth or decline?
-
-#### Business Process
-
-Walk through the business process step by step:
-1. How does the company acquire customers?
-2. What happens after a customer is acquired?
-3. How is the product/service delivered?
-4. What happens post-delivery (after-sales, retention, etc.)?
-
-If possible, include a simple text-based flow chart:
+Walk through the value creation chain only if the process is complex or non-intuitive. For straightforward businesses (e.g., "makes product → sells product"), skip this sub-section. When included, a simple text flow chart is effective:
 
 ```
-Customer Acquisition -> [Step 1] -> [Step 2] -> [Step 3] -> Revenue Recognition -> Post-Sale/Retention
+Customer Acquisition -> [Step 1] -> [Step 2] -> [Step 3] -> Revenue Recognition -> Post-Sale
 ```
 
 #### Key Operating Metrics
 
-- List 3-5 key metrics that reflect the health of this business segment:
-  - e.g., GMV, transaction volume, active users, ARPU, market share, renewal rate, default rate, utilization rate
-- Provide the latest available figures with sources
+List 3-5 metrics that best reflect this segment's health (e.g., GMV, active users, ARPU, utilization rate, renewal rate, default rate). Provide latest figures with sources. Choose metrics that a reader would track to judge whether this business is thriving — not a generic KPI dump.
 
 #### Revenue Contribution
 
-- Revenue amount (or approximate range) for this segment
-- Percentage of total revenue
-- Revenue growth trend (YoY, multi-year if available)
-- Profitability of this segment if disclosed (margin, profit contribution)
+Revenue amount, % of total, growth trend (YoY + multi-year), and segment profitability if disclosed.
 
 ### Inter-Segment Synergies
 
@@ -207,16 +180,13 @@ After describing all segments, add a subsection analyzing:
 
 ### 3.2 Value Chain Analysis
 
-Describe the value chain:
+**Adapt to business type:** For manufacturing, commodity, or supply-chain-intensive businesses, map the full value chain (upstream → midstream → downstream) with key players, bargaining power dynamics, and bottlenecks. For platform, service, or asset-light businesses, reframe as an "ecosystem map" (who are the participants, how does value flow between them) or simplify to 1-2 paragraphs if the value chain is straightforward and uninformative.
 
 ```
 Upstream (Suppliers) -> Midstream (This Industry) -> Downstream (Customers / End Users)
 ```
 
-For each layer:
-- Who are the key players?
-- What is the bargaining power dynamic?
-- Are there any bottlenecks or dependencies?
+For each relevant layer: who are the key players, what is the bargaining power dynamic, and are there bottlenecks or dependencies?
 
 ### 3.3 Competitive Landscape
 
@@ -389,125 +359,68 @@ If the MD&A review was NOT performed (e.g., recent IPO with <5 years of history,
 
 ### 4.4 Capital Allocation Track Record (资本配置能力回顾)
 
-Assess whether management has been a good steward of capital over the company's history. This is distinct from §4.3 (which tests whether management keeps its word) — here the question is: regardless of what they said, did they deploy shareholder capital wisely and create (or destroy) value?
+**Core question:** Regardless of what management said, did they deploy shareholder capital wisely and create (or destroy) value over time?
+
+This is distinct from §4.3 (which tests whether management keeps its word). Here the lens is actual financial outcomes.
 
 **Methodology:**
 
-Collect 5+ years of cash flow statement data (from Google Sheets CIQ data, Wind, or annual reports), annual report MD&A capital expenditure disclosures, M&A announcements with post-deal outcomes, and dividend/buyback history. Build the analysis from actual financial outcomes, not management narratives.
+Collect 5+ years of data: cash flow statements (from productivity-tools CIQ, Wind, or annual reports), CAPEX disclosures, M&A announcements with post-deal outcomes, dividend/buyback history. Build the analysis from actual outcomes, not management narratives.
 
-**Core dimensions:**
+If the multi-year MD&A review was performed (see `references/multi-year-mda-review.md`), draw on its capital allocation dimensions directly.
 
-**1. CAPEX cycle and investment returns**
+**Dimensions (choose the 2-3 most relevant to this company's story):**
 
-- Capital expenditure intensity over time (CAPEX/Revenue, CAPEX/OCF trends)
-- Timing of major investment cycles: did management invest counter-cyclically (at the bottom) or pro-cyclically (chasing the peak)?
-- For completed projects: achieved ROIC vs. the company's WACC — did investments clear the cost-of-capital hurdle?
-- Capacity utilization of major facilities/projects built in prior cycles
-- White elephant detection: any large investments that never reached stated utilization or profitability targets?
+- **CAPEX cycle & investment returns** — Investment intensity over time, timing (counter-cyclical vs. pro-cyclical), achieved ROIC vs. WACC for completed projects, white elephant detection. *Most relevant for: capital-intensive manufacturers, utilities, infrastructure.*
+- **M&A track record** — Inventory of major deals with post-deal outcomes, goodwill impairment history, serial acquirer vs. disciplined buyer pattern, divestiture timeliness. *Most relevant for: companies with active acquisition history.*
+- **Shareholder return consistency** — Dividend policy stability and sustainability (FCF-funded vs. debt-funded), buyback timing (attractive valuations vs. peaks), TSR vs. peer median. *Most relevant for: mature companies where return of capital is a key thesis.*
+- **Balance sheet management** — Leverage trajectory, financing timing (equity at highs vs. lows), credit rating trajectory, liquidity management. *Most relevant for: leveraged businesses, financials, companies that went through stress.*
+- **Capital discipline signals** — FCF conversion trend, excess cash behavior, growth-at-any-cost detection, related-party capital flows. *Relevant as a cross-cutting check for all companies.*
 
-**2. M&A track record**
-
-- Inventory of major acquisitions (deal value, year, strategic rationale stated at the time)
-- Post-deal integration outcomes: revenue synergies achieved? Cost synergies? Or value destruction?
-- Goodwill impairment history — has the company written down acquisition goodwill? When and how much?
-- Pattern: serial acquirer vs. disciplined buyer; premium paid vs. industry norm
-- Divestiture track record: did management exit poor businesses promptly or hold on too long?
-
-| Year | Target | Deal Value | Stated Rationale | Outcome (3-5yr) | Goodwill Impairment |
-|------|--------|-----------|-------------------|-----------------|---------------------|
-| [Year] | [Target] | [Value] | [Rationale] | [✅ Value created / ❌ Value destroyed / ⚠️ Mixed] | [Amount if any] |
-
-**3. Shareholder return consistency**
-
-- Dividend policy stability: payout ratio trend over 5+ years — consistent, rising, erratic, or cut during stress?
-- Dividend sustainability: was the payout funded by genuine FCF or by debt/equity issuance?
-- Buyback timing: did management repurchase shares at attractive valuations (low P/E, below book) or at peaks?
-- Total Shareholder Return (TSR) vs. peer median over the same period — context for whether capital allocation contributed to or detracted from shareholder value
-
-**4. Balance sheet management**
-
-- Leverage trajectory: did management maintain conservative leverage, or did they lever up aggressively for growth?
-- Financing timing: equity issuance at high valuations (accretive) vs. low valuations (dilutive)? Debt raised at favorable rates?
-- Credit rating trajectory: upgrades, downgrades, or stable?
-- Liquidity management: excess cash hoarding (opportunity cost) vs. productive deployment
-
-**5. Capital discipline signals**
-
-- Free cash flow conversion trend (FCF/Net Profit): consistently high (>80%) suggests earnings quality; persistently low suggests capital is being consumed
-- Excess cash behavior: returned to shareholders or accumulated on balance sheet earning sub-WACC returns?
-- Growth-at-any-cost detection: periods where management pursued revenue growth that destroyed margins and returns
-- Related-party capital flows: any capital deployed to entities benefiting insiders rather than all shareholders?
+For dimensions not chosen, a single sentence explaining why they're not material is sufficient (e.g., "The company has never made an acquisition, so M&A track record is not applicable.").
 
 **Output — Overall Capital Allocation Rating:**
 
 **Capital Allocation Rating: [🟢 Value-Creating / 🟡 Neutral / 🔴 Value-Destroying]**
 
-[2–4 sentence narrative assessment: What is the overall pattern? Cite the single most illustrative decision (positive or negative) as evidence. Note any inflection points where capital allocation quality changed (e.g., new CFO, shift from growth to returns focus). Distinguish between structural allocation skill and cyclical luck.]
+[2–4 sentence narrative: What is the overall pattern? Cite the single most illustrative decision as evidence. Note inflection points (new CFO, strategy shift). Distinguish structural skill from cyclical luck.]
 
-**Section-specific writing notes:**
-- Be specific: "Management invested ¥12bn in the X plant in 2019 at the cycle peak; it reached only 55% utilization by 2024 and impaired ¥2.1bn" — not "some investments underperformed"
-- Distinguish skill from luck: a single well-timed acquisition in a rising market ≠ capital allocation skill; look for patterns across multiple decisions
-- Note the counterfactual where relevant: "Had the ¥8bn buyback not been executed, FCF could have funded the entire dividend for 3 years"
+**Writing notes:**
+- Be specific: "¥12bn invested in X plant in 2019 at cycle peak; reached only 55% utilization by 2024, impaired ¥2.1bn" — not "some investments underperformed"
+- Distinguish skill from luck: one well-timed deal in a rising market ≠ allocation skill
+- Note the counterfactual where illuminating
 
 ---
 
 ## 5. Risk Factors
 
-This is a priority section. Identify and analyze risks systematically across categories.
+**Core question:** What could go wrong for THIS specific company, and how severe would it be?
 
-### 5.1 Operational Risks
+Identify the 5-10 most material risks specific to this company. Organize by category, but only include categories where genuine risks exist — do NOT pad with generic risks that apply to any listed company. A company with no FX exposure doesn't need a "foreign exchange risk" paragraph.
 
-- Revenue concentration risk (customer, product, geography)
-- Business model sustainability concerns
-- Operational risks (supply chain, technology failure, quality issues)
-- Talent retention and key-person dependency
-- Execution risk of strategic initiatives
+**Categories to consider (include only where material):**
 
-### 5.2 Financial Risks
+- **Operational** — revenue concentration, business model sustainability, supply chain, key-person dependency, execution risk of stated strategy
+- **Financial** — liquidity, leverage, asset quality, earnings volatility
+- **Industry** — market saturation/decline, technology disruption, competition intensification, cyclicality
+- **Governance & compliance** — related-party transactions, controlling shareholder risk, regulatory exposure
+- **Macro & systemic** — geopolitical, sanctions/trade restrictions, macro sensitivity (only for companies with genuine international or macro exposure)
 
-- Liquidity / cash flow risk
-- Debt / leverage risk
-- Revenue or profit volatility
-- Asset quality concerns (e.g., NPL for financial companies, inventory for manufacturing)
-- Foreign exchange / interest rate exposure
+For each risk: state it specifically, quantify the potential impact where possible, assess likelihood, and note any mitigation the company has in place.
 
-### 5.3 Industry Risks
+### 5.X Risk Summary
 
-- Market saturation or decline
-- Technology disruption risk
-- Policy / regulatory change risk
-- Cyclical downturn risk
-- Competition intensification
+Provide a concise summary table of the top risks identified above:
 
-### 5.4 Governance & Compliance Risks
+| Risk Category | Key Risk | Impact Level | Likelihood | Mitigation |
+|---------------|----------|-------------|------------|------------|
+| [Category] | [Specific risk] | 🔴 High / 🟡 Medium / 🟢 Low | 🔴 / 🟡 / 🟢 | [Brief] |
 
-- Related-party transaction risk
-- Controlling shareholder risk
-- Regulatory compliance risk (industry-specific)
-- Cross-border regulatory risk (if applicable)
-
-### 5.5 Macro & Systemic Risks
-
-- Macroeconomic sensitivity
-- Geopolitical risk (especially for companies with international exposure)
-- Sanctions / trade restriction risk
-
-### 5.6 Risk Summary
-
-Provide a concise summary table:
-
-| Risk Category | Key Risk | Impact Level | Likelihood | Mitigation Measures |
-|---------------|----------|-------------|------------|---------------------|
-| Operational | [Key risk 1] | 🔴 High / 🟡 Medium / 🟢 Low | 🔴 High / 🟡 Medium / 🟢 Low | [Yes/No + brief description] |
-| Financial | [Key risk 2] | ... | ... | ... |
-| ... | | | | |
-
-**Writing guidance for risk section:**
-- Be specific — "Loss of the top 3 clients could reduce revenue by over 30%" is better than "There is customer concentration risk."
-- Quantify risks wherever possible
-- Assess both likelihood and potential impact
-- Note any risk mitigation measures the company has in place
-- Avoid generic boilerplate — tailor risks to this specific company
+**Writing guidance:**
+- Be specific — "Loss of top 3 clients could reduce revenue by >30%" not "There is customer concentration risk"
+- Quantify wherever possible
+- Avoid generic boilerplate — every risk should be tailored to this company
+- If the company's risk profile is genuinely benign, say so briefly rather than inventing risks
 
 ---
 
@@ -552,36 +465,24 @@ Also note:
 - Keep paragraphs concise — aim for 3-5 sentences per paragraph
 - Target total report length: 3,000 - 8,000 words depending on company complexity
 
-### Narrative Prose vs Bullet Points (IMPORTANT)
+### Narrative Prose vs Bullet Points — Example
 
-**Default to narrative prose for explaining concepts, business models, and strategic analysis.** Use bullet points only for: raw data lists, sequential steps, and metrics inventories. Do NOT use bullets for analytical content that requires unpacking and contextualizing.
+The rule is stated in SKILL.md (conclusion-first narrative for analytical content; bullets only for data/factual lists). Below is a concrete example of the difference:
 
-**Why:** Bullet points are highly compressed summaries. A reader who hasn't previously studied the company or industry cannot quickly understand the significance of a bullet like "KD组装模式 → 技术输出". They need the reasoning chain explained: what it is, how it works, why it matters, and what the competitive implication is. Bullets are appropriate for the author's own notes, but the final deliverable must be readable by someone encountering this company for the first time.
-
-**Pattern — Conclusion-first narrative:**
-
-When explaining a concept (e.g., "宇通模式", "三直四化", "属地化经营"), follow this structure:
-1. State the concept in one sentence (the summary/conclusion).
-2. Then explain in 2-4 paragraphs of narrative prose:
-   - What does it mean in plain language? (with analogies if helpful)
-   - How does it work mechanically? (walk through the process)
-   - Why does it matter competitively? (what barrier does it create, what alternative does it replace)
-   - What is the strategic implication for the investment thesis?
-
-**Example (good — narrative):**
+**Good — narrative:**
 > 宇通在这一阶段正式提出了"宇通模式"这个概念。简单来说，传统的中国制造业出口就是"卖产品"——把车造好，运到海外，一手交钱一手交货，交易结束。但宇通模式不一样，它不仅仅是卖车，而是帮助海外国家建立本地的客车制造能力。
 >
 > 具体怎么做呢？宇通在十几个国家推行KD（Knock Down）组装模式。所谓KD组装，就是宇通把客车的零部件运到目标国家，然后当地的工厂按照宇通的技术标准和工艺流程进行组装...
 >
 > 这个模式的意义在于：它让宇通在海外市场的竞争壁垒从"产品性价比"升级为"生态系统控制力"。竞争对手可以模仿产品，但很难复制一整套技术输出体系。
 
-**Example (bad — bullet, too compressed):**
+**Bad — bullet, too compressed:**
 > **"宇通模式"正式提出：**
 > - "独创中国制造出口的'宇通模式'"
 > - "成为中国汽车工业由产品输出走向技术输出的典范"
 > - 从卖产品→建立本地客车制造能力（KD组装）
 
-**When bullets ARE appropriate:** Data tables, metric inventories, step-by-step procedures (Step 1 → Step 2 → Step 3), risk summary tables, competitive landscape matrices. Anywhere the content is factual/sequential rather than analytical.
+**When bullets ARE appropriate:** Data tables, metric inventories, step-by-step procedures, risk summary tables, competitive landscape matrices — anywhere content is factual/sequential rather than analytical.
 
 ---
 
