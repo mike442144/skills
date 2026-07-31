@@ -66,7 +66,7 @@ Different sources have different coverage; query ALL of the following IN PARALLE
 - wind-mcp-skill (公司公告 RAG, exchange filings)
 - ifind-repilot-news-search (全市场金融资讯, 新闻舆情)
 - mx-finance-search (东方财富生态: 研报, 公告, 财经新闻)
-- baidu-search (通用网络: 政策文件, 行业媒体, 非金融数据库覆盖的信息)；调用时 `count` 设为 50（拉满结果条数）
+- baidu-search (通用网络: 政策文件, 行业媒体, 非金融数据库覆盖的信息)；调用时 `count` 设为 50（拉满结果条数）。结果须过滤百家号/自媒体/虎嗅等非权威源，仅保留权威信源（雪球保留）
 
 When a research task needs both modes (e.g., "查财务数据 + 最新公告"), run Mode A and Mode B concurrently.
 
