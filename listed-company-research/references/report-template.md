@@ -115,6 +115,19 @@ Present a multi-year segment revenue breakdown table before diving into each seg
 
 > **Data source accuracy:** The table above must reflect the company's OWN reported segment definitions and reported figures (from the annual report's "分部报告" / "segment reporting" section). Do NOT reclassify or aggregate segments unless the company does so. If segment definitions changed during the 3-year window (e.g., a segment was renamed, split, or merged), explicitly note the reclassification and align the historical data using restated comparatives; if restated figures are not available, flag the discontinuity.
 
+**Segment Profitability (when disclosed):**
+
+If the annual report discloses segment-level profit or gross margin data (分部利润 / 分产品毛利率), present it alongside revenue:
+
+| Segment | [Year-2] Gross Margin | [Year-1] Gross Margin | [Year] Gross Margin | Margin Δ (YoY) |
+|---------|:-----------:|:-----------:|:-----------:|:---:|
+| [Segment 1] | XX% | XX% | XX% | +X.Xpp |
+| [Segment 2] | XX% | XX% | XX% | -X.Xpp |
+| [Segment 3] | XX% | XX% | XX% | X.Xpp |
+| **Overall** | **XX%** | **XX%** | **XX%** | **+X.Xpp** |
+
+Use gross margin (毛利率) as the default metric. If the company discloses operating profit by segment instead (or additionally), use that and label accordingly. If segment profitability is NOT disclosed, skip this table and note the gap in one sentence.
+
 **Key observations (2-3 concise points):**
 - **Growth engine vs. cash cow:** Which segments are growing above/below the company average? Is there a clear "second curve" emerging?
 - **Concentration:** Does any single segment contribute >50% of total revenue? Is revenue diversified or highly concentrated?
