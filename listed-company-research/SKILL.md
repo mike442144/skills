@@ -3,7 +3,7 @@ name: listed-company-research
 description: "This skill should be used when the user wants to conduct in-depth fundamental research on any listed company, including A-share (China), Hong Kong-listed (HKEX), or US-listed (NYSE/NASDAQ) stocks. Triggers include phrases like '研究XX公司', '分析XX', 'XX公司基本面', '帮我看看XX', 'deep dive XX', 'research XX company', '管理层展望', '战略规划', 'management strategy', 'outlook', or when the user provides a stock code/ticker and asks for analysis. The skill produces a comprehensive, neutral-analysis Markdown report covering company overview, detailed business decomposition, industry competitive landscape, management outlook & strategy, and risk factors. It does NOT include financial statement modeling, valuation, stock ratings, or investment recommendations."
 metadata:
   author: Mike Chen
-  version: '3.1'
+  version: '4.0'
 ---
 
 # Listed Company Fundamental Research
@@ -40,25 +40,26 @@ These freshness rules apply throughout the entire workflow and are verified agai
 
 Gather as much publicly available information as possible. **Always follow this priority order:**
 
-**Priority 0 — Multi-year annual report download (MANDATORY):**
+**Priority 0:**
 
+Start the annual report download in background (item 1), then immediately proceed to Google Sheets discovery (item 2) without waiting for the download to finish.
+
+1. Multi-year annual report download (MANDATORY)
 Download multi-year annual report PDFs (up to 10 years; for recently-listed companies, cover all available years). Annual reports are the primary source for: business segments / product-line revenue / subsidiary data, management MD&A (see `references/multi-year-mda-review.md`), risk factors, and financial footnotes (AR aging, provision tables, segment notes) that structured databases lack.
+    - **A-share**: `cd ~/Projects/tinyant/cninfo && node index.js --codes <6-digit> --annual --year <start-end>`. See `references/cninfo-annual-report-extraction.md` for PDF download and MD&A text extraction.
+    - **HKEX**: Use `~/Projects/tinyant/hkexnews/index.js` (港交所披露易), NOT cninfo. Example: `cd ~/Projects/tinyant/hkexnews && node index.js --codes 02858 --annual --year 2019-2022`.
 
-- **A-share**: `cd ~/Projects/tinyant/cninfo && node index.js --codes <6-digit> --annual --year <start-end>`. See `references/cninfo-annual-report-extraction.md` for PDF download and MD&A text extraction.
-- **HKEX**: Use `~/Projects/tinyant/hkexnews/index.js` (港交所披露易), NOT cninfo. Example: `cd ~/Projects/tinyant/hkexnews && node index.js --codes 02858 --annual --year 2019-2022`.
-
-**Priority 0b — Google Sheets long-cycle financials (MANDATORY, run in parallel with 0a):**
-
-Check the user's Google Sheets for the target company's tab via the `productivity-tools` skill (formerly google-workspace). The user maintains 30+ industry-specific CIQ-sourced sheets (Key Stats / IS / BS / CF / Ratios, 19+ years). Do NOT assume coverage — no static sheet list is maintained (public repo); always discover tabs via Drive API (see `references/gs-financial-structure.md`).
-- Tab found (e.g., `<公司名>财务`): extract multi-year trends and use for same-CIQ cross-validation with peers (prioritize metrics Wind batch queries miss: ROIC, Net Debt, DPS, payout ratio, interest coverage).
-- Tab NOT found: record "Google Sheets 无该公司数据" in report §6.3 Limitations — do not silently skip.
-- Limitations: no segment/product detail (use annual reports); not a source for latest marginal data (quarterly updates, real-time quotes). **Pitfall:** skill was renamed from `google-workspace` to `productivity-tools`.
+2. Google Sheets historical financials (MANDATORY)
+Check the user's Google Sheets for the target company's tab via the `productivity-tools` skill (formerly google-workspace). Always discover tabs via Drive API (see `references/gs-financial-structure.md`).
+    - Tab found (e.g., `<公司名>财务`): extract multi-year trends for same-CIQ peer cross-validation (see reference for priority metrics & extraction pattern).
+    - Tab NOT found: follow the fallback flow at the end of `references/gs-financial-structure.md` (record in §6.3 + fall back to mx).
+    - Limitations: no segment/product detail (use annual reports); not a source for latest marginal data (quarterly updates, real-time quotes). **Pitfall:** skill was renamed from `google-workspace` to `productivity-tools`.
 
 **Priority 1 — Installed Skills (check before web search):**
 
 Scan all installed skills for relevance. Use them as primary data source; fall back to web search only when insufficient. Track every skill invoked for the "Sources & Limitations" section.
 
-For all other queries, determine mode based on information type:
+Determine mode based on information type:
 
 **Mode A — Structured data points** (财务指标, 股东, 行情, 估值, 股本, 宏观数据):
 Data availability is good; query ONE source in fallback order, move to next only on failure or rate-limit:
@@ -121,6 +122,7 @@ Before beginning data collection, scan the trigger table below and load every re
 | Structural headwinds that played out in other markets | `cross-market-comparison-framework.md` |
 | Researching 3+ companies in one industry simultaneously | `multi-company-research-pattern.md` |
 | Auto finance / loan facilitation platform | `global-auto-finance-market-comparison.md` |
+| Post-delivery: company has physical products AND (user requests images OR products are highly visual) | `product-images-enhancement.md` |
 
 **Inline patterns (short, high-frequency rules without dedicated references):**
 
@@ -146,11 +148,10 @@ Structure the report following `references/report-template.md` (five chapters: C
 **Writing principles (universal):**
 
 - Plain language for an intelligent non-specialist. Chinese (中文) default unless user requests otherwise.
-- For each business segment: what it is, customers, inputs, revenue mechanism, business flow.
-- Support all claims with specific data; cite sources inline on first mention.
 - Neutral, objective tone — facts and analysis, not opinions or recommendations.
 - **Narrative over bullet (critical user preference):** Use narrative paragraphs for explaining strategies, business models, and analytical conclusions. Pattern: conclusion-first sentence → 2-4 paragraphs of expansion. Bullets acceptable only for raw data tables and short factual enumerations.
-- **Attribution discipline:** Do not invent packaging phrases. Do not reduce multi-factor causality to a single cause. Distinguish 公司原话 vs 媒体报道 vs analyst包装. Every quantitative claim needs an inline source note.
+- **Attribution discipline:** Distinguish 公司原话 vs 媒体报道 vs analyst packaging. Do not invent framing phrases or reduce multi-factor causality to a single cause. Cite sources inline on first mention.
+- **Perspective retention (materialist dialectical value):** Only retain perspectives that satisfy both criteria; discard all others. (1) Materialist nature: the perspective is grounded in a fact, not an opinion — predictions about future changes count as opinions. (2) Unity of opposites: if the perspective holds, it should drive iteration of the original conclusion toward a more comprehensive understanding, not merely serve as supplementary incremental information.
 
 **Cross-market comparison (when applicable):** When the target faces structural headwinds with analogues in other markets, include a comparison appendix per `references/cross-market-comparison-framework.md`.
 
@@ -165,14 +166,6 @@ Structure the report following `references/report-template.md` (five chapters: C
 3. **Restatement base-effect**: If 前期会计差错更正 occurred, present BOTH restated and pre-restated data; calculate both adjusted-base and original-base growth rates. (See `references/accounting-restatement-analysis.md`.)
 4. **Completeness**: Stock codes/names accurate, each major section substantive, risk factors thorough.
 5. Save the Markdown file and present to user.
-
-### Step 6: Multi-Company Parallel Research (When Applicable)
-
-When researching 3+ companies simultaneously, follow `references/multi-company-research-pattern.md`: parallel Phase 1 → cross-reference Phase 2 → industry synthesis Phase 3.
-
-### Step 7: Optional — Product Image Enhancement
-
-For companies with physical products, optionally enhance Section 2 with product images after the main report is complete. See `references/product-images-enhancement.md`. Skip unless requested or products are highly visual.
 
 ## Living Document Workflow
 

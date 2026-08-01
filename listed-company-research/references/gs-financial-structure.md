@@ -1,20 +1,18 @@
 # Google Sheet Financial Data Structure
 
-User maintains **multiple industry-specific Google Sheets** containing CIQ-sourced financial data for tracked companies. These are the primary source for long-term (10+ year) financial trend analysis in appendix sections.
+User maintains **multiple industry-specific Google Sheets** containing CIQ-sourced financial data for tracked companies. These are the primary source for long-term (10+ year) financial trend analysis.
 
 ## Coverage Limitations
 
-The Google Sheets contain a subset of CIQ's standard sheets: **Key Stats, Income Statement, Balance Sheet, Cash Flow, Ratios** (with 19+ years of data). They do **NOT** contain CIQ's `Industry Specific`, `Segments`, `Pension OPEB`, or `Supplemental` sheets. For data typically found in those sheets (NPL ratios, loan composition, segment revenue breakdowns, etc.), use annual report appendices or credit rating reports instead.
+The Google Sheets contain CIQ's standard financial sheets: **Income Statement, Balance Sheet, Cash Flow** (with 19+ years of data), and user maintained evaluations(Summary Sheet) and indicators(Company Sheet). For data like NPL ratios, loan composition, segment revenue breakdowns, etc., use annual report appendices or credit rating reports instead.
 
 **Known units:** All financial figures in **CNY Millions** (S&P CIQ default). Ratios as decimals (0.296 = 29.6%). EPS in CNY.
 
 ## Sheet Discovery (Drive API only — no static list)
 
-**IMPORTANT — 本 skill 不维护静态 sheet id / 公司清单**（skills 仓库为公开 GitHub 仓库，不可存放敏感标识）。每次研究必须通过 Google Drive API 实时发现目标公司所在的 spreadsheet 与 tab。**禁止假设"某行业无表"或"目标公司只在某张表里"**——用户实际维护 30+ 张行业表（饮料/食品/餐饮/医药/汽车/化工/建材/家电/传媒/地产/金融/纺织服装等），tab 命名统一为 `<公司名>财务`（部分公司另有配套 `<公司名>运营数据` tab，由用户手工维护）。
+Discovery workflow (two steps):
 
-Discovery workflow（两步）：
-
-**Step 1 — 列出所有 spreadsheet：**
+**Step 1 — List all spreadsheets:**
 
 ```python
 import sys; sys.path.insert(0, '/home/mike/.hermes/hermes-agent')
@@ -28,7 +26,7 @@ for f in res.get('files', []):
     print(f['id'], '|', f['name'])
 ```
 
-**Step 2 — 逐个检查 spreadsheet 的 tabs，定位目标公司：**
+**Step 2 — Check tabs in each spreadsheet to locate the target company:**
 
 ```python
 sheets_svc = build('sheets', 'v4', credentials=creds)
@@ -40,7 +38,7 @@ for sid, name in [(f['id'], f['name']) for f in res.get('files', [])]:
         print(f'{name}: {hit}')
 ```
 
-命中后按下方 Column/Row Structure 提取数据。若全部检查后无命中，在报告 §6.3 记录"Google Sheets 无该公司数据"，回退到 mx-finance-data（3 年限制，需显式标注局限性）。
+Once a tab is found, extract data using the Column/Row Structure below. If no tab matches after checking all spreadsheets, record "Google Sheets: no data for this company" in report §6.3 and fall back to mx-finance-data (3-year limit; explicitly note the limitation).
 
 ## Sheet Tab Naming Convention
 
@@ -55,7 +53,7 @@ from googleapiclient.discovery import build
 creds = Credentials.from_authorized_user_file('/home/mike/.hermes/google_token.json')
 service = build('sheets', 'v4', credentials=creds)
 spreadsheet = service.spreadsheets().get(
-    spreadsheetId="<发现流程中命中的 spreadsheet id>",
+    spreadsheetId="<spreadsheet id from discovery step>",
     fields='sheets(properties(title,sheetId,gridProperties))'
 ).execute()
 for s in spreadsheet['sheets']:
@@ -95,11 +93,23 @@ Formula: `year = 2007 + (array_index - 4)` for indices 4-22; index 23 = LTM.
 - Located after IS section (typically rows 120+)
 - Read row labels to find specific items
 
+## Priority Metrics for Cross-Validation
+
+When using Google Sheets for same-CIQ peer cross-validation, prioritize metrics that Wind batch queries often miss or return inconsistently:
+
+- ROIC
+- Net Debt
+- DPS (Dividends per Share)
+- Payout Ratio
+- Interest Coverage Ratio
+
+These are all present in the Key Stats section (rows 3-27) and provide the longest continuous history (2007+).
+
 ## Data Extraction Pattern
 
 ```python
-# Read key metrics for a company (spreadsheet id 来自上方发现流程)
-sheet_id = "<发现流程中命中的 spreadsheet id>"
+# Read key metrics for a company (spreadsheet id from discovery step above)
+sheet_id = "<spreadsheet id from discovery step>"
 tab_name = "<公司名>财务"
 
 key_rows = {
@@ -139,9 +149,9 @@ for row_num, label in key_rows.items():
 
 ## Pitfalls
 
-- **Unit**: Financial figures are in millions of RMB (百万元) unless noted otherwise
+- **Unit**: Financial figures are in millions of RMB unless noted otherwise
 - **NA values**: Early years may have "NA" for metrics not yet tracked
 - **Sparse rows**: Some rows return fewer than 24 elements — always check `len(vals)` before indexing
 - **Label position varies**: Key Stats rows have label at index 2 (col C); IS rows have label at index 1 (col B). Check both.
-- **DPS adjustment**: The sheet may store raw (unadjusted) DPS. Apply stock split/bonus adjustment (10转X) retroactively when presenting per-share data alongside EPS.
+- **DPS adjustment**: The sheet may store raw (unadjusted) DPS. Apply stock split/bonus adjustment (bonus issue / stock dividend) retroactively when presenting per-share data alongside EPS.
 - **Companies not in sheet**: If a company tab doesn't exist, note it and fall back to mx-finance-data (3-year limit) with explicit limitation callout.
