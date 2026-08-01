@@ -38,32 +38,18 @@ for sid, name in [(f['id'], f['name']) for f in res.get('files', [])]:
         print(f'{name}: {hit}')
 ```
 
-Once a tab is found, extract data using the Column/Row Structure below. If no tab matches after checking all spreadsheets, record "Google Sheets: no data for this company" in report §6.3 and fall back to mx-finance-data (3-year limit; explicitly note the limitation).
+Once a tab is found, extract data using the structure guide below. If no tab matches after checking all spreadsheets, record "Google Sheets: no data for this company" in report §6.3 and fall back to other financial skills(may have n-year limit; explicitly note the limitation).
+
+**Peer company tabs:** The same spreadsheet may contain tabs for industry peers (e.g., the 饮料 sheet has tabs for multiple beverage companies). During discovery, note any competitor tabs found — if present, extract and use in Chapter 3 (Competitive Landscape). If no peer tabs exist, ignore and use other sources.
 
 ## Sheet Tab Naming Convention
 
-Each company has its own tab named `公司名财务` (e.g., `顾家家居财务`, `欧派家居财务`). There is also a `Summary` tab.
+Each company has its own tab. Some use `公司名财务` (e.g., `青岛啤酒财务`), others use just the company name without the suffix. Always discover tabs dynamically (see code above) rather than assuming a fixed naming pattern. There is also a `Summary` tab in each spreadsheet.
 
-To list all tabs:
-```python
-import sys; sys.path.insert(0, '/home/mike/.hermes/hermes-agent')
-from google.oauth2.credentials import Credentials
-from googleapiclient.discovery import build
-
-creds = Credentials.from_authorized_user_file('/home/mike/.hermes/google_token.json')
-service = build('sheets', 'v4', credentials=creds)
-spreadsheet = service.spreadsheets().get(
-    spreadsheetId="<spreadsheet id from discovery step>",
-    fields='sheets(properties(title,sheetId,gridProperties))'
-).execute()
-for s in spreadsheet['sheets']:
-    print(s['properties']['title'])
-```
-
-## Column Structure
+## Column Structure (stable across all Sheets)
 
 **Header row (row 1):**
-- Cols A-C: labels (A=section marker, B=label, C=sub-label)
+- Cols A-C: labels (A=section marker, B=sub-section header, C=metric label in Key Stats)
 - Col D: Unit
 - Cols E-W: Annual data, where E=2007, F=2008, ..., W=2025 (year = 2007 + col_index - 4)
 - Col X: LTM (latest 12 months, e.g., "LTM 12 months Mar-31-2026")
@@ -78,80 +64,81 @@ for s in spreadsheet['sheets']:
 
 Formula: `year = 2007 + (array_index - 4)` for indices 4-22; index 23 = LTM.
 
-## Row Structure
+## Row Structure (general pattern — do NOT hardcode row indices)
 
-### Key Stats Section (rows 3-27)
-- Row 3: section header ("盈利指标")
-- Label in column C (index 2)
-- Rows include: Net Working Capital, Net Income, Gross Margin, Op. Margin, Net Margin, ROE, Interest Coverage Ratio, D&A, Common Equity, Tangible Book Value, DPS, Total Liabilities And Equity, Cash from Ops., FCFF, Basic EPS, Net Debt, EBITDA, 扣非净利润, SBC, Total Revenue, ROIC
+Each tab is organized into sections, delimited by **section markers in column A**:
 
-### Income Statement Section (rows 37+)
-- Label in column B (index 1)
-- Key rows: 39=Total Revenue, 41=COGS, 42=Gross Profit, 52=Operating Income, 77=Net Income, 85=Basic EPS, 96=Dividends per Share, 97=Payout Ratio %
+```
+Row 1:  (header)
+Row 2:  A = "Key Stats"          ← section marker
+        ...metrics (labels in col C)...
+        B = "盈利指标"            ← sub-section
+        B = "同比增速"            ← sub-section
+Row N:  A = "Income Statement"   ← section marker
+        ...line items (labels in col B)...
+Row M:  A = "Balance Sheet"      ← section marker
+        ...line items (labels in col B)...
+Row K:  A = "Cash Flow"          ← section marker
+        ...line items (labels in col B)...
+```
 
-### Balance Sheet & Cash Flow
-- Located after IS section (typically rows 120+)
-- Read row labels to find specific items
-
-## Priority Metrics for Cross-Validation
-
-When using Google Sheets for same-CIQ peer cross-validation, prioritize metrics that Wind batch queries often miss or return inconsistently:
-
-- ROIC
-- Net Debt
-- DPS (Dividends per Share)
-- Payout Ratio
-- Interest Coverage Ratio
-
-These are all present in the Key Stats section (rows 3-27) and provide the longest continuous history (2007+).
+**Key rules:**
+- Key Stats metrics have labels in **col C** (index 2); the three financial statements have labels in **col B** (index 1).
+- Row positions vary across Sheets (different companies have different line items). **Never hardcode row indices.** Always scan labels first, then extract by matched row.
+- Section boundaries are identified by non-empty values in col A.
 
 ## Data Extraction Pattern
 
 ```python
-# Read key metrics for a company (spreadsheet id from discovery step above)
-sheet_id = "<spreadsheet id from discovery step>"
-tab_name = "<公司名>财务"
+import sys; sys.path.insert(0, '/home/mike/.hermes/hermes-agent')
+from google.oauth2.credentials import Credentials
+from googleapiclient.discovery import build
 
-key_rows = {
-    5: "Net Income",
-    6: "Gross Margin",
-    7: "Op. Margin",
-    8: "Net Margin",
-    9: "ROE",
-    16: "DPS",
-    21: "Basic EPS",
-    23: "EBITDA",
-    24: "扣非净利润",
-    26: "Total Revenue",
-    27: "ROIC",
-    39: "Total Revenue (IS)",
-    42: "Gross Profit",
-    52: "Operating Income",
-    77: "Net Income (IS)",
-    85: "Basic EPS (IS)",
-    96: "DPS (IS)",
-    97: "Payout Ratio",
-}
+creds = Credentials.from_authorized_user_file('/home/mike/.hermes/google_token.json')
+service = build('sheets', 'v4', credentials=creds)
+sheet_id = "<spreadsheet id from discovery>"
+tab_name = "<company tab name>"
 
-for row_num, label in key_rows.items():
+# Step 1: Scan labels to build a row map (read enough rows to cover Key Stats)
+r = service.spreadsheets().values().get(
+    spreadsheetId=sheet_id,
+    range=f"'{tab_name}'!A1:C40"
+).execute()
+rows = r.get('values', [])
+
+row_map = {}  # label -> row_number
+for i, row in enumerate(rows):
+    label = row[2] if len(row) > 2 and row[2] else (row[1] if len(row) > 1 else "")
+    if label:
+        row_map[label] = i + 1  # 1-indexed
+
+# Step 2: Extract data for desired metrics
+targets = ["Net Income", "Gross Margin", "Op. Margin", "Net Margin", "ROE",
+           "Dividends per Share", "Basic EPS", "EBITDA", "扣非净利润",
+           "Total Revenue", "ROIC (资本来源法)"]
+
+for label in targets:
+    if label not in row_map:
+        print(f"NOT FOUND: {label}")
+        continue
+    row_num = row_map[label]
     r = service.spreadsheets().values().get(
         spreadsheetId=sheet_id,
         range=f"'{tab_name}'!A{row_num}:X{row_num}"
     ).execute()
     vals = r.get('values', [[]])[0]
-    # Data starts at index 4 (col E = 2007)
+    print(f"\n{label} (row {row_num}):")
     for i in range(4, min(len(vals), 24)):
         year = 2007 + (i - 4) if i < 23 else "LTM"
         v = vals[i] if i < len(vals) else ""
         if v and v != "NA":
-            print(f"{year}: {v}")
+            print(f"  {year}: {v}")
 ```
 
 ## Pitfalls
 
-- **Unit**: Financial figures are in millions of RMB unless noted otherwise
-- **NA values**: Early years may have "NA" for metrics not yet tracked
-- **Sparse rows**: Some rows return fewer than 24 elements — always check `len(vals)` before indexing
-- **Label position varies**: Key Stats rows have label at index 2 (col C); IS rows have label at index 1 (col B). Check both.
+- **Unit**: Financial figures are in millions of RMB unless noted otherwise.
+- **NA values**: Early years may have "NA" for metrics not yet tracked.
+- **Sparse rows**: Some rows return fewer than 24 elements — always check `len(vals)` before indexing.
 - **DPS adjustment**: The sheet may store raw (unadjusted) DPS. Apply stock split/bonus adjustment (bonus issue / stock dividend) retroactively when presenting per-share data alongside EPS.
-- **Companies not in sheet**: If a company tab doesn't exist, note it and fall back to mx-finance-data (3-year limit) with explicit limitation callout.
+- **Label variants**: The same metric may appear under slightly different labels across Sheets (e.g., "ROIC (资本来源法)" vs "ROIC"). Use fuzzy matching or scan all labels before concluding a metric is absent.
