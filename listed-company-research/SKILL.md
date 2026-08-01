@@ -47,12 +47,16 @@ Download multi-year annual report PDFs (up to 10 years; for recently-listed comp
 - **A-share**: `cd ~/Projects/tinyant/cninfo && node index.js --codes <6-digit> --annual --year <start-end>`. See `references/cninfo-annual-report-extraction.md` for PDF download and MD&A text extraction.
 - **HKEX**: Use `~/Projects/tinyant/hkexnews/index.js` (港交所披露易), NOT cninfo. Example: `cd ~/Projects/tinyant/hkexnews && node index.js --codes 02858 --annual --year 2019-2022`.
 
+**Priority 0b — Google Sheets long-cycle financials (MANDATORY, run in parallel with 0a):**
+
+Check the user's Google Sheets for the target company's tab via the `productivity-tools` skill (formerly google-workspace). The user maintains 30+ industry-specific CIQ-sourced sheets (Key Stats / IS / BS / CF / Ratios, 19+ years). Do NOT assume coverage — no static sheet list is maintained (public repo); always discover tabs via Drive API (see `references/gs-financial-structure.md`).
+- Tab found (e.g., `<公司名>财务`): extract multi-year trends and use for same-CIQ cross-validation with peers (prioritize metrics Wind batch queries miss: ROIC, Net Debt, DPS, payout ratio, interest coverage).
+- Tab NOT found: record "Google Sheets 无该公司数据" in report §6.3 Limitations — do not silently skip.
+- Limitations: no segment/product detail (use annual reports); not a source for latest marginal data (quarterly updates, real-time quotes). **Pitfall:** skill was renamed from `google-workspace` to `productivity-tools`.
+
 **Priority 1 — Installed Skills (check before web search):**
 
 Scan all installed skills for relevance. Use them as primary data source; fall back to web search only when insufficient. Track every skill invoked for the "Sources & Limitations" section.
-
-**productivity-tools** (formerly google-workspace) — standalone, long-cycle historical data:
-CIQ-sourced Google Sheets with 19+ years of financial history (Key Stats, IS, BS, CF, Ratios). Use for multi-year trend analysis. NOT a source for latest marginal data (quarterly updates, real-time quotes). If the target's tab is not found, run the Drive API discovery workflow (see `references/gs-financial-structure.md`). **Limitation:** Does NOT contain CIQ's Industry Specific / Segments / Pension OPEB / Supplemental sheets. **Pitfall:** Skill was renamed from `google-workspace` to `productivity-tools`.
 
 For all other queries, determine mode based on information type:
 

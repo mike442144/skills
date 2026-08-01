@@ -8,18 +8,39 @@ The Google Sheets contain a subset of CIQ's standard sheets: **Key Stats, Income
 
 **Known units:** All financial figures in **CNY Millions** (S&P CIQ default). Ratios as decimals (0.296 = 29.6%). EPS in CNY.
 
-## Known Sheets
+## Sheet Discovery (Drive API only — no static list)
 
-| Sheet Name | Sheet ID | Industry Focus | Known Tabs |
-|------------|----------|----------------|------------|
-| (default/industrial) | `1GsHpzk06-vPt9kDh6dD1tfAqf84BobWAnbkT6S29VV4` | 建材/家居/消费 | 三一重工、鲁阳节能、伟星新材、中材国际、慕思、金螳螂、塔牌集团、海螺水泥、北新建材、顾家家居、欧派家居、东方雨虹 |
-| 汽车 | `100LHzykrulKYOSwZhjOwAIir5FjntN45O_thcXos3O8` | 汽车/零部件/新能源 | 理想汽车、福耀玻璃、郑煤机、宁波华翔、三角轮胎、赛轮轮胎、华域汽车、中鼎股份、宁德时代 |
+**IMPORTANT — 本 skill 不维护静态 sheet id / 公司清单**（skills 仓库为公开 GitHub 仓库，不可存放敏感标识）。每次研究必须通过 Google Drive API 实时发现目标公司所在的 spreadsheet 与 tab。**禁止假设"某行业无表"或"目标公司只在某张表里"**——用户实际维护 30+ 张行业表（饮料/食品/餐饮/医药/汽车/化工/建材/家电/传媒/地产/金融/纺织服装等），tab 命名统一为 `<公司名>财务`（部分公司另有配套 `<公司名>运营数据` tab，由用户手工维护）。
 
-**IMPORTANT — Discovery workflow:** Do NOT assume the target company is in the default sheet. If the company's tab is not found in the first sheet checked, use Google Drive API to search for other spreadsheets:
+Discovery workflow（两步）：
+
+**Step 1 — 列出所有 spreadsheet：**
+
 ```python
-drive_service.files().list(q="mimeType='application/vnd.google-apps.spreadsheet'", fields='files(id,name)').execute()
+import sys; sys.path.insert(0, '/home/mike/.hermes/hermes-agent')
+from google.oauth2.credentials import Credentials
+from googleapiclient.discovery import build
+
+creds = Credentials.from_authorized_user_file('/home/mike/.hermes/google_token.json')
+drive = build('drive', 'v3', credentials=creds)
+res = drive.files().list(q="mimeType='application/vnd.google-apps.spreadsheet'", fields='files(id,name)').execute()
+for f in res.get('files', []):
+    print(f['id'], '|', f['name'])
 ```
-Then check each spreadsheet's tabs for the target company. The user may have additional sheets not listed above.
+
+**Step 2 — 逐个检查 spreadsheet 的 tabs，定位目标公司：**
+
+```python
+sheets_svc = build('sheets', 'v4', credentials=creds)
+for sid, name in [(f['id'], f['name']) for f in res.get('files', [])]:
+    sp = sheets_svc.spreadsheets().get(spreadsheetId=sid, fields='sheets(properties(title))').execute()
+    tabs = [s['properties']['title'] for s in sp['sheets']]
+    hit = [t for t in tabs if '<公司名>' in t or '<代码>' in t]
+    if hit:
+        print(f'{name}: {hit}')
+```
+
+命中后按下方 Column/Row Structure 提取数据。若全部检查后无命中，在报告 §6.3 记录"Google Sheets 无该公司数据"，回退到 mx-finance-data（3 年限制，需显式标注局限性）。
 
 ## Sheet Tab Naming Convention
 
@@ -34,7 +55,7 @@ from googleapiclient.discovery import build
 creds = Credentials.from_authorized_user_file('/home/mike/.hermes/google_token.json')
 service = build('sheets', 'v4', credentials=creds)
 spreadsheet = service.spreadsheets().get(
-    spreadsheetId="1GsHpzk06-vPt9kDh6dD1tfAqf84BobWAnbkT6S29VV4",
+    spreadsheetId="<发现流程中命中的 spreadsheet id>",
     fields='sheets(properties(title,sheetId,gridProperties))'
 ).execute()
 for s in spreadsheet['sheets']:
@@ -77,9 +98,9 @@ Formula: `year = 2007 + (array_index - 4)` for indices 4-22; index 23 = LTM.
 ## Data Extraction Pattern
 
 ```python
-# Read key metrics for a company
-sheet_id = "1GsHpzk06-vPt9kDh6dD1tfAqf84BobWAnbkT6S29VV4"
-tab_name = "顾家家居财务"
+# Read key metrics for a company (spreadsheet id 来自上方发现流程)
+sheet_id = "<发现流程中命中的 spreadsheet id>"
+tab_name = "<公司名>财务"
 
 key_rows = {
     5: "Net Income",
