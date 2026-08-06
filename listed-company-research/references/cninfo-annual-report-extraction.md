@@ -46,26 +46,37 @@ pattern = r'第[三四]节\s*(?:管理层讨论与分析|经营情况讨论与�
 
 **Validation**: Tested across 2015-2025 for 宇通客车 (600066.SH) and 天山股份 (000877.SZ), producing 15,000-65,000 chars per year. The 天山股份 2020 report confirmed the need for the broader pattern — the original narrow pattern (`管理层讨论与分析` only) failed to match because that year used "经营情况讨论与分析".
 
-### Pitfall 3: Multiple Occurrences
+### Pitfall 3: Multiple Occurrences — Don't Assume "Last = Content"
 
-The section header appears at least twice (TOC + content). Solution: find ALL occurrences, pick the LAST one.
+The section header appears multiple times: the TOC entry, the actual section start, and often **cross-references** in later sections (e.g., "具体详见'第三节 管理层讨论与分析'之……" in 重要事项/公司治理 chapters).
+
+**Do NOT blindly pick the last match.** In some reports (e.g., 伟星新材 2021/2022/2024) the last occurrence is a cross-reference, not the content — extracting from it yields garbage.
+
+**General rule**: among all occurrences, pick the one that is immediately followed by actual section content — i.e., the text right after it starts with a subsection heading ("一、报告期内……" style). TOC entries are followed by dotted leaders and page numbers; cross-references sit mid-sentence inside other chapters. If in doubt, extract from each candidate and keep the one that produces a sane-length result (see Typical Output Sizes below).
 
 ```python
-matches = list(re.finditer(r'第[三四]节\s*(?:管理层讨论与分析|经营情况讨论与分析)', full_text))
-start_pos = matches[-1].start()  # Last occurrence = actual content
+def find_content_start(matches, full_text):
+    # The real section start is followed by a subsection heading like "一、…"
+    for m in matches:
+        window = re.sub(r'\s', '', full_text[m.end():m.end() + 200])
+        if re.match(r'[一二三四五六七八九十]+、', window):
+            return m.start()
+    return matches[-1].start()  # fallback; verify output length afterwards
 ```
+
+(The heading check is a heuristic, not a hard rule — adapt if a report formats its subsections differently, and always sanity-check the extracted length.)
 
 ### End Marker Detection
 
 The MD&A section ends at the next major section. Common end markers:
 ```python
 end_patterns = [
-    r'\n第[四五]节\s+.*(公司治理|环境与社会责任|重要事项)',
+    r'\n第[四五]节\s*.*(公司治理|环境与社会责任|重要事项)',
     r'\n重要事项',
     r'\n公司治理',
 ]
 ```
-Search for these AFTER `start_pos + 500` to avoid matching the TOC's own listing of subsequent sections.
+Use `\s*` (not `\s+`) — some reports print "第四节公司治理" with no space. Search for these AFTER `start_pos + 500` to avoid matching the TOC's own listing of subsequent sections. If the result is implausibly long (the whole report), the end marker missed — inspect the text around the next section boundary and adapt the pattern for that report's layout.
 
 ### Complete Extraction Function
 
@@ -88,11 +99,11 @@ def extract_mda(pdf_path):
         else:
             return None
     else:
-        start_pos = matches[-1].start()  # Last = content, not TOC
+        start_pos = find_content_start(matches, full_text)  # see Pitfall 3
     
     # Find end
     end_pos = len(full_text)
-    for pat in [r'\n第[四五]节\s+.*(公司治理|环境与社会责任|重要事项)',
+    for pat in [r'\n第[四五]节\s*.*(公司治理|环境与社会责任|重要事项)',
                 r'\n重要事项', r'\n公司治理']:
         m = re.search(pat, full_text[start_pos + 500:])
         if m:
