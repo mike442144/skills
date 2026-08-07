@@ -46,7 +46,7 @@ Start the annual report download in background (item 1), then immediately procee
 
 1. Multi-year annual report download (MANDATORY)
 Download multi-year annual report PDFs (up to 10 years; for recently-listed companies, cover all available years). Annual reports are the primary source for: business segments / product-line revenue / subsidiary data, management MD&A (see `references/multi-year-mda-review.md`), risk factors, and financial footnotes (AR aging, provision tables, segment notes) that structured databases lack.
-    - **A-share**: `cd ~/Projects/tinyant/cninfo && node index.js --codes <6-digit> --annual --year <start-end>`. See `references/cninfo-annual-report-extraction.md` for PDF download and MD&A text extraction.
+    - **A-share**: `cd ~/Projects/tinyant/cninfo && node index.js --codes <6-digit> --annual --year <start-end>`. MD&A text extraction from the downloaded PDFs: see Step 1 of `references/multi-year-mda-review.md`.
     - **HKEX**: Use `~/Projects/tinyant/hkexnews/index.js` (港交所披露易), NOT cninfo. Example: `cd ~/Projects/tinyant/hkexnews && node index.js --codes 02858 --annual --year 2019-2022`.
 
 2. Google Sheets historical financials (MANDATORY)
@@ -117,7 +117,7 @@ Before beginning data collection, scan the trigger table below and load every re
 | "增收不增利" (revenue up but profit down) | `profit-decomposition-framework.md` |
 | Chemical/petrochemical, user asks for cycle analysis | `chemical-industry-cycle-analysis.md` |
 | Pharma company, need product-line revenue breakdown | `pharma-annual-report-product-breakdown.md` |
-| Need to extract MD&A text from annual report PDFs | `cninfo-annual-report-extraction.md` |
+| Need to extract MD&A text from annual report PDFs | `multi-year-mda-review.md` (Step 1) |
 | User frames Company B against a previously-analyzed Company A | `cross-company-benchmark-comparison.md` |
 | Structural headwinds that played out in other markets | `cross-market-comparison-framework.md` |
 | Researching 3+ companies in one industry simultaneously | `multi-company-research-pattern.md` |

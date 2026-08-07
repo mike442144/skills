@@ -20,7 +20,7 @@ Two complementary sources are needed — annual report MD&A text for structured 
 
 ### 2a. Annual Report MD&A Text
 
-Use the extraction method in `listed-company-research/references/cninfo-annual-report-extraction.md` (PyMuPDF + regex). Bank MD&A sections are typically longer (20,000-70,000 chars) due to mandatory risk disclosures. Focus on 董事长致辞, 行长致辞, and 经营分析 sections.
+For MD&A text extraction from the downloaded PDFs, see Step 1 of `listed-company-research/references/multi-year-mda-review.md` (PyMuPDF + layout-adaptive regex; watch for TOC entries and cross-references when matching section headers). Bank MD&A sections are typically longer (20,000-70,000 chars) due to mandatory risk disclosures. Focus on 董事长致辞, 行长致辞, and 经营分析 sections.
 
 ### 2b. 业绩说明会 Transcripts (PRIMARY source for forward-looking quotes)
 

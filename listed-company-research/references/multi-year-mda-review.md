@@ -6,24 +6,23 @@
 
 A single year's MD&A tells you what management *says now*. Ten years of MD&A tell you what management *has consistently done* — which strategic threads are real, which were abandoned, and whether their explanations hold up over time. This is the single most powerful tool for assessing management credibility and strategic coherence.
 
-## Step 1: Download Annual Reports
+## Step 1: Extract MD&A Text
 
-Download the most recent ~10 years of annual report PDFs:
+Assumes the multi-year annual report PDFs are already downloaded per SKILL.md Priority 0 (cninfo for A-share, hkexnews for HKEX). If fewer than 5 years are available (recent IPO), do all available years and note the limitation.
 
-- **A-share**: `cd ~/Projects/tinyant/cninfo && node index.js --codes <6-digit> --annual --year <start-end>`
-- **HKEX**: `cd ~/Projects/tinyant/hkexnews && node index.js --codes <5-digit> --annual --year <start-end>`
+Use PyMuPDF (`fitz`) to flatten each PDF to text (`"\n".join(page.get_text() for page in doc)`), then locate the MD&A section. The mechanics are simple, but layouts vary by company and year — no regex is universally safe. Three structural facts to keep in mind:
 
-If fewer than 5 years available (recent IPO), do all available years and note the limitation.
+1. **The section header appears multiple times**: in the table of contents, at the actual section start, and often as cross-references inside later chapters ("详见'第三节 管理层讨论与分析'之……"). Do NOT blindly pick the first or last occurrence — use the one immediately followed by actual section content (a subsection heading like "一、报告期内……"). TOC entries are followed by dotted leaders and page numbers; cross-references sit mid-sentence.
 
-## Step 2: Extract MD&A Text
+2. **Section number and name both vary** across years and companies (第三/四节; 管理层/经营情况讨论与分析; occasional non-standard layouts). Match both name variants broadly; if the chapter header is not found at all, fall back to searching for the subsection marker directly.
 
-Use the extraction method in `cninfo-annual-report-extraction.md` (PyMuPDF + regex, last-match logic, end-marker detection). That reference handles the PDF mechanics and known pitfalls (TOC vs content, section number variation 2015 vs 2016+).
+3. **The section ends at the next major chapter** (公司治理 / 重要事项 etc.). Search for it starting well past the section's own beginning so you don't hit the TOC, and expect layout quirks (e.g. no space between section number and name).
 
-Expected yield: 15,000-65,000 chars per year. Anything under 1,000 = failed extraction (hit TOC).
+**Verify every extraction before using it.** A healthy MD&A is roughly 15,000–65,000 characters; anything under ~1,000 almost certainly hit the TOC or a cross-reference — try the next candidate occurrence, or read the PDF's actual section boundaries and adapt. When a pattern fails, adjust it to the specific PDF rather than stacking more fallback rules.
 
-Store extracted text per year for cross-year analysis.
+Store the extracted text per year for cross-year analysis.
 
-## Step 3: Four-Dimension Cross-Year Analysis
+## Step 2: Four-Dimension Cross-Year Analysis
 
 Process all extracted MD&A texts through these four analytical lenses:
 
@@ -85,7 +84,7 @@ Verdict criteria:
 
 This is the core input for the Section 4.3 Credibility Scorecard. Aim for 5-10 entries covering the full period.
 
-## Step 4: Synthesize Into Report Inputs
+## Step 3: Synthesize Into Report Inputs
 
 The four dimensions produce structured material that maps directly to report sections:
 
@@ -103,5 +102,5 @@ The four dimensions produce structured material that maps directly to report sec
 1. **Extraction coverage**: Verify each year's extraction succeeded (char count check). A single failed year creates a gap in the timeline.
 2. **Narrative inflation**: Management language tends to inflate over time. Compare claims against financial data, not against management's own prior claims.
 3. **Selective quoting**: When building the Credibility Scorecard, include both hits and misses. Confirmation bias (only quoting failures) undermines credibility of the analysis itself.
-4. **Section number variation**: Only 2015 A-share reports use 第四节 for MD&A; 2016+ use 第三节. The extraction regex handles both, but be aware when spot-checking.
+4. **Section number variation**: Only 2015 A-share reports use 第四节 for MD&A; 2016+ typically use 第三节, with occasional company-specific variants. Be aware when spot-checking.
 5. **HKEX reports**: HK-listed company MD&A (under IFRS) is typically less structured than A-share. Supplement with earnings call transcripts and investor presentations for management narrative.
