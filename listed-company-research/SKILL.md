@@ -67,11 +67,11 @@ wind-mcp-skill → ifind-repilot-finance-data-search → mx-finance-data → bai
 See `references/wind-mcp-query-patterns.md` for Wind query patterns.
 
 **Mode B — News & information search** (公告, 研报, 新闻舆情, 政策, 行业动态):
-Different sources have different coverage; query ALL of the following IN PARALLEL, then deduplicate and cross-validate:
-- wind-mcp-skill (公司公告 RAG, exchange filings)
-- ifind-repilot-news-search (全市场金融资讯, 新闻舆情)
-- mx-finance-search (东方财富生态: 研报, 公告, 财经新闻)
-- baidu-search (通用网络: 政策文件, 行业媒体, 非金融数据库覆盖的信息)；调用时 `count` 设为 50（拉满结果条数）。结果须过滤百家号/自媒体/虎嗅等非权威源，仅保留权威信源（雪球保留）
+Route by information type — sources have different coverage; query the routed source(s), then deduplicate and cross-validate across everything actually retrieved:
+- **News**: prefer `wind-mcp-skill`
+- **Announcements & financial data**: prefer the `ifind-repilot` series — `ifind-repilot-finance-data-search` for structured data, `ifind-repilot-news-search` for announcement/news text
+- **Research reports**: primary — run `mx-finance-search` IN PARALLEL with `ima-skill/knowledge-base` (`最全研报知识库`和`【爱分享】财经资讯`检索必选，其他视情况可选); fallback — `ifind-repilot-news-search`
+- **General web**: `baidu-search` (通用网络: 政策文件, 行业媒体, 非金融数据库覆盖的信息；调用时 `count` 设为 50 拉满结果条数；过滤百家号/自媒体/虎嗅等非权威源,仅保留权威信源,雪球保留)
 
 When a research task needs both modes (e.g., "查财务数据 + 最新公告"), run Mode A and Mode B concurrently.
 
