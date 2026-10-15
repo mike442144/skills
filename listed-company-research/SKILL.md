@@ -3,7 +3,7 @@ name: listed-company-research
 description: "This skill should be used when the user wants to conduct in-depth fundamental research on any listed company, including A-share (China), Hong Kong-listed (HKEX), or US-listed (NYSE/NASDAQ) stocks. Triggers include phrases like '研究XX公司', '分析XX', 'XX公司基本面', '帮我看看XX', 'deep dive XX', 'research XX company', '管理层展望', '战略规划', 'management strategy', 'outlook', or when the user provides a stock code/ticker and asks for analysis. The skill produces a comprehensive, neutral-analysis Markdown report covering company overview, detailed business decomposition, industry competitive landscape, management outlook & strategy, and risk factors. It does NOT include financial statement modeling, valuation, stock ratings, or investment recommendations."
 metadata:
   author: Mike Chen
-  version: '4.0'
+  version: '4.1'
 ---
 
 # Listed Company Fundamental Research
@@ -143,7 +143,10 @@ When the latest quarter shows YoY decline, check three causes in order: (1) High
 
 ### Step 4: Write the Research Report
 
-Structure the report following `references/report-template.md` (five chapters: Company Overview → Business Deep Dive → Industry & Competitive Landscape → Management Outlook & Strategy → Risk Factors). Load that file for full section-by-section guidance.
+Two templates are available — load the matching reference before writing:
+
+- **Q&A format (default):** `references/report-template-qa.md` — Chapter 0 fact sheet (all data tables + moat/capital-allocation verdicts) followed by a conclusion-first Q&A body in four themes (生意 / 竞争 / 管理层 / 风险), opened by 2-4 company-specific questions derived from the Step 3 trigger table.
+- **Classic chapter format:** `references/report-template.md` — five chapters (Company Overview → Business Deep Dive → Industry & Competitive Landscape → Management Outlook & Strategy → Risk Factors). Use when the user requests a traditional structure or a side-by-side comparison.
 
 **Writing principles (universal):**
 
@@ -172,7 +175,7 @@ Structure the report following `references/report-template.md` (five chapters: C
 After initial delivery, the user frequently asks follow-up questions. The workflow:
 
 1. Answer the question with sourced research.
-2. Append as Q&A to the report's appendix (`### E1.`, `### E2.`, etc.).
+2. Append the answer to the report: Q&A-format reports — insert as a new dated question under the matching theme (next sequential Q number); classic-format reports — append as Q&A to the appendix (`### E1.`, `### E2.`, etc.).
 3. Re-save to the same file path.
 4. Commit to the skills repo if any reference files were modified.
 
