@@ -145,7 +145,7 @@ When the latest quarter shows YoY decline, check three causes in order: (1) High
 
 Two templates are available — load the matching reference before writing:
 
-- **Q&A format (default):** `references/report-template-qa.md` — Chapter 0 fact sheet (all data tables + moat/capital-allocation verdicts) followed by a conclusion-first Q&A body in four themes (生意 / 竞争 / 管理层 / 风险), opened by 2-4 company-specific questions derived from the Step 3 trigger table.
+- **Q&A format (default):** `references/report-template-qa.md` — output is a single self-contained **HTML** file (ECharts via CDN). Chapter 0 keeps only basic info, compact key financials, moat/capital-allocation verdicts, and valuation snapshot; data tables and charts live inside the matching answers (source caption directly below each chart/table; inline citations in prose). Q&A body: conclusion-first answers in four themes (生意 / 竞争 / 管理层 / 风险), opened by 2-4 company-specific questions derived from the Step 3 trigger table.
 - **Classic chapter format:** `references/report-template.md` — five chapters (Company Overview → Business Deep Dive → Industry & Competitive Landscape → Management Outlook & Strategy → Risk Factors). Use when the user requests a traditional structure or a side-by-side comparison.
 
 **Writing principles (universal):**
@@ -160,7 +160,7 @@ Two templates are available — load the matching reference before writing:
 
 ### Step 5: Review and Deliver
 
-**Output filename:** `./[stock code]_[company name]_深度研究报告_YYYYMMDD_HHmm.md`
+**Output filename:** Q&A format (default): `./[stock code]_[company name]_深度研究报告_YYYYMMDD_HHmm.html` (self-contained HTML with embedded charts). Classic format: same name with `.md`.
 
 **Pre-delivery checklist (each item is a quality gate — fix before saving):**
 
