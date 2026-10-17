@@ -1,28 +1,26 @@
 # Listed Company Research Report — Q&A Template (Default)
 
-**Output format: a single self-contained HTML file** (`./[code]_[name]_深度研究报告_YYYYMMDD_HHmm.html`) with charts rendered by ECharts via CDN. The classic Markdown alternative is `report-template.md` (used when the user requests a traditional structure or a side-by-side comparison).
+**Output format: a single self-contained HTML file** (`./[code]_[name]_深度研究报告_YYYYMMDD_HHmm.html`) with charts rendered by ECharts via CDN.
 
-**Design logic:** The classic template's fixed chapter order dilutes each company's real story. The Q&A format fixes this by putting the company's sharpest questions first and ordering everything by materiality. What it must NOT become: the old chapter headings with question marks appended. The test for every question is "would an investor actually ask this?"
+**Design logic:** 固定章节式模板的章节顺序会稀释每家公司真正的故事。Q&A 格式把公司最尖锐的问题放在最前、按重要性排序。但它绝不能变成"给旧章节标题加个问号"——每个问题的检验标准是："投资者真的会问这个问题吗？" SKILL.md 的通用规则（数据时效、归因纪律、估算透明、视角保留、表格完整性）全部照常适用。
 
 ---
 
 ## Report Metadata
 
-At the top of the HTML document: title, research date, data-as-of scope, disclaimer (same wording as the classic template).
+HTML 文档顶部：报告标题、研究日期、数据截至范围、免责声明。免责声明表述："本报告仅为信息与教育目的，不构成任何投资建议、评级或推荐。信息均来自公开渠道，作者不保证其完整性与准确性。"
 
 ---
 
-## 第0章 速览与评级
+## 第0章 速览
 
-Chapter 0 is deliberately slim — it holds **basic reference info and verdicts only**:
+Chapter 0 is deliberately slim — basic reference info only:
 
-1. **基本信息表** — same as classic template §1.1.
+1. **基本信息表** — 公司全称（中英文）、交易所/代码、所属行业（注明分类体系）、总部、成立/上市时间、实际控制人、总股本。
 2. **核心财务一览** — one compact table: 近3年+LTM 的营业收入、归母净利润、扣非、毛利率、净利率、ROE、经营现金流。不含分部、股东、产销量等明细。
-3. **护城河评级表 + 总评级 + 轨迹** — rating tables and output format from classic template §3.4. The verdict sits here; the reasoning lives in the Theme 2 answer.
-4. **资本配置评级** — verdict + 2-3 sentence rationale (format from classic template §4.4). The reasoning lives in the Theme 3 answer.
-5. **估值快照** — 最新价、总市值、PE(TTM)、PB、股息率、52周区间（如可得）、快照日期。
+3. **估值快照** — 最新价、总市值、PE(TTM)、PB、股息率、52周区间（如可得）、快照日期。
 
-**Rule:** 数据图表（股权结构、分部收入、产销量、中标价、费用趋势、季度序列等）不集中放在第0章，全部放入支撑它们的对应问答中。
+**Rule:** 数据图表（股权结构、分部收入、产销量、中标价、费用趋势、季度序列等）与分析性结论（护城河评级、资本配置评级等）都不放在第0章，全部放入支撑它们的对应问答中。
 
 ---
 
@@ -31,7 +29,7 @@ Chapter 0 is deliberately slim — it holds **basic reference info and verdicts 
 ### Question design rules (read before drafting)
 
 - **Company-specific questions come first.** Derive 2–4 questions from the SKILL.md Step 3 trigger table entries that fired for this company (e.g., new controlling shareholder → "新股东入主后治理改善了吗？"; pharma + VBP exposure → "集采对收入结构的冲击量化到多少？"). These open the Q&A body under a `焦点问题` section.
-- **Core question bank (below) guarantees coverage.** It replaces the classic template's checklist function. Answer every core question that applies; omit with a one-line note only when genuinely irrelevant; add company-specific questions wherever the story demands (e.g., an ownership/governance question when the structure is unusual).
+- **Core question bank (below) guarantees coverage.** It replaces the checklist function of a fixed chapter template. Answer every core question that applies; omit with a one-line note only when genuinely irrelevant; add company-specific questions wherever the story demands (e.g., an ownership/governance question when the structure is unusual).
 - **Order by materiality within each theme.** The question whose answer most changes the investment understanding goes first in its theme. Do not default to the bank's listed order.
 - **Bad vs. good questions:**
   - Bad: "客户与收入模式是什么？" — a template heading with a question mark.
@@ -66,7 +64,10 @@ Core question bank:
 1. 这个行业有多大、还在增长吗？增长驱动和结构性约束是什么？（市场规模/渗透率图表放这里）
 2. 格局集中还是分散？公司排第几、真正在和谁竞争？（竞争格局表/对比图放这里）
 3. 公司凭什么赢（或为什么在输）？差异化具体在哪？
-4. 护城河是什么、能守多久、在加强还是被侵蚀？（此处展开第0章护城河评级的推理；区分周期性逆风与结构性侵蚀）
+4. 护城河是什么、能守多久、在加强还是被侵蚀？**本问必须输出完整护城河评级：**
+   - **七维评分表**：规模/成本优势、网络效应、转换成本/客户粘性、监管牌照/合规、品牌/声誉、技术/数据优势、渠道优势——每维 🟢强 / 🟡中 / 🔴弱 / ➖无 + 具体证据；没有的维度标 ➖，不要硬凑。
+   - **Overall Moat Rating**：以"超额收益（ROIC > WACC）能维持多久"为锚定：🟢🟢 Exceptional（>30年，多维互强化）/ 🟢 Wide（20–30年，至少一维强、其余至少中）/ 🟡 Narrow（10–20年，优势有明确边界）/ 🟠 Emerging 或 Eroding（不确定或 <10年，地位在变动中）/ 🔴 None（<10年或从不存在）。输出格式：`**Overall Moat Rating：[emoji] [级别] — 预期持续期 [区间]**` + 2–3 句理由（具体到该公司，不写模板套话）。
+   - **Moat Trajectory**：`⬆️ 加强 / ➡️ 稳定 / ⬇️ 减弱` + 1–2 句驱动因素；区分周期性逆风与结构性侵蚀，评级为稳定时注明值得监控的预警信号。
 5. 有没有已经在兑现的侵蚀力量？（区分：遥远理论风险 / 早期技术监管变化 / 已发生的竞争入侵）
 
 ### Theme 3: 管理层可信吗？
@@ -75,9 +76,16 @@ Core question bank:
 
 1. 谁在控制这家公司？股权结构与治理如何？（股权结构表放这里；实控人关系、特殊股东、治理信号）
 2. 管理层怎么解释最近的业绩？归因可信吗？（与Theme 2的独立判断交叉验证；警惕自利性偏差；注意管理层没说什么）
-3. 未来3–5年打算做什么？哪些是承诺、哪些是说辞？（量化目标用表格；区分 "we will" / "we expect" / "we aim to"）
-4. 过去说的话兑现了吗？（Credibility Scorecard，格式见 classic template §4.3；有多年MD&A review时直接以其输出为底）
-5. 资本配置创造价值还是毁灭价值？（此处展开第0章资本配置评级的推理；选2–3个最相关维度，方法见 classic template §4.4；用具体数字，区分能力与运气）
+3. 未来3–5年打算做什么？哪些是承诺、哪些是说辞？（量化目标用表格呈现，列：战略目标/指标/目标值/时限/当前进展；区分 "we will" / "we expect" / "we aim to"）
+4. 过去说的话兑现了吗？——**Credibility Scorecard 表**：列 = 过往表态（年份+出处）/ 目标 / 状态（✅达成 / ⚠️部分 / ❌未达 / ⏳进行中）/ 实际结果 / 管理层对 miss 的解释。表后 2–4 句总体评价：over-promise 还是 under-promise、是否频繁转向、如何面对 miss。若做过多年 MD&A review（见 `references/multi-year-mda-review.md`），直接以其 Strategic Timeline 与 Guidance vs Actuals 输出为底，不要临时零散搜集。
+5. 资本配置创造价值还是毁灭价值？——用 5 年以上现金流、资本开支、并购、分红回购的**实际结果**（而非管理层叙事）评估，选 2–3 个与该公司故事最相关的维度：
+   - CAPEX 周期与投资回报（投资强度、顺/逆周期择时、项目 ROIC vs WACC、烂尾工程检测）——重资产公司
+   - 并购记录（重大交易事后结果、商誉减值史、频繁收购 vs 纪律买家）——有并购史的公司
+   - 股东回报一致性（分红可持续性、回购择时、TSR 对比同业）——成熟期公司
+   - 资产负债表管理（杠杆轨迹、融资择时）——高杠杆或经历过压力的公司
+   - 资本纪律信号（FCF 转化、冗余现金行为、增长不计代价、关联资金流）——所有公司的交叉检查
+
+   未选维度一句话说明为何不相关。输出：`**Capital Allocation Rating：[🟢 价值创造 / 🟡 中性 / 🔴 价值毁灭]**` + 2–4 句：以最有代表性的一笔决策作证据（具体到金额与结果，如"2019 年周期顶部投 X 亿建厂，2024 年利用率仅 55%"），区分能力与运气，注意拐点（换 CFO、战略转向）。
 
 ### Theme 4: 什么会证伪这个逻辑？
 
@@ -87,7 +95,7 @@ Core question bank:
 2. 哪些风险已经在兑现？领先信号是什么？
 3. 公司的缓释措施是什么、够不够？
 
-Close with a risk summary table (format: classic template §5.X).
+Close with a **risk summary table**：列 = 风险类别 / 关键风险 / 影响（🔴高 / 🟡中 / 🟢低）/ 可能性 / 缓释措施。风险要具体可量化（"前三大客户流失则收入 −30%"，而非"存在客户集中风险"）；只列真实存在的风险，不凑所有上市公司通用的风险；风险确实温和就直说。
 
 ---
 
@@ -97,7 +105,7 @@ Close with a risk summary table (format: classic template §5.X).
 - 每个图表一个容器 div + 一段初始化 script；加 window resize 自适应。配色用中性研究报告色系（深蓝/青/灰），不用花哨渐变。
 - 中文排版：max-width 约 900px 居中，中文字体栈，行高约 1.7；h1 报告题 / h2 章 / h3 问题。表格用轻量边框样式。
 - 每个图表/表格正下方一行 `<p class="source">来源：…</p>` caption。
-- 页首放目录锚点链接（焦点问题/四主题/来源），便于跳转。
+- 页首放目录锚点链接（焦点问题/四主题/局限），便于跳转。
 - 打印友好（@media print 基本适配），不依赖任何后端。
 
 ## Follow-up Questions (Living Document)
@@ -106,15 +114,11 @@ When the user asks follow-up questions after initial delivery:
 
 1. Answer with sourced research as usual.
 2. Insert as a new question under the matching theme in the HTML with the next sequential number and a date stamp, e.g. `Q14. ……（2026-11-02 追加）`. If no theme fits, place it in a final `追加问答` section. 新增图表同样遵守"图表入答、来源在下方"规则。
-3. If the follow-up's findings contradict earlier answers, update the affected answers and Chapter 0 verdicts — consistency rules from SKILL.md Step 5 apply.
+3. If the follow-up's findings contradict earlier answers, update the affected answers and Chapter 0 — consistency rules from SKILL.md Step 5 apply.
 4. Batch data collection before patching, per SKILL.md.
 
 ---
 
-## Sources & Limitations
+## Limitations
 
-Same as classic template §6 (skills used table, other sources, limitations). This section follows the Q&A body, before any appendices.
-
-## Length
-
-Target 3,000–8,000 字正文（不含图表与表格）。A focused 4,000-word report beats a padded 8,000-word one — depth follows relevance. All universal rules from SKILL.md (freshness, attribution discipline, estimation transparency, perspective retention, table completeness) apply unchanged.
+报告末尾以一节披露局限，内容包括：关键信息缺口（哪些数据未能获取）、数据时效（各部分数据分别截至何时）、估算与第三方口径（哪些数字是券商测算 / 媒体口径 / 本报告推算，其假设与精度边界是什么）、未经一手来源验证的结论。来源已在正文按引用规则标注，不再单列来源清单。
