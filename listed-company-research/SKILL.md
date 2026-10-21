@@ -70,7 +70,7 @@ See `references/wind-mcp-query-patterns.md` for Wind query patterns.
 Route by information type — sources have different coverage; query the routed source(s), then deduplicate and cross-validate across everything actually retrieved:
 - **News**: prefer `wind-mcp-skill`
 - **Announcements & financial data**: prefer the `ifind-repilot` series — `ifind-repilot-finance-data-search` for structured data, `ifind-repilot-news-search` for announcement/news text
-- **Research reports**: primary — run `mx-finance-search` IN PARALLEL with `ima-skill/knowledge-base` (`最全研报知识库`和`【爱分享】财经资讯`检索必选，其他视情况可选); fallback — `ifind-repilot-news-search`
+- **Research reports**: primary — run `mx-finance-search` IN PARALLEL with `ima-skill/knowledge-base` (`最全研报知识库`和`【爱分享】财经资讯`检索必选，其他视情况可选); fallback — `ifind-repilot-news-search`. Note: IMA知识库仅支持标题级检索（无正文RAG，`highlight_content`恒为空），订阅库文件多数不可下载（`get_media_info` 返回 220030），仅用于确认研报存在性/覆盖热度；研报正文以 `mx-finance-search` 为获取通道
 - **General web**: `baidu-search` (通用网络: 政策文件, 行业媒体, 非金融数据库覆盖的信息；调用时 `count` 设为 50 拉满结果条数；过滤百家号/自媒体/虎嗅等非权威源,仅保留权威信源,雪球保留)
 
 When a research task needs both modes (e.g., "查财务数据 + 最新公告"), run Mode A and Mode B concurrently.
@@ -168,7 +168,7 @@ Two templates are available — load the matching reference before writing:
 2. **Data freshness audit**: Verify every data point against Step 1 freshness rules. Scan every `[Source: ...]` tag — replace any citation of a prior-year AR when a newer one exists.
 3. **Restatement base-effect**: If 前期会计差错更正 occurred, present BOTH restated and pre-restated data; calculate both adjusted-base and original-base growth rates. (See `references/accounting-restatement-analysis.md`.)
 4. **Completeness**: Stock codes/names accurate, each major section substantive, risk factors thorough.
-5. Save the Markdown file and present to user.
+5. **Render verification (Q&A/HTML format)**: open the HTML in a real browser before delivery — confirm ECharts CDN loaded and every chart rendered (charts fail silently: a JS error removes the chart block with no visible error). Then save the file and present to user.
 
 ## Living Document Workflow
 
