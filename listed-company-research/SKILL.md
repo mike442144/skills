@@ -136,17 +136,17 @@ Always prefer A-share data as primary (CAS standards, more granular). Present A-
 Currency pitfall: mx-finance-data returns summary in HKD but detailed statements in RMB — always check 原始币种. No "前十大股东" format; use HKEX "Substantial Shareholders" (5%+ threshold). HKEX MD&A less detailed; supplement with brokerage reports.
 
 **DPS adjustment through stock splits (转增):**
-When the company has had splits/bonus shares (e.g., 10转6), per-share metrics before and after are NOT comparable. Adjust retroactively or annotate. Dividend payout ratios (% of net profit) are unaffected.
+When the company has had splits/bonus shares (e.g., 10转6), per-share metrics before and after are NOT comparable. Adjust retroactively or annotate. Dividend payout ratios (% of net profit) are unaffected. Verify implementation scope by three-way triangulation: Wind总股本, 分红总额÷每股红利 to back out the payout base, and top-10 shareholder counts (a 转增 implemented after an H-share listing also scales the HKSCC-nominee H-share holdings). 库存股(回购专户) do not receive dividends — payout base = total shares − treasury shares.
+
+**P&L/BS variance attribution (科目异动归因):**
+For YoY jumps in expense or balance-sheet lines, take the cause from the periodic report's own "财务报表相关科目变动分析表" first — media attribution can be wrong (e.g., an FX loss on freshly raised HKD IPO proceeds misreported as H-share listing fees). When a company shows 存贷双高 (large cash + large short-term borrowings), check the nature of the borrowings (e.g., discounted-bill financing arbitraging deposit yields) before flagging leverage risk.
 
 **Quarterly YoY decline analysis (高基数 vs 需求恶化):**
 When the latest quarter shows YoY decline, check three causes in order: (1) High-base from prior-year policy stimulus (e.g., 以旧换新 pulling demand forward); (2) Year-end delivery rush consuming Q1 orders; (3) Actual demand deterioration — only if neither (1) nor (2) applies. Diagnostic: compare 扣非 vs 归母 YoY — if gap is large, the decline is non-recurring items, not core operations.
 
 ### Step 4: Write the Research Report
 
-Two templates are available — load the matching reference before writing:
-
-- **Q&A format (default):** `references/report-template-qa.md` — output is a single self-contained **HTML** file (ECharts via CDN); the template is fully self-contained (moat rating, credibility scorecard, capital-allocation method, and risk table formats are inlined, no cross-references to the classic template). Chapter 0 keeps only basic info, compact key financials, and valuation snapshot — moat rating lives in the Theme 2 answer, capital-allocation rating in Theme 3. Data tables and charts live inside the matching answers (source caption directly below each chart/table; inline citations in prose). Q&A body: conclusion-first answers in four themes (生意 / 竞争 / 管理层 / 风险), opened by 2-4 company-specific questions derived from the Step 3 trigger table. Ends with a Limitations section (sources are cited inline, no separate source list).
-- **Classic chapter format:** `references/report-template.md` — five chapters (Company Overview → Business Deep Dive → Industry & Competitive Landscape → Management Outlook & Strategy → Risk Factors). Use when the user requests a traditional structure or a side-by-side comparison.
+Load `references/report-template-qa.md` before writing. Report structure: output is a single self-contained **HTML** file (ECharts via CDN). Chapter 0 keeps only basic info, compact key financials, and valuation snapshot — moat rating lives in the Theme 2 answer, capital-allocation rating in Theme 3. Data tables and charts live inside the matching answers (source caption directly below each chart/table; inline citations in prose). Q&A body: conclusion-first answers in four themes (生意 / 竞争 / 管理层 / 风险), opened by 2-4 company-specific questions derived from the Step 3 trigger table. Ends with a Limitations section (sources are cited inline, no separate source list).
 
 **Writing principles (universal):**
 
@@ -160,7 +160,7 @@ Two templates are available — load the matching reference before writing:
 
 ### Step 5: Review and Deliver
 
-**Output filename:** Q&A format (default): `./[stock code]_[company name]_深度研究报告_YYYYMMDD_HHmm.html` (self-contained HTML with embedded charts). Classic format: same name with `.md`.
+**Output filename:** `./[stock code]_[company name]_深度研究报告_YYYYMMDD_HHmm.html` (self-contained HTML with embedded charts).
 
 **Pre-delivery checklist (each item is a quality gate — fix before saving):**
 
@@ -168,14 +168,14 @@ Two templates are available — load the matching reference before writing:
 2. **Data freshness audit**: Verify every data point against Step 1 freshness rules. Scan every `[Source: ...]` tag — replace any citation of a prior-year AR when a newer one exists.
 3. **Restatement base-effect**: If 前期会计差错更正 occurred, present BOTH restated and pre-restated data; calculate both adjusted-base and original-base growth rates. (See `references/accounting-restatement-analysis.md`.)
 4. **Completeness**: Stock codes/names accurate, each major section substantive, risk factors thorough.
-5. **Render verification (Q&A/HTML format)**: open the HTML in a real browser before delivery — confirm ECharts CDN loaded and every chart rendered (charts fail silently: a JS error removes the chart block with no visible error). Then save the file and present to user.
+5. **Render verification**: open the HTML in a real browser before delivery — confirm ECharts CDN loaded and every chart rendered (charts fail silently: a JS error removes the chart block with no visible error). Then save the file and present to user.
 
 ## Living Document Workflow
 
 After initial delivery, the user frequently asks follow-up questions. The workflow:
 
 1. Answer the question with sourced research.
-2. Append the answer to the report: Q&A-format reports — insert as a new dated question under the matching theme (next sequential Q number); classic-format reports — append as Q&A to the appendix (`### E1.`, `### E2.`, etc.).
+2. Append the answer to the report: insert as a new dated question under the matching theme in the HTML (next sequential Q number).
 3. Re-save to the same file path.
 4. Commit to the skills repo if any reference files were modified.
 
