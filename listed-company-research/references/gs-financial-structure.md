@@ -142,3 +142,4 @@ for label in targets:
 - **Sparse rows**: Some rows return fewer than 24 elements — always check `len(vals)` before indexing.
 - **DPS adjustment**: The sheet may store raw (unadjusted) DPS. Apply stock split/bonus adjustment (bonus issue / stock dividend) retroactively when presenting per-share data alongside EPS.
 - **Label variants**: The same metric may appear under slightly different labels across Sheets (e.g., "ROIC (资本来源法)" vs "ROIC"). Use fuzzy matching or scan all labels before concluding a metric is absent.
+- **API rate limit**: Sheets API allows ~60 read requests/min. Probing dozens of spreadsheets during discovery trips 429 errors — add sleep/retry between probes. For extraction, read a whole tab in ONE call (range = tab name, no cell range) instead of row-by-row, cutting requests to 1 per tab.

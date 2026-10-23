@@ -146,7 +146,7 @@ When the latest quarter shows YoY decline, check three causes in order: (1) High
 
 ### Step 4: Write the Research Report
 
-Load `references/report-template-qa.md` before writing. Report structure: output is a single self-contained **HTML** file (ECharts via CDN). Chapter 0 keeps only basic info, compact key financials, and valuation snapshot — moat rating lives in the Theme 2 answer, capital-allocation rating in Theme 3. Data tables and charts live inside the matching answers (source caption directly below each chart/table; inline citations in prose). Q&A body: conclusion-first answers in four themes (生意 / 竞争 / 管理层 / 风险), opened by 2-4 company-specific questions derived from the Step 3 trigger table. Ends with a Limitations section (sources are cited inline, no separate source list).
+Load `references/report-template-qa.md` before writing. Report structure: output is a single self-contained **HTML** file (ECharts via CDN). Chapter 0 keeps only basic info, ownership structure & governance, compact key financials, and valuation snapshot — moat rating lives in the Theme 2 answer, capital-allocation rating in Theme 3. Data tables and charts live inside the matching answers (source caption directly below each chart/table; inline citations in prose). Q&A body: conclusion-first answers in four themes (生意 / 竞争 / 管理层 / 风险), opened by 2-4 company-specific questions derived from the Step 3 trigger table. Ends with a Limitations section (sources are cited inline, no separate source list).
 
 **Writing principles (universal):**
 

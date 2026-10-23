@@ -10,7 +10,7 @@ A single year's MD&A tells you what management *says now*. Ten years of MD&A tel
 
 Assumes the multi-year annual report PDFs are already downloaded per SKILL.md Priority 0 (cninfo for A-share, hkexnews for HKEX). If fewer than 5 years are available (recent IPO), do all available years and note the limitation.
 
-Use PyMuPDF (`fitz`) to flatten each PDF to text (`"\n".join(page.get_text() for page in doc)`), then locate the MD&A section. The mechanics are simple, but layouts vary by company and year — no regex is universally safe. Three structural facts to keep in mind:
+Use PyMuPDF (`fitz`) to flatten each PDF to text (`"\n".join(page.get_text() for page in doc)`); if `fitz` is not installed in the active interpreter, `pdftotext -layout in.pdf out.txt` (poppler, preinstalled on the host) is a validated drop-in for A-share report PDFs — in that case run extraction via terminal rather than installing packages into the user's project venvs. Then locate the MD&A section. The mechanics are simple, but layouts vary by company and year — no regex is universally safe. Three structural facts to keep in mind:
 
 1. **The section header appears multiple times**: in the table of contents, at the actual section start, and often as cross-references inside later chapters ("详见'第三节 管理层讨论与分析'之……"). Do NOT blindly pick the first or last occurrence — use the one immediately followed by actual section content (a subsection heading like "一、报告期内……"). TOC entries are followed by dotted leaders and page numbers; cross-references sit mid-sentence.
 
